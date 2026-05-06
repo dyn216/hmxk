@@ -1,0 +1,17 @@
+2026-05-05 00:58:57 - root - INFO - logging_config.py:231 - init_logging - 日志系统初始化完成
+2026-05-05 00:58:57 - root - INFO - logging_config.py:232 - init_logging - 日志级别: INFO
+2026-05-05 00:58:57 - root - INFO - logging_config.py:233 - init_logging - 日志文件: logs/app.log
+2026-05-05 01:33:34 - root - INFO - logging_config.py:231 - init_logging - 日志系统初始化完成
+2026-05-05 01:33:34 - root - INFO - logging_config.py:232 - init_logging - 日志级别: INFO
+2026-05-05 01:33:34 - root - INFO - logging_config.py:233 - init_logging - 日志文件: logs/app.log
+2026-05-05 01:33:34 - system - INFO - logging_config.py:221 - log_system_event - 系统事件: 应用启动 - 详情: {'app_name': '慢性病管理小程序后端API', 'version': '1.0.0', 'debug': False, 'host': '0.0.0.0', 'port': 8011}
+2026-05-05 01:33:34 - root - INFO - main.py:28 - lifespan - 应用启动完成 - 慢性病管理小程序后端API v1.0.0
+2026-05-05 01:44:27 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/shop/cart - 200 - 0.182s
+2026-05-05 01:44:31 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/shop/orders - 200 - 0.011s
+2026-05-05 01:44:31 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/shop/orders - 200 - 0.008s
+2026-05-05 01:44:34 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/prescriptions - 200 - 0.022s
+2026-05-05 01:44:35 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/shop/orders - 200 - 0.006s
+2026-05-05 01:44:36 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/shop/cart - 200 - 0.009s
+2026-05-05 01:44:37 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/profile - 200 - 0.210s
+2026-05-05 01:44:37 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/medications - 200 - 0.223s
+2026-05-05 01:44:37 - api.request - INFO - logging_config.py:133 - log_request - GET /api/patient/measurements - 200 - 0.226s

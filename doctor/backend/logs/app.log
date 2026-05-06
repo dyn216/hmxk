@@ -1,0 +1,30 @@
+2026-05-05 00:58:57 - root - INFO - logging_config.py:231 - init_logging - 日志系统初始化完成
+2026-05-05 00:58:57 - root - INFO - logging_config.py:232 - init_logging - 日志级别: INFO
+2026-05-05 00:58:57 - root - INFO - logging_config.py:233 - init_logging - 日志文件: logs/app.log
+2026-05-05 01:36:37 - root - INFO - logging_config.py:231 - init_logging - 日志系统初始化完成
+2026-05-05 01:36:37 - root - INFO - logging_config.py:232 - init_logging - 日志级别: INFO
+2026-05-05 01:36:37 - root - INFO - logging_config.py:233 - init_logging - 日志文件: logs/app.log
+2026-05-05 01:36:37 - system - INFO - logging_config.py:221 - log_system_event - 系统事件: 应用启动 - 详情: {'app_name': '慢性病管理小程序后端API', 'version': '1.0.0', 'debug': False, 'host': '0.0.0.0', 'port': 8012}
+2026-05-05 01:36:37 - root - INFO - main.py:28 - lifespan - 应用启动完成 - 慢性病管理小程序后端API v1.0.0
+2026-05-05 01:56:35 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/login - 200 - 0.005s
+2026-05-05 01:56:35 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.251s
+2026-05-05 01:56:38 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/stats - 200 - 0.001s
+2026-05-05 01:56:38 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/stats - 200 - 0.243s
+2026-05-05 01:56:43 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/login - 200 - 0.000s
+2026-05-05 01:56:43 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.025s
+2026-05-05 01:56:44 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.025s
+2026-05-05 01:56:44 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.025s
+2026-05-05 01:56:45 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.023s
+2026-05-05 01:56:45 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.021s
+2026-05-05 01:56:45 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.024s
+2026-05-05 01:56:46 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.017s
+2026-05-05 01:56:46 - api.request - INFO - logging_config.py:133 - log_request - POST /api/doctor/login - 200 - 0.019s
+2026-05-05 01:57:16 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/patients - 200 - 0.000s
+2026-05-05 01:57:16 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/patients - 200 - 0.040s
+2026-05-05 01:57:17 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/consultations - 200 - 0.001s
+2026-05-05 01:57:17 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/consultations - 200 - 0.014s
+2026-05-05 01:57:17 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/prescriptions - 200 - 0.001s
+2026-05-05 01:57:17 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/prescriptions - 200 - 0.016s
+2026-05-05 01:57:18 - api.request - INFO - logging_config.py:133 - log_request - OPTIONS /api/doctor/profile - 200 - 0.000s
+2026-05-05 01:57:18 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/profile - 200 - 0.013s
+2026-05-05 01:57:23 - api.request - INFO - logging_config.py:133 - log_request - GET /api/doctor/stats - 200 - 0.017s
