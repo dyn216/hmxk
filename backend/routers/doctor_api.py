@@ -1,3 +1,7 @@
+import json
+import urllib.error
+import urllib.request
+
 from fastapi import APIRouter, Depends, HTTPException, Query, Header
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc, or_
@@ -18,12 +22,45 @@ from schemas import (
     FollowUpCreate, FollowUpUpdate, FollowUpOut,
     NewsOut, DoctorDetail, DoctorProfileBase,
     PasswordChange, PrescriptionCreate, PrescriptionUpdate, PrescriptionOut,
-    VideoCallEnd, VideoCallOut
+    VideoCallEnd, VideoCallOut, RtcSignalIn
 )
+from config import settings
 from utils import verify_password, create_access_token, get_current_user_id, hash_password
 from video_call import build_video_call_payload
 
 router = APIRouter()
+
+
+def forward_rtc_signal(action: str, body: RtcSignalIn):
+    base_url = (settings.video_rtc_api_base_url or "").strip()
+    if not base_url:
+        raise HTTPException(status_code=400, detail="未配置 VIDEO_RTC_API_BASE_URL")
+    api = base_url.rstrip("/") + "/rtc/v1/" + action + "/"
+    payload = {
+        "api": api,
+        "streamurl": body.streamurl,
+        "clientip": body.clientip,
+        "sdp": body.sdp
+    }
+    data = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        api,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=8) as response:
+            text = response.read().decode("utf-8")
+    except urllib.error.URLError as exc:
+        raise HTTPException(status_code=502, detail="SRS RTC 接口不可达：" + str(exc.reason)) from exc
+    try:
+        result = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=502, detail="SRS RTC 返回内容不是 JSON") from exc
+    if result.get("code") != 0:
+        raise HTTPException(status_code=502, detail=result.get("msg") or result.get("message") or "SRS RTC 接口调用失败")
+    return result
 
 
 def get_current_doctor(authorization: str, db: Session):
@@ -656,6 +693,18 @@ def start_consultation(consultation_id: int, authorization: str = Header(None), 
     db.commit()
     db.refresh(consultation)
     return consultation
+
+
+@router.post("/rtc/publish")
+def publish_rtc(body: RtcSignalIn, authorization: str = Header(None), db: Session = Depends(get_db)):
+    get_current_doctor(authorization, db)
+    return forward_rtc_signal("publish", body)
+
+
+@router.post("/rtc/play")
+def play_rtc(body: RtcSignalIn, authorization: str = Header(None), db: Session = Depends(get_db)):
+    get_current_doctor(authorization, db)
+    return forward_rtc_signal("play", body)
 
 
 @router.post("/video-calls/{consultation_id}/join", response_model=VideoCallOut)

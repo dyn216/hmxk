@@ -559,6 +559,13 @@ class VideoCallEnd(BaseModel):
     duration: Optional[str] = None
 
 
+class RtcSignalIn(BaseModel):
+    api: Optional[str] = None
+    streamurl: str
+    clientip: Optional[str] = None
+    sdp: str
+
+
 class VideoCallOut(BaseModel):
     consultation_id: int
     room_id: str
@@ -575,6 +582,8 @@ class VideoCallOut(BaseModel):
     remote_stream_id: str
     local_push_url: Optional[str] = None
     remote_play_url: Optional[str] = None
+    rtc_publish_api: Optional[str] = None
+    rtc_play_api: Optional[str] = None
     stream_ready: bool = False
 
 

@@ -1,0 +1,15 @@
+services:
+  srs:
+    image: ossrs/srs:5
+    container_name: tzb-local-srs
+    restart: unless-stopped
+    environment:
+      CANDIDATE: ${SRS_CANDIDATE:-10.12.28.32}
+    ports:
+      - "1935:1935"
+      - "1985:1985"
+      - "8080:8080"
+      - "8000:8000/udp"
+    volumes:
+      - ./srs/srs.conf:/usr/local/srs/conf/tzb-local.conf:ro
+    command: ./objs/srs -c conf/tzb-local.conf

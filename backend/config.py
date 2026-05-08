@@ -45,6 +45,9 @@ class Settings(BaseSettings):
     upload_dir: str = "uploads"
     video_push_base_url: str = ""
     video_play_base_url: str = ""
+    video_rtc_api_base_url: str = ""
+    video_rtmp_push_base_url: str = ""
+    video_rtmp_play_base_url: str = ""
     
     # 数据库备份配置
     backup_dir: str = "backups"

@@ -94,6 +94,13 @@
     @submit="submitModal"
     @close="closeModal"
   />
+  <VideoCallPanel
+    :visible="videoCall.visible"
+    :room="videoCall.room"
+    :signal-rtc="signalRtc"
+    @close="closeVideoCall"
+    @end="endVideoCall"
+  />
 </template>
 
 <script setup>
@@ -116,6 +123,7 @@ import Toolbar from './components/Toolbar.vue';
 import DataTable from './components/DataTable.vue';
 import ProfilePanel from './components/ProfilePanel.vue';
 import FormModal from './components/FormModal.vue';
+import VideoCallPanel from './components/VideoCallPanel.vue';
 
 const moduleName = ref('doctor');
 const current = computed(() => modules[moduleName.value]);
@@ -135,6 +143,10 @@ const modal = reactive({
   fields: [],
   model: {},
   submit: null
+});
+const videoCall = reactive({
+  visible: false,
+  room: null
 });
 
 /* ============== Auth & user info ============== */
@@ -583,28 +595,8 @@ async function joinVideoCall(row) {
   error.value = '';
   try {
     const room = await request(`/video-calls/${row.id}/join`, { method: 'POST' });
-    const lines = [
-      `问诊编号：${room.consultation_id}`,
-      `房间号：${room.room_id}`,
-      `患者：${room.patient_name || room.patient_id || '—'}`,
-      `状态：${room.status}`,
-      `本端推流：${room.local_push_url || '未配置 VIDEO_PUSH_BASE_URL'}`,
-      `患者画面：${room.remote_play_url || '未配置 VIDEO_PLAY_BASE_URL'}`
-    ];
-    openModal({
-      title: '视频问诊房间',
-      meta: room.room_id,
-      description: room.stream_ready
-        ? '房间已建立，可使用下方音视频地址接入。'
-        : '业务房间已建立；请配置后端 VIDEO_PUSH_BASE_URL / VIDEO_PLAY_BASE_URL 后启用真实音视频流。',
-      fields: [
-        { key: 'room', label: '房间信息', type: 'textarea', rows: 8, wide: true }
-      ],
-      model: {
-        room: lines.join('\n')
-      },
-      submit: null
-    });
+    videoCall.room = room;
+    videoCall.visible = true;
     await loadPage();
   } catch (err) {
     error.value = err.message;
@@ -614,12 +606,26 @@ async function joinVideoCall(row) {
   }
 }
 
+function closeVideoCall() {
+  videoCall.visible = false;
+  videoCall.room = null;
+}
+
+function signalRtc(action, body) {
+  return request(`/rtc/${action}`, {
+    method: 'POST',
+    body
+  });
+}
+
 async function endVideoCall(row) {
   if (!window.confirm('确定要结束该视频问诊吗？')) return;
-  await submitAction(`/video-calls/${row.id}/end`, {
+  const consultationId = row?.consultation_id || row?.id;
+  await submitAction(`/video-calls/${consultationId}/end`, {
     method: 'PUT',
     body: { notes: '医生端结束视频问诊' }
   }, '视频问诊已结束');
+  closeVideoCall();
 }
 
 async function viewPatientMeasurements(row) {
