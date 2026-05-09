@@ -1,0 +1,38 @@
+<view class="report-page">
+  <view class="report-header">
+    <view class="report-title">本周血压报告</view>
+    <view class="report-date">11/13 - 11/20</view>
+  </view>
+
+  <view class="report-stats">
+    <view class="stat-item">
+      <view class="stat-label">测量次数</view>
+      <view class="stat-value">{{totalRecords}}</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-label">平均收缩压</view>
+      <view class="stat-value systolic">{{avgSystolic}}</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-label">平均舒张压</view>
+      <view class="stat-value diastolic">{{avgDiastolic}}</view>
+    </view>
+  </view>
+
+  <view class="trend-chart">
+    <view class="chart-title">血压趋势</view>
+    <view class="chart-placeholder">
+      <view class="chart-icon icon-empty">图</view>
+      <view class="chart-tip">图表功能开发中</view>
+    </view>
+  </view>
+
+  <view class="health-summary">
+    <view class="summary-title">健康总结</view>
+    <view class="summary-content">
+      <view class="summary-tag">
+        <icon type="success" size="14" color="#4caf50" /> 本周血压控制良好，请继续保持
+      </view>
+    </view>
+  </view>
+</view>

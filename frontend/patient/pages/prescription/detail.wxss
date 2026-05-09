@@ -1,0 +1,45 @@
+/* 处方详情页样式 */
+.container { background: #f5f7fa; min-height: 100vh; padding-bottom: 140rpx; padding-bottom: calc(160rpx + constant(safe-area-inset-bottom)); padding-bottom: calc(160rpx + env(safe-area-inset-bottom)); }
+.status-section { background: #fff; padding: 40rpx 30rpx; text-align: center; margin-bottom: 20rpx; }
+.status-badge { display: inline-block; padding: 12rpx 32rpx; border-radius: 40rpx; font-size: 28rpx; font-weight: bold; }
+.status-badge.pending { background: #fff7e6; color: #faad14; }
+.status-badge.approved { background: #f6ffed; color: #52c41a; }
+.status-badge.rejected { background: #fff1f0; color: #ff4d4f; }
+.section { background: #fff; padding: 30rpx; margin-bottom: 20rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 20rpx; }
+.doctor-card { display: flex; align-items: center; padding: 20rpx; background: #f5f7fa; border-radius: 8rpx; }
+.doctor-card .avatar { width: 100rpx; height: 100rpx; border-radius: 50%; margin-right: 20rpx; }
+.doctor-info { flex: 1; min-width: 0; }
+.doctor-info .name { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 8rpx; }
+.doctor-info .title { font-size: 24rpx; color: #666; margin-bottom: 4rpx; }
+.doctor-info .department { font-size: 24rpx; color: #999; }
+.btn-chat { padding: 16rpx 32rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 24rpx; border: none; }
+.diagnosis-card { padding: 20rpx; background: #f5f7fa; border-radius: 8rpx; }
+.diagnosis-text { font-size: 28rpx; color: #333; line-height: 1.6; }
+.medicine-list { margin-top: 20rpx; }
+.medicine-item { display: flex; margin-bottom: 20rpx; padding-bottom: 20rpx; border-bottom: 2rpx solid #f0f0f0; }
+.medicine-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.medicine-image { width: 120rpx; height: 120rpx; border-radius: 8rpx; margin-right: 20rpx; }
+.medicine-info { flex: 1; min-width: 0; }
+.medicine-name { font-size: 28rpx; color: #333; font-weight: bold; margin-bottom: 8rpx; }
+.medicine-spec { font-size: 24rpx; color: #999; margin-bottom: 12rpx; }
+.medicine-usage { font-size: 24rpx; color: #666; line-height: 1.6; }
+.medicine-price { font-size: 28rpx; color: #ff4d4f; font-weight: bold; margin-top: 8rpx; }
+.notes-card { padding: 20rpx; background: #f5f7fa; border-radius: 8rpx; font-size: 28rpx; color: #666; line-height: 1.8; }
+.info-list { margin-top: 20rpx; }
+.info-row { display: flex; margin-bottom: 16rpx; font-size: 28rpx; }
+.info-row:last-child { margin-bottom: 0; }
+.info-row .label { color: #999; margin-right: 20rpx; min-width: 140rpx; }
+.info-row .value { flex: 1; min-width: 0; color: #333; word-break: break-all; }
+.audit-card { padding: 20rpx; background: #fff1f0; border-radius: 8rpx; font-size: 28rpx; color: #ff4d4f; line-height: 1.8; }
+.footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin-left: auto; margin-right: auto; background: #fff; padding: 20rpx 30rpx; padding-bottom: calc(20rpx + constant(safe-area-inset-bottom)); padding-bottom: calc(20rpx + env(safe-area-inset-bottom)); box-shadow: 0 -2rpx 8rpx rgba(0,0,0,0.05); z-index: 100; }
+.btn-use { width: 100%; padding: 24rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 32rpx; border: none; box-sizing: border-box; }
+
+@media (max-width: 360px) {
+  .section { padding: 24rpx 22rpx; }
+  .doctor-card { flex-wrap: wrap; }
+  .btn-chat { width: 100%; }
+  .medicine-image { width: 104rpx; height: 104rpx; margin-right: 14rpx; }
+  .footer { padding-left: 22rpx; padding-right: 22rpx; }
+  .btn-use { padding: 22rpx; font-size: 28rpx; }
+}

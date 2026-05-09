@@ -1,0 +1,18 @@
+<view class="guardian-page">
+  <view class="header-card">
+    <view class="card-title">监护人绑定</view>
+    <view class="card-desc">添加家人或朋友，共同关注健康</view>
+  </view>
+  <button class="add-btn" bindtap="addGuardian">+ 添加监护人</button>
+  <view class="empty-tip" wx:if="{{!guardians.length}}">
+    <view class="empty-icon icon-empty">空</view>
+    <view class="tip-text">暂无监护人</view>
+  </view>
+  <view class="guardian-list" wx:else>
+    <view class="guardian-item" wx:for="{{guardians}}" wx:key="id">
+      <view class="item-name">{{item.name}}</view>
+      <view class="item-relation">{{item.relation}}</view>
+      <view class="item-phone">{{item.phone}}</view>
+    </view>
+  </view>
+</view>

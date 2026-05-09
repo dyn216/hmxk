@@ -1,0 +1,116 @@
+<view class="device-page">
+  <view class="watch-hero {{connected ? 'connected' : ''}}">
+    <view class="hero-top">
+      <view class="watch-mark">表</view>
+      <view class="hero-copy">
+        <view class="eyebrow">BLE HEALTH WATCH</view>
+        <view class="hero-title">{{connected ? deviceName : '自研智能手表'}}</view>
+        <view class="hero-status">{{statusText}}</view>
+      </view>
+    </view>
+    <view class="hero-metrics">
+      <view class="metric">
+        <text class="metric-value">{{battery}}</text>
+        <text class="metric-unit">%</text>
+        <text class="metric-label">电量</text>
+      </view>
+      <view class="metric">
+        <text class="metric-value">{{rssi}}</text>
+        <text class="metric-unit">dBm</text>
+        <text class="metric-label">信号</text>
+      </view>
+      <view class="metric wide">
+        <text class="metric-value small">{{lastSyncText}}</text>
+        <text class="metric-label">同步状态</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="button-row">
+    <button class="primary-btn" loading="{{discovering}}" bindtap="startScan" wx:if="{{!connected}}">{{discovering ? '搜索中' : '搜索手表'}}</button>
+    <button class="ghost-btn" bindtap="stopScan" wx:if="{{discovering}}">停止搜索</button>
+    <button class="primary-btn" bindtap="sendMeasureCommand" wx:if="{{connected}}">触发测量</button>
+    <button class="ghost-btn danger" bindtap="closeConnection" wx:if="{{connected}}">断开连接</button>
+  </view>
+
+  <view class="button-row">
+    <button class="ghost-btn full" loading="{{uploading}}" bindtap="simulatePacket">模拟一条手表数据</button>
+  </view>
+
+  <view class="section-card" wx:if="{{devices.length && !connected}}">
+    <view class="section-head">
+      <view>
+        <view class="section-title">发现的设备</view>
+        <view class="section-sub">请选择广播名为 {{protocol.namePrefix}} 的手表</view>
+      </view>
+    </view>
+    <view
+      class="device-row"
+      wx:for="{{devices}}"
+      wx:key="deviceId"
+      bindtap="connectDevice"
+      data-id="{{item.deviceId}}"
+      data-name="{{item.name}}"
+      data-rssi="{{item.rssi}}"
+    >
+      <view class="device-dot"></view>
+      <view class="device-main">
+        <view class="device-name">{{item.name}}</view>
+        <view class="device-id">{{item.deviceId}}</view>
+      </view>
+      <view class="device-rssi">{{item.rssi}} dBm</view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-head">
+      <view>
+        <view class="section-title">最近一次数据</view>
+        <view class="section-sub">收到通知后会自动上传到健康监测</view>
+      </view>
+    </view>
+    <view class="vital-grid" wx:if="{{lastPacket}}">
+      <view class="vital-card">
+        <view class="vital-label">血压</view>
+        <view class="vital-value">{{lastPacket.systolic}}/{{lastPacket.diastolic}}</view>
+        <view class="vital-unit">mmHg</view>
+      </view>
+      <view class="vital-card">
+        <view class="vital-label">心率</view>
+        <view class="vital-value">{{lastPacket.heartRate}}</view>
+        <view class="vital-unit">bpm</view>
+      </view>
+      <view class="vital-card">
+        <view class="vital-label">血氧</view>
+        <view class="vital-value">{{lastPacket.spo2}}</view>
+        <view class="vital-unit">%</view>
+      </view>
+      <view class="vital-card">
+        <view class="vital-label">时间</view>
+        <view class="vital-value small">{{lastPacket.receivedAtText}}</view>
+        <view class="vital-unit">本机接收</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">⌁</view>
+      <view class="empty-text">暂无手表数据。固件上报 JSON 通知后会显示在这里。</view>
+    </view>
+  </view>
+
+  <view class="section-card" wx:if="{{recentRecords.length}}">
+    <view class="section-title">本次同步记录</view>
+    <view class="record-row" wx:for="{{recentRecords}}" wx:key="seq">
+      <view class="record-time">{{item.receivedAtText}}</view>
+      <view class="record-main">血压 {{item.systolic}}/{{item.diastolic}} · 心率 {{item.heartRate}}</view>
+    </view>
+  </view>
+
+  <view class="protocol-card">
+    <view class="section-title">固件协议</view>
+    <view class="protocol-line">设备名：{{protocol.namePrefix}}-XXXX</view>
+    <view class="protocol-line">Service：{{protocol.serviceId}}</view>
+    <view class="protocol-line">Notify：{{protocol.notifyCharacteristicId}}</view>
+    <view class="protocol-line">Write：{{protocol.writeCharacteristicId}}</view>
+    <view class="packet-sample">{"type":"vital","seq":1,"sys":120,"dia":80,"hr":72,"spo2":98,"battery":86,"ts":1710000000000}</view>
+  </view>
+</view>

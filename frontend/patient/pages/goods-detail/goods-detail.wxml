@@ -1,0 +1,17 @@
+<view class="goods-detail-page">
+  <swiper class="goods-images" indicator-dots>
+    <swiper-item wx:for="{{goods.images}}" wx:key="*this">
+      <view class="goods-icon icon-product">药</view>
+    </swiper-item>
+  </swiper>
+  
+  <view class="goods-info">
+    <text class="goods-name">{{goods.name}}</text>
+    <text class="goods-price">¥{{goods.price}}</text>
+    <text class="goods-desc">{{goods.description}}</text>
+  </view>
+  
+  <view class="buy-bar">
+    <button class="buy-btn" bindtap="buyNow">立即购买</button>
+  </view>
+</view>

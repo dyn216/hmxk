@@ -1,0 +1,62 @@
+<view class="bracelet-page">
+  <!-- 设备卡片（参考小米运动健康风格） -->
+  <view class="device-card">
+    <view class="card-header">
+      <view class="device-icon icon-device">环</view>
+      <view class="device-info">
+        <view class="device-name">小米手环 8 Pro</view>
+        <view class="device-status">已连接</view>
+      </view>
+    </view>
+    <button class="disconnect-btn">断开连接</button>
+  </view>
+
+  <!-- 设备数据模块 -->
+  <view class="data-module">
+    <view class="data-item">
+      <view class="item-label">电量</view>
+      <view class="progress-bar">
+        <view class="progress" style="width: {{battery}}'%'"></view>
+      </view>
+      <view class="battery-text">{{battery}}%</view>
+    </view>
+    <view class="data-item">
+      <view class="item-label">手环颜色</view>
+      <view class="color-select">
+        <view class="color-dot green" style="background-color: #38B249;"></view>
+        <view class="color-text">绿色</view>
+        <icon type="arrowright" size="24" color="#999" />
+      </view>
+    </view>
+    <view class="data-item">
+      <view class="item-label">震动提醒</view>
+      <switch checked="{{vibration}}" bindchange="toggleVibration" />
+    </view>
+    <view class="data-item">
+      <view class="item-label">同步数据</view>
+      <view class="sync-time">刚刚</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
+  </view>
+
+  <!-- 系统升级模块 -->
+  <view class="upgrade-module">
+    <view class="module-title">系统升级</view>
+    <view class="version-info">
+      <view>当前版本 v2.1.0</view>
+      <view>最新版本 v2.1.0</view>
+      <button class="upgrade-btn">已是最新版本</button>
+    </view>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="tips-module">
+    <view class="tips-title">使用说明</view>
+    <view class="tips-content">
+      <view>• 首次使用请开启蓝牙并授权</view>
+      <view>• 手环需保持在2米范围内</view>
+      <view>• 定期同步数据以保证准确性</view>
+      <view>• 建议每周充电一次</view>
+    </view>
+  </view>
+</view>

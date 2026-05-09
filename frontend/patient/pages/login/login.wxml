@@ -1,0 +1,46 @@
+<view class="login-container">
+  <view class="login-header">
+    <view class="brand-row">
+      <image class="logo" src="/images/1.jpg" mode="aspectFill"></image>
+      <text class="title">惠民携康</text>
+    </view>
+    <text class="subtitle">CHRONIC CARE · PATIENT</text>
+  </view>
+
+  <view class="login-form">
+    <view class="form-item">
+      <view class="label">手机号</view>
+      <input
+        class="input"
+        type="number"
+        placeholder="请输入手机号"
+        maxlength="11"
+        value="{{phone}}"
+        bindinput="onPhoneInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="label">密码</view>
+      <input
+        class="input"
+        type="text"
+        password="{{!showPassword}}"
+        placeholder="请输入密码"
+        value="{{password}}"
+        bindinput="onPasswordInput"
+      />
+      <text class="toggle-password" bindtap="togglePassword">
+        {{showPassword ? '隐藏' : '显示'}}
+      </text>
+    </view>
+
+    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">登 录</button>
+
+    <view class="tips">
+      <text class="tip-text">测试账号 · DEMO</text>
+      <text class="tip-text">phone   13900000001</text>
+      <text class="tip-text">passwd  patient123</text>
+    </view>
+  </view>
+</view>

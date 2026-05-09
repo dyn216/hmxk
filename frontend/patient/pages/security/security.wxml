@@ -1,0 +1,95 @@
+<view class="security-page">
+  <!-- 标题 -->
+  <view class="page-header">
+    <text class="header-title">安全设置</text>
+  </view>
+
+  <!-- 账号安全 -->
+  <view class="menu-group">
+    <view class="group-title">账号安全</view>
+    
+    <view class="menu-item" bindtap="changePassword">
+      <view class="item-left">
+        <view class="item-icon password">密</view>
+        <text class="item-text">修改密码</text>
+      </view>
+      <view class="item-right">
+        <text class="item-tip">定期修改密码更安全</text>
+        <icon type="arrowright" size="20" color="#999" />
+      </view>
+    </view>
+
+    <view class="menu-item" bindtap="changePhone">
+      <view class="item-left">
+        <view class="item-icon phone">手</view>
+        <text class="item-text">修改手机号</text>
+      </view>
+      <view class="item-right">
+        <text class="item-tip">{{phoneNumber}}</text>
+        <icon type="arrowright" size="20" color="#999" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="menu-group">
+    <view class="group-title">隐私设置</view>
+    
+    <view class="menu-item">
+      <view class="item-left">
+        <view class="item-icon privacy">隐</view>
+        <text class="item-text">数据共享</text>
+      </view>
+      <view class="item-right">
+        <switch checked="{{dataSharing}}" bindchange="onDataSharingChange" color="#6a7cfc" />
+      </view>
+    </view>
+
+    <view class="menu-item">
+      <view class="item-left">
+        <view class="item-icon location">位</view>
+        <text class="item-text">位置信息</text>
+      </view>
+      <view class="item-right">
+        <switch checked="{{locationEnabled}}" bindchange="onLocationChange" color="#6a7cfc" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 设备管理 -->
+  <view class="menu-group">
+    <view class="group-title">设备管理</view>
+    
+    <view class="menu-item" bindtap="manageDevices">
+      <view class="item-left">
+        <view class="item-icon device">设</view>
+        <text class="item-text">登录设备管理</text>
+      </view>
+      <view class="item-right">
+        <text class="item-tip">{{deviceCount}}台设备</text>
+        <icon type="arrowright" size="20" color="#999" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 账号操作 -->
+  <view class="menu-group">
+    <view class="group-title">账号操作</view>
+    
+    <view class="menu-item" bindtap="logout">
+      <view class="item-left">
+        <view class="item-icon logout">退</view>
+        <text class="item-text">退出登录</text>
+      </view>
+      <icon type="arrowright" size="20" color="#999" />
+    </view>
+
+    <view class="menu-item danger" bindtap="deleteAccount">
+      <view class="item-left">
+        <view class="item-icon delete">注</view>
+        <text class="item-text danger-text">注销账号</text>
+      </view>
+      <icon type="arrowright" size="20" color="#f56c6c" />
+    </view>
+  </view>
+</view>

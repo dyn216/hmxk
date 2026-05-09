@@ -1,0 +1,205 @@
+/* 视频通话页面 - 按HTML原型设计 */
+.video-call-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 430px;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  background: #1a1a1a;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 主视频区域 */
+.video-main {
+  flex: 1;
+  position: relative;
+  background: radial-gradient(circle at center, #3f4a8a 0%, #141827 70%);
+}
+
+.remote-player,
+.video-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.video-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  padding: 0 56rpx;
+  box-sizing: border-box;
+}
+
+.placeholder-avatar {
+  width: 132rpx;
+  height: 132rpx;
+  margin-bottom: 28rpx;
+}
+
+.placeholder-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 14rpx;
+}
+
+.placeholder-desc {
+  max-width: 560rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.room-id {
+  margin-top: 18rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 22rpx;
+}
+
+/* 医生信息和时长 */
+.video-info {
+  position: absolute;
+  top: 88rpx;
+  left: 32rpx;
+  right: 240rpx;
+  color: white;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
+}
+
+.doctor-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doctor-department {
+  font-size: 24rpx;
+  opacity: 0.86;
+  margin-bottom: 8rpx;
+}
+
+.call-duration {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 本地视频小窗口（画中画） */
+.video-pip {
+  position: absolute;
+  top: 120rpx;
+  right: 32rpx;
+  width: 180rpx;
+  height: 240rpx;
+  background: #333;
+  border-radius: 16rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.pip-video {
+  width: 100%;
+  height: 100%;
+}
+
+/* 控制按钮区域 */
+.video-controls {
+  min-height: 220rpx;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 28rpx 32rpx 40rpx;
+  padding-bottom: calc(40rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.control-btn {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 40rpx;
+}
+
+.control-btn.muted,
+.control-btn.off {
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.6;
+}
+
+.control-btn.btn-hangup {
+  background: #EE0A24;
+}
+
+.icon {
+  font-size: 40rpx;
+}
+
+@media (max-width: 360px) {
+  .video-placeholder {
+    padding-left: 36rpx;
+    padding-right: 36rpx;
+  }
+
+  .placeholder-avatar {
+    width: 112rpx;
+    height: 112rpx;
+  }
+
+  .placeholder-title {
+    font-size: 32rpx;
+  }
+
+  .video-info {
+    top: 68rpx;
+    left: 24rpx;
+    right: 210rpx;
+  }
+
+  .doctor-name {
+    font-size: 32rpx;
+  }
+
+  .video-pip {
+    top: 96rpx;
+    right: 24rpx;
+    width: 156rpx;
+    height: 208rpx;
+  }
+
+  .video-controls {
+    min-height: 196rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+  }
+
+  .control-btn {
+    width: 78rpx;
+    height: 78rpx;
+  }
+
+  .icon {
+    font-size: 36rpx;
+  }
+}

@@ -1,0 +1,122 @@
+<view class="container">
+  <!-- 个人信息卡片 -->
+  <view class="profile-card">
+    <view class="avatar-section">
+      <view class="avatar icon-avatar">我</view>
+      <view class="user-info">
+        <text class="name">{{userInfo.name || '未设置'}}</text>
+        <text class="phone">{{userInfo.phone}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 健康档案 -->
+  <view class="section">
+    <view class="section-title">健康档案</view>
+    <view class="info-list">
+      <view class="info-item" bindtap="editProfile">
+        <view class="info-left">
+          <text class="icon-text">龄</text>
+          <text class="label">年龄</text>
+        </view>
+        <view class="info-right">
+          <text class="value">{{profile.age || '未设置'}}岁</text>
+          <text class="arrow"></text>
+        </view>
+      </view>
+      <view class="info-item" bindtap="editProfile">
+        <view class="info-left">
+          <text class="icon-text">性</text>
+          <text class="label">性别</text>
+        </view>
+        <view class="info-right">
+          <text class="value">{{profile.gender || '未设置'}}</text>
+          <text class="arrow"></text>
+        </view>
+      </view>
+      <view class="info-item" bindtap="editProfile">
+        <view class="info-left">
+          <text class="icon-text">病</text>
+          <text class="label">慢性病</text>
+        </view>
+        <view class="info-right">
+          <text class="value">{{profile.chronic_diseases || '无'}}</text>
+          <text class="arrow"></text>
+        </view>
+      </view>
+      <view class="info-item" bindtap="editProfile">
+        <view class="info-left">
+          <text class="icon-text">敏</text>
+          <text class="label">过敏史</text>
+        </view>
+        <view class="info-right">
+          <text class="value">{{profile.allergies || '无'}}</text>
+          <text class="arrow"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的服务 -->
+  <view class="section">
+    <view class="section-title">我的服务</view>
+    <view class="service-grid">
+      <view class="service-item" bindtap="goToOrders">
+        <view class="icon icon-service">订</view>
+        <text class="label">我的订单</text>
+        <view class="badge" wx:if="{{orderCount > 0}}">{{orderCount}}</view>
+      </view>
+      <view class="service-item" bindtap="goToPrescriptions">
+        <view class="icon icon-service">方</view>
+        <text class="label">我的处方</text>
+      </view>
+      <view class="service-item" bindtap="goToMeasurements">
+        <view class="icon icon-service">数</view>
+        <text class="label">健康数据</text>
+      </view>
+      <view class="service-item" bindtap="goToMedications">
+        <view class="icon icon-service">药</view>
+        <text class="label">用药记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 签约医生 -->
+  <view class="section" wx:if="{{doctorView}}">
+    <view class="section-title">我的医生</view>
+    <view class="doctor-card" bindtap="viewDoctor">
+      <view class="doctor-avatar icon-avatar">医</view>
+      <view class="doctor-info">
+        <text class="doctor-name">{{doctorView.name}}</text>
+        <text class="doctor-title">{{doctorView.title}}</text>
+        <text class="doctor-dept">{{doctorView.department}}</text>
+      </view>
+      <button class="btn-chat" catchtap="chatWithDoctor">咨询</button>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="section">
+    <view class="section-title">设置</view>
+    <view class="setting-list">
+      <view class="setting-item" bindtap="editAddress">
+        <text class="label">收货地址</text>
+        <text class="arrow"></text>
+      </view>
+      <view class="setting-item" bindtap="changePassword">
+        <text class="label">修改密码</text>
+        <text class="arrow"></text>
+      </view>
+      <view class="setting-item" bindtap="about">
+        <text class="label">关于我们</text>
+        <text class="arrow"></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="btn-logout" bindtap="logout">退出登录</button>
+  </view>
+</view>
+

@@ -1,0 +1,141 @@
+<!-- 顶部页眉 -->
+<view class="page-head">
+  <text class="eyebrow">CHRONIC CARE · DAILY</text>
+  <text class="title">早安，{{greeting}}</text>
+  <text class="subtitle">今天的健康节奏由你掌控，最近一次更新于 {{updateTime}}。</text>
+</view>
+
+<view class="scroll-content">
+
+  <!-- 快捷入口 -->
+  <view class="quick-actions reveal">
+    <view class="action-item" bindtap="goToRecords">
+      <view class="action-icon">︎📊</view>
+      <text class="action-text">健康监测</text>
+    </view>
+    <view class="action-item" bindtap="goToMedication">
+      <view class="action-icon">💊</view>
+      <text class="action-text">用药管理</text>
+    </view>
+    <view class="action-item" bindtap="goToDevice">
+      <view class="action-icon">⌚</view>
+      <text class="action-text">设备同步</text>
+    </view>
+    <view class="action-item" bindtap="goToDoctor">
+      <view class="action-icon">⚕</view>
+      <text class="action-text">在线问诊</text>
+    </view>
+  </view>
+
+  <!-- 快速测量卡片 -->
+  <view class="section-title">
+    <text>快速记录</text>
+    <text class="section-sub">血压 · 心率</text>
+  </view>
+  <view class="card measure-card">
+    <view class="input-row">
+      <view class="input-group">
+        <text class="input-label">收缩压</text>
+        <input type="number" class="input-field" placeholder="120" value="{{inputSystolic}}" bindinput="onSystolicInput" />
+        <text class="input-unit">mmHg</text>
+      </view>
+      <view class="input-group">
+        <text class="input-label">舒张压</text>
+        <input type="number" class="input-field" placeholder="80" value="{{inputDiastolic}}" bindinput="onDiastolicInput" />
+        <text class="input-unit">mmHg</text>
+      </view>
+    </view>
+    <view class="input-row">
+      <view class="input-group" style="flex: 1;">
+        <text class="input-label">心率</text>
+        <input type="number" class="input-field" placeholder="75" value="{{inputHeartRate}}" bindinput="onHeartRateInput" />
+        <text class="input-unit">bpm</text>
+      </view>
+      <button class="btn-save" bindtap="saveData">保存记录</button>
+    </view>
+
+    <!-- 实时健康提示 -->
+    <view class="health-tip {{tipStatus}}" wx:if="{{showTip}}">
+      <view class="tip-icon">{{tipIcon}}</view>
+      <view class="tip-content">
+        <view class="tip-title">{{tipTitle}}</view>
+        <view class="tip-desc" wx:if="{{tipDesc}}">{{tipDesc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 健康面板 -->
+  <view class="section-title">
+    <text>我的健康</text>
+    <text class="section-sub">UPDATED · {{updateTime}}</text>
+  </view>
+  <view class="health-grid">
+    <view class="data-card" bindtap="goToDetail" data-type="bp">
+      <view class="data-header">血 压 · BP</view>
+      <view class="data-value">{{systolic}}/{{diastolic}}<text class="data-unit">mmHg</text></view>
+      <view class="data-status status-{{bpStatus}}"></view>
+    </view>
+    <view class="data-card" bindtap="goToDetail" data-type="bs">
+      <view class="data-header">血 糖 · BS</view>
+      <view class="data-value">{{bloodSugar}}<text class="data-unit">mmol/L</text></view>
+      <view class="data-status status-{{bsStatus}}"></view>
+    </view>
+    <view class="data-card" bindtap="goToDetail" data-type="hr">
+      <view class="data-header">心 率 · HR</view>
+      <view class="data-value">{{heartRate}}<text class="data-unit">bpm</text></view>
+      <view class="data-status status-{{hrStatus}}"></view>
+    </view>
+    <view class="data-card" bindtap="goToDetail" data-type="weight">
+      <view class="data-header">体 重 · WT</view>
+      <view class="data-value">{{weight}}<text class="data-unit">kg</text></view>
+      <view class="data-status status-{{weightStatus}}"></view>
+    </view>
+  </view>
+
+  <!-- 在线医生 -->
+  <view class="section-title">
+    <text>在线医生</text>
+    <text class="section-sub">查看更多 ›</text>
+  </view>
+  <view class="card" style="padding: 0;" wx:if="{{onlineDoctors.length}}">
+    <view class="doctor-card" wx:for="{{onlineDoctors}}" wx:key="id" bindtap="viewDoctor" data-id="{{item.id}}">
+      <view class="doctor-avatar icon-avatar">医</view>
+      <view class="doctor-info">
+        <view class="doctor-name">
+          {{item.name}}
+          <text class="doctor-title">{{item.title}}</text>
+        </view>
+        <view class="doctor-desc">{{item.department}} · {{item.specialty}}</view>
+      </view>
+      <view class="doctor-actions">
+        <button class="btn-mini btn-outline" catchtap="chatWithDoctor" data-id="{{item.id}}">咨询</button>
+        <button class="btn-mini {{item.can_video ? 'btn-primary' : 'btn-outline'}}" catchtap="videoCallDoctor" data-id="{{item.id}}">视频</button>
+      </view>
+    </view>
+  </view>
+  <view class="card" wx:else>
+    <view class="empty-state">
+      <view class="empty-icon">医</view>
+      <text class="empty-text">暂无在线医生，请稍后再试。</text>
+    </view>
+  </view>
+
+  <!-- 今日提醒 -->
+  <view class="section-title">
+    <text>今日提醒</text>
+    <text class="section-sub">{{todayReminders.length}} 项</text>
+  </view>
+  <view class="card">
+    <view class="reminder-item" wx:for="{{todayReminders}}" wx:key="id">
+      <view class="reminder-icon {{item.done ? 'done' : ''}}">{{item.done ? '✓' : '○'}}</view>
+      <view class="reminder-content">
+        <view class="reminder-title">{{item.title}}</view>
+        <view class="reminder-time">{{item.time}} · {{item.content}}</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:if="{{!todayReminders.length}}">
+      <view class="empty-icon">~</view>
+      <text class="empty-text">今日暂无提醒，享受平静的一天。</text>
+    </view>
+  </view>
+</view>

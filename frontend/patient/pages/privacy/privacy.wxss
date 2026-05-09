@@ -1,0 +1,43 @@
+.privacy-page {
+  height: 100vh;
+  background: #fff;
+}
+
+.content {
+  height: 100%;
+  padding: 40rpx;
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.update-time {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.section-content {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.8;
+}

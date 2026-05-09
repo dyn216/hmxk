@@ -1,0 +1,39 @@
+<view class="setting-page">
+  <view class="group">
+    <view class="group-title">通知设置</view>
+    <view class="setting-item">
+      <view class="item-label">测量提醒</view>
+      <switch checked="{{measureRemind}}" bindchange="toggleMeasureRemind" />
+    </view>
+    <view class="setting-item">
+      <view class="item-label">用药提醒</view>
+      <switch checked="{{medicationRemind}}" bindchange="toggleMedicationRemind" />
+    </view>
+    <view class="setting-item">
+      <view class="item-label">运动提醒</view>
+      <switch checked="{{sportRemind}}" bindchange="toggleSportRemind" />
+    </view>
+  </view>
+  <view class="group">
+    <view class="group-title">数据设置</view>
+    <view class="setting-item" bindtap="exportData">
+      <view class="item-label">导出数据</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
+    <view class="setting-item" bindtap="clearCache">
+      <view class="item-label">清除缓存</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
+  </view>
+  <view class="group">
+    <view class="group-title">其他</view>
+    <view class="setting-item" bindtap="feedback">
+      <view class="item-label">意见反馈</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
+    <view class="setting-item" bindtap="privacy">
+      <view class="item-label">隐私政策</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
+  </view>
+</view>

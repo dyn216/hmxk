@@ -1,0 +1,104 @@
+<view class="container">
+  <view class="nav-bar">
+    医生咨询
+  </view>
+
+  <view class="scroll-content">
+    <view class="card search-card">
+      <input class="search-input" placeholder="搜索医生姓名、科室或专长" value="{{searchKey}}" bindinput="onSearchInput" />
+    </view>
+
+    <view class="department-tabs" wx:if="{{departments.length > 0}}">
+      <scroll-view class="tabs-scroll" scroll-x>
+        <view class="tab-item {{currentDept === 'all' ? 'active' : ''}}" bindtap="switchDepartment" data-dept="all">全部</view>
+        <view class="tab-item {{currentDept === item ? 'active' : ''}}" wx:for="{{departments}}" wx:key="*this" bindtap="switchDepartment" data-dept="{{item}}">{{item}}</view>
+      </scroll-view>
+    </view>
+
+    <view class="card selected-doctor" wx:if="{{selectedDoctor}}">
+      <view class="selected-label">当前医生</view>
+      <view class="doctor-card selected-card">
+        <view class="doctor-avatar icon-avatar">医</view>
+        <view class="doctor-info">
+          <view class="doctor-name">
+            {{selectedDoctor.name}}
+          </view>
+          <view class="doctor-meta" wx:if="{{selectedDoctor.metaText}}">{{selectedDoctor.metaText}}</view>
+          <view class="doctor-desc" wx:if="{{selectedDoctor.specialty}}">{{selectedDoctor.specialty}}</view>
+          <view class="doctor-stats">
+            <text>👥 {{selectedDoctor.patient_count}} 位患者</text>
+            <text>💬 {{selectedDoctor.consultation_count}} 次问诊</text>
+          </view>
+          <view class="status-tag status-success" wx:if="{{selectedDoctor.online}}">
+            <view class="status-dot"></view>
+            可咨询
+          </view>
+        </view>
+        <view class="doctor-actions">
+          <button class="btn-mini btn-outline" catchtap="chatWithDoctor" data-id="{{selectedDoctor.id}}">咨询</button>
+          <button class="btn-mini {{selectedDoctor.can_video ? 'btn-primary' : 'btn-outline'}}" catchtap="startVideoCall" data-id="{{selectedDoctor.id}}">视频</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 医生列表 -->
+    <view class="section-title">
+      <text>医生列表</text>
+      <text class="section-sub">{{doctors.length}} 名</text>
+    </view>
+    <view class="card" style="padding: 0;" wx:if="{{doctors.length > 0}}">
+      <view class="doctor-card {{item.id === selectedDoctorId ? 'is-selected' : ''}}" wx:for="{{doctors}}" wx:key="id" bindtap="selectDoctor" data-id="{{item.id}}">
+        <view class="doctor-avatar icon-avatar">医</view>
+        <view class="doctor-info">
+          <view class="doctor-name">
+            {{item.name}} 
+          </view>
+          <view class="doctor-meta" wx:if="{{item.metaText}}">{{item.metaText}}</view>
+          <view class="doctor-desc" wx:if="{{item.specialty}}">{{item.specialty}}</view>
+          <view class="doctor-stats">
+            <text>👥 {{item.patient_count}} 位患者</text>
+            <text>💬 {{item.consultation_count}} 次问诊</text>
+          </view>
+          <view class="status-tag {{item.online ? 'status-success' : 'status-info'}}">
+            <view class="status-dot"></view>
+            {{item.online ? '可咨询' : '不可咨询'}}
+          </view>
+        </view>
+        <view class="doctor-actions">
+          <button class="btn-mini btn-outline" catchtap="chatWithDoctor" data-id="{{item.id}}">咨询</button>
+          <button class="btn-mini {{item.can_video ? 'btn-primary' : 'btn-outline'}}" catchtap="startVideoCall" data-id="{{item.id}}">视频</button>
+        </view>
+      </view>
+    </view>
+    <view class="card empty-card" wx:elif="{{!loading}}">
+      <view class="empty-icon icon-empty">医</view>
+      <view class="empty-text">{{errorText || '暂无可咨询医生'}}</view>
+    </view>
+
+    <!-- 功能介绍 -->
+    <view class="section-title" style="margin-top: 40rpx;">服务介绍</view>
+    <view class="card">
+      <view class="feature-item">
+        <view class="feature-icon">💬</view>
+        <view class="feature-content">
+          <view class="feature-title">在线咨询</view>
+          <view class="feature-desc">7x24小时在线，随时随地咨询健康问题</view>
+        </view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📹</view>
+        <view class="feature-content">
+          <view class="feature-title">视频问诊</view>
+          <view class="feature-desc">面对面沟通，专业医生为您答疑解惑</view>
+        </view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📊</view>
+        <view class="feature-content">
+          <view class="feature-title">健康管理</view>
+          <view class="feature-desc">长期跟踪，制定个性化健康管理方案</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

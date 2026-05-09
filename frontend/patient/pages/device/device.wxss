@@ -1,0 +1,367 @@
+@import "/styles/common.wxss";
+
+page {
+  background: #eff4ef;
+}
+
+.device-page {
+  min-height: 100vh;
+  padding: 28rpx;
+  padding-bottom: calc(48rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.watch-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 34rpx;
+  border-radius: 38rpx;
+  color: #fff;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(196, 236, 204, 0.45), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(127, 184, 166, 0.36), transparent 34%),
+    linear-gradient(145deg, #102b27, #2c5a52 58%, #66805f);
+  box-shadow: 0 28rpx 70rpx rgba(25, 62, 56, 0.22);
+}
+
+.watch-hero::after {
+  content: "";
+  position: absolute;
+  right: -90rpx;
+  bottom: -120rpx;
+  width: 300rpx;
+  height: 300rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+}
+
+.watch-hero.connected {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(215, 244, 193, 0.46), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(255, 216, 143, 0.32), transparent 34%),
+    linear-gradient(145deg, #163329, #35715e 58%, #86a267);
+}
+
+.hero-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.watch-mark {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 34rpx;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1rpx solid rgba(255, 255, 255, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 52rpx;
+  box-shadow: inset 0 0 32rpx rgba(255, 255, 255, 0.12);
+}
+
+.hero-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 18rpx;
+  letter-spacing: 0.28em;
+  opacity: 0.72;
+}
+
+.hero-title {
+  margin-top: 8rpx;
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 44rpx;
+  line-height: 1.1;
+}
+
+.hero-status {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.5;
+  opacity: 0.84;
+}
+
+.hero-metrics {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.45fr;
+  gap: 14rpx;
+  margin-top: 34rpx;
+}
+
+.metric {
+  min-width: 0;
+  padding: 20rpx 18rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1rpx solid rgba(255, 255, 255, 0.18);
+}
+
+.metric-value {
+  display: inline-block;
+  font-size: 40rpx;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.metric-value.small {
+  max-width: 100%;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-unit {
+  margin-left: 4rpx;
+  font-size: 18rpx;
+  opacity: 0.72;
+}
+
+.metric-label {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 20rpx;
+  opacity: 0.72;
+}
+
+.button-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.primary-btn,
+.ghost-btn {
+  flex: 1;
+  height: 92rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary-btn {
+  color: #fff;
+  background: #203b35;
+}
+
+.ghost-btn {
+  color: #203b35;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1rpx solid rgba(32, 59, 53, 0.12);
+}
+
+.ghost-btn.danger {
+  color: #a9493e;
+}
+
+.ghost-btn.full {
+  width: 100%;
+}
+
+.primary-btn::after,
+.ghost-btn::after {
+  border: none;
+}
+
+.section-card,
+.protocol-card {
+  margin-top: 22rpx;
+  padding: 30rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1rpx solid rgba(32, 59, 53, 0.08);
+  box-shadow: 0 18rpx 52rpx rgba(36, 66, 54, 0.08);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #203b35;
+}
+
+.section-sub {
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  line-height: 1.5;
+  color: rgba(32, 59, 53, 0.58);
+}
+
+.device-row {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 22rpx 0;
+  border-top: 1rpx solid rgba(32, 59, 53, 0.08);
+}
+
+.device-row:active {
+  opacity: 0.72;
+}
+
+.device-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  background: #5da886;
+  box-shadow: 0 0 0 10rpx rgba(93, 168, 134, 0.12);
+}
+
+.device-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.device-name {
+  font-size: 28rpx;
+  font-weight: 650;
+  color: #203b35;
+}
+
+.device-id,
+.device-rssi {
+  margin-top: 6rpx;
+  font-size: 21rpx;
+  color: rgba(32, 59, 53, 0.54);
+  word-break: break-all;
+}
+
+.device-rssi {
+  white-space: nowrap;
+}
+
+.vital-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.vital-card {
+  padding: 24rpx;
+  border-radius: 26rpx;
+  background: #f6f7ef;
+  border: 1rpx solid rgba(32, 59, 53, 0.06);
+}
+
+.vital-label {
+  font-size: 22rpx;
+  color: rgba(32, 59, 53, 0.58);
+}
+
+.vital-value {
+  margin-top: 12rpx;
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 46rpx;
+  line-height: 1;
+  color: #203b35;
+}
+
+.vital-value.small {
+  font-size: 32rpx;
+}
+
+.vital-unit {
+  margin-top: 10rpx;
+  font-size: 20rpx;
+  color: rgba(32, 59, 53, 0.48);
+}
+
+.empty-state {
+  padding: 34rpx 20rpx;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 52rpx;
+  color: rgba(32, 59, 53, 0.36);
+}
+
+.empty-text {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: rgba(32, 59, 53, 0.58);
+}
+
+.record-row {
+  display: flex;
+  gap: 18rpx;
+  padding: 18rpx 0;
+  border-top: 1rpx solid rgba(32, 59, 53, 0.08);
+}
+
+.record-time {
+  width: 104rpx;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 22rpx;
+  color: rgba(32, 59, 53, 0.52);
+}
+
+.record-main {
+  flex: 1;
+  font-size: 24rpx;
+  color: #203b35;
+}
+
+.protocol-card {
+  background: #172e29;
+  color: #e9f3ea;
+}
+
+.protocol-card .section-title {
+  color: #fff;
+}
+
+.protocol-line {
+  margin-top: 14rpx;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 20rpx;
+  line-height: 1.5;
+  word-break: break-all;
+  color: rgba(233, 243, 234, 0.74);
+}
+
+.packet-sample {
+  margin-top: 20rpx;
+  padding: 22rpx;
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 20rpx;
+  line-height: 1.55;
+  word-break: break-all;
+  color: #fff7d6;
+}
+
+@media (max-width: 360px) {
+  .hero-metrics,
+  .vital-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+}

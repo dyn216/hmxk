@@ -1,0 +1,442 @@
+@import "/styles/common.wxss";
+
+.container {
+  background: var(--paper-soft);
+  min-height: 100vh;
+  padding-bottom: 240rpx;
+}
+
+/* —— Hero —— */
+.profile-card {
+  position: relative;
+  margin: 24rpx;
+  padding: 56rpx 36rpx 48rpx;
+  border-radius: 36rpx;
+  background:
+    linear-gradient(160deg, var(--sage-deep) 0%, var(--sage) 60%, #5C9686 100%);
+  color: var(--paper);
+  box-shadow: 0 26rpx 48rpx rgba(44, 90, 82, 0.18);
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: "";
+  position: absolute;
+  top: -100rpx;
+  right: -120rpx;
+  width: 380rpx;
+  height: 380rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 254, 250, 0.18), transparent 65%);
+  pointer-events: none;
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  background: rgba(255, 254, 250, 0.16);
+  border: 2rpx solid rgba(255, 254, 250, 0.32);
+  margin-right: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar .icon-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  background: var(--paper);
+  color: var(--sage-deep);
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 44rpx;
+}
+
+.user-info { flex: 1; min-width: 0; }
+
+.user-info .name {
+  display: block;
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 48rpx;
+  font-weight: 500;
+  letter-spacing: -1rpx;
+  margin-bottom: 8rpx;
+}
+
+.user-info .phone {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 26rpx;
+  color: rgba(255, 254, 250, 0.78);
+  letter-spacing: 0.04em;
+}
+
+/* —— Section —— */
+.section {
+  margin: 0 24rpx 20rpx;
+  padding: 32rpx 30rpx;
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: 28rpx;
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin: 0 0 18rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.5rpx;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 6rpx;
+  height: 26rpx;
+  margin-right: 14rpx;
+  border-radius: 3rpx;
+  background: var(--sage);
+}
+
+/* —— Info list —— */
+.info-list { margin-top: 8rpx; }
+
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--hairline-soft);
+}
+
+.info-item:last-child { border-bottom: none; }
+.info-item:active { background: var(--paper-soft); }
+
+.info-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.info-left .icon-text {
+  width: 56rpx;
+  height: 56rpx;
+  margin-right: 18rpx;
+  border-radius: 18rpx;
+  background: var(--sage-tint);
+  border: 1rpx solid var(--hairline);
+  color: var(--sage-deep);
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 26rpx;
+  text-align: center;
+  line-height: 56rpx;
+}
+
+.info-left .label {
+  font-size: 28rpx;
+  color: var(--ink);
+  letter-spacing: -0.4rpx;
+}
+
+.info-right {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.info-right .value {
+  font-size: 26rpx;
+  color: var(--ink-soft);
+  margin-right: 12rpx;
+  max-width: 320rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info-right .arrow {
+  width: 24rpx;
+  font-size: 36rpx;
+  color: var(--ink-faint);
+  line-height: 1;
+  text-align: center;
+}
+
+.info-right .arrow::after { content: '›'; }
+
+/* —— Service grid —— */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24rpx;
+  margin-top: 8rpx;
+}
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22rpx 0 16rpx;
+  border-radius: 22rpx;
+  background: var(--paper-soft);
+  border: 1rpx solid var(--hairline);
+  position: relative;
+}
+
+.service-item:active { background: var(--sage-tint); }
+
+.service-item .icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 14rpx;
+  border-radius: 22rpx;
+}
+
+.service-item .label {
+  font-size: 24rpx;
+  color: var(--ink);
+  letter-spacing: -0.4rpx;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.service-item .badge {
+  position: absolute;
+  top: 10rpx;
+  right: 16rpx;
+  min-width: 36rpx;
+  height: 36rpx;
+  background: var(--coral);
+  color: var(--paper);
+  border-radius: 999rpx;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rpx;
+  letter-spacing: 0.04em;
+}
+
+/* —— Doctor card —— */
+.section .doctor-card {
+  display: flex;
+  align-items: center;
+  padding: 28rpx;
+  background: var(--paper-soft);
+  border: 1rpx solid var(--hairline);
+  border-radius: 22rpx;
+  margin-top: 8rpx;
+  gap: 18rpx;
+}
+
+.section .doctor-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--sage), var(--sage-deep));
+  flex-shrink: 0;
+}
+
+.section .doctor-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.section .doctor-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6rpx;
+  letter-spacing: -0.5rpx;
+}
+
+.section .doctor-title {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4rpx 14rpx;
+  background: var(--sage-soft);
+  color: var(--sage-deep);
+  border: 1rpx solid rgba(63, 125, 110, 0.2);
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  margin-bottom: 6rpx;
+}
+
+.section .doctor-dept {
+  display: block;
+  font-size: 24rpx;
+  color: var(--ink-mute);
+}
+
+.btn-chat {
+  flex-shrink: 0;
+  height: 64rpx;
+  padding: 0 28rpx;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.btn-chat::after { border: none; }
+
+/* —— Setting —— */
+.setting-list { margin-top: 8rpx; }
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--hairline-soft);
+}
+
+.setting-item:last-child { border-bottom: none; }
+
+.setting-item .label {
+  font-size: 28rpx;
+  color: var(--ink);
+  letter-spacing: -0.4rpx;
+}
+
+.setting-item .arrow {
+  width: 24rpx;
+  font-size: 36rpx;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+
+.setting-item .arrow::after { content: '›'; }
+
+/* —— Logout —— */
+.logout-section {
+  margin: 32rpx 24rpx 0;
+}
+
+.btn-logout {
+  width: 100%;
+  height: 96rpx;
+  background: var(--paper);
+  color: var(--coral);
+  border: 2rpx solid rgba(199, 93, 79, 0.4);
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-logout:active {
+  background: var(--coral);
+  color: var(--paper);
+}
+
+.btn-logout::after { border: none; }
+
+@media (max-width: 360px) {
+  .profile-card {
+    margin: 20rpx;
+    padding: 44rpx 28rpx 38rpx;
+    border-radius: 30rpx;
+  }
+
+  .avatar {
+    width: 108rpx;
+    height: 108rpx;
+    margin-right: 18rpx;
+  }
+
+  .avatar .icon-avatar {
+    width: 82rpx;
+    height: 82rpx;
+    font-size: 38rpx;
+  }
+
+  .user-info .name {
+    font-size: 42rpx;
+  }
+
+  .user-info .phone {
+    font-size: 24rpx;
+  }
+
+  .section {
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    padding: 28rpx 24rpx;
+  }
+
+  .info-left .icon-text {
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    margin-right: 14rpx;
+  }
+
+  .info-left .label,
+  .setting-item .label {
+    font-size: 26rpx;
+  }
+
+  .info-right .value {
+    max-width: 230rpx;
+    font-size: 24rpx;
+  }
+
+  .service-grid {
+    gap: 14rpx;
+  }
+
+  .service-item {
+    padding: 18rpx 0 14rpx;
+  }
+
+  .service-item .icon {
+    width: 68rpx;
+    height: 68rpx;
+    margin-bottom: 10rpx;
+  }
+
+  .service-item .label {
+    font-size: 22rpx;
+  }
+
+  .section .doctor-card {
+    flex-wrap: wrap;
+    padding: 24rpx;
+  }
+
+  .btn-chat {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .logout-section {
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+  }
+}

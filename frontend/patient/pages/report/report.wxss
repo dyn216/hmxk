@@ -1,0 +1,117 @@
+.report-page {
+  padding: 30rpx;
+  background-color: #f5f7fa;
+}
+
+.report-header {
+  background: linear-gradient(to right, #6a7cfc, #6a48fc);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 30rpx;
+}
+
+.report-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.report-date {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.report-stats {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.stat-value {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.systolic {
+  color: #ff6347;
+}
+
+.diastolic {
+  color: #4682b4;
+}
+
+.trend-chart {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.chart-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx;
+}
+
+.chart-placeholder image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 10rpx;
+}
+
+.chart-tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.health-summary {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+}
+
+.summary-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.summary-content {
+  background-color: #f0f9e8;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.summary-tag {
+  font-size: 28rpx;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+}
+
+.summary-tag icon {
+  margin-right: 10rpx;
+}

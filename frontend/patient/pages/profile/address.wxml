@@ -1,0 +1,109 @@
+<view class="container">
+  <view class="header">
+    <view class="title">收货地址管理</view>
+    <button class="btn-add" bindtap="addAddress">
+      <text class="add-icon">+</text>
+      <text>新增地址</text>
+    </button>
+  </view>
+
+  <!-- 地址列表 -->
+  <view class="address-list">
+    <view class="address-item" wx:for="{{addresses}}" wx:key="id">
+      <view class="address-content" bindtap="editAddress" data-id="{{item.id}}">
+        <view class="address-header">
+          <text class="receiver">{{item.name}}</text>
+          <text class="phone">{{item.phone}}</text>
+          <view class="default-badge" wx:if="{{item.is_default}}">默认</view>
+        </view>
+        <view class="address-detail">{{item.address}}</view>
+      </view>
+      
+      <view class="address-actions">
+        <button 
+          class="btn-default" 
+          wx:if="{{!item.is_default}}"
+          bindtap="setDefault"
+          data-id="{{item.id}}"
+        >设为默认</button>
+        <button 
+          class="btn-edit" 
+          bindtap="editAddress"
+          data-id="{{item.id}}"
+        >编辑</button>
+        <button 
+          class="btn-delete" 
+          bindtap="deleteAddress"
+          data-id="{{item.id}}"
+        >删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{addresses.length === 0}}">
+    <view class="empty-icon icon-empty">址</view>
+    <text>暂无收货地址</text>
+    <button class="btn-add-empty" bindtap="addAddress">添加地址</button>
+  </view>
+</view>
+
+<!-- 地址编辑弹窗 -->
+<view class="modal" wx:if="{{showModal}}" catchtap="closeModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <text class="modal-title">{{editingId ? '编辑地址' : '新增地址'}}</text>
+      <text class="close-icon" bindtap="closeModal">×</text>
+    </view>
+
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="label">收货人 *</text>
+        <input 
+          class="input" 
+          placeholder="请输入收货人姓名"
+          value="{{addressForm.name}}"
+          bindinput="onFormInput"
+          data-field="name"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label">手机号 *</text>
+        <input 
+          class="input" 
+          type="number"
+          placeholder="请输入手机号"
+          value="{{addressForm.phone}}"
+          bindinput="onFormInput"
+          data-field="phone"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label">详细地址 *</text>
+        <textarea 
+          class="textarea" 
+          placeholder="请输入详细地址"
+          value="{{addressForm.address}}"
+          bindinput="onFormInput"
+          data-field="address"
+          maxlength="200"
+        />
+      </view>
+
+      <view class="form-item checkbox-item">
+        <checkbox 
+          checked="{{addressForm.is_default}}"
+          bindtap="toggleDefault"
+        />
+        <text class="checkbox-label">设为默认地址</text>
+      </view>
+    </view>
+
+    <view class="modal-footer">
+      <button class="btn-cancel" bindtap="closeModal">取消</button>
+      <button class="btn-confirm" bindtap="saveAddress">保存</button>
+    </view>
+  </view>
+</view>

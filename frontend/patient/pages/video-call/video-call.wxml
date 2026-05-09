@@ -1,0 +1,66 @@
+<view class="video-call-page">
+  <!-- 主视频区域（医生） -->
+  <view class="video-main">
+    <live-player
+      wx:if="{{streamReady && remotePlayUrl}}"
+      class="remote-player"
+      src="{{remotePlayUrl}}"
+      mode="live"
+      autoplay="{{true}}"
+      muted="{{false}}"
+      sound-mode="{{isSpeakerOn ? 'speaker' : 'ear'}}"
+      object-fit="cover"
+      bindstatechange="onPlayerStateChange"
+      bindnetstatus="onPlayerNetStatus"
+    ></live-player>
+    <view class="video-placeholder" wx:else>
+      <view class="placeholder-avatar icon-avatar">医</view>
+      <view class="placeholder-title">{{doctorInfo.name || '在线医生'}}</view>
+      <view class="placeholder-desc">{{statusText}}</view>
+      <view class="room-id" wx:if="{{roomInfo.room_id}}">房间：{{roomInfo.room_id}}</view>
+    </view>
+    <!-- 医生信息和时长 -->
+    <view class="video-info">
+      <view class="doctor-name">{{doctorInfo.name}}</view>
+      <view class="doctor-department">{{doctorInfo.department}}</view>
+      <view class="call-duration">{{callDuration}}</view>
+    </view>
+
+    <!-- 本地视频小窗口 -->
+    <view class="video-pip">
+      <live-pusher
+        wx:if="{{streamReady && localPushUrl && mediaAuthorized && !pusherBlocked && !isCameraOff}}"
+        class="pip-video"
+        url="{{localPushUrl}}"
+        mode="HD"
+        autopush="{{true}}"
+        muted="{{isMuted}}"
+        enable-mic="{{!isMuted}}"
+        enable-camera="{{!isCameraOff}}"
+        bindstatechange="onPusherStateChange"
+        bindnetstatus="onPusherNetStatus"
+        binderror="onPusherError"
+      ></live-pusher>
+      <view wx:else class="pip-video icon-avatar">{{isCameraOff ? '关' : '我'}}</view>
+    </view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="video-controls">
+    <view class="control-btn {{isMuted ? 'muted' : ''}}" bindtap="toggleMic">
+      <text class="icon">🎤</text>
+    </view>
+    <view class="control-btn {{isCameraOff ? 'off' : ''}}" bindtap="toggleCamera">
+      <text class="icon">📹</text>
+    </view>
+    <view class="control-btn btn-hangup" bindtap="hangUp">
+      <text class="icon">📞</text>
+    </view>
+    <view class="control-btn" bindtap="toggleSpeaker">
+      <text class="icon">🔊</text>
+    </view>
+    <view class="control-btn" bindtap="sendMessage">
+      <text class="icon">💬</text>
+    </view>
+  </view>
+</view>

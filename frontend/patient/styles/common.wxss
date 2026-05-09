@@ -1,0 +1,636 @@
+/* =============================================================
+   患者端 — 公共组件类
+   依赖 app.wxss 中的设计令牌
+   ============================================================= */
+
+/* —— 容器与导航 —— */
+.container {
+  width: 100%;
+  max-width: var(--screen-max);
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--paper-soft);
+  padding-bottom: 240rpx;
+  padding-bottom: calc(240rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(240rpx + env(safe-area-inset-bottom));
+}
+
+.nav-bar {
+  width: 100%;
+  max-width: var(--screen-max);
+  margin-left: auto;
+  margin-right: auto;
+  height: 96rpx;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: -0.5rpx;
+  color: var(--ink);
+  position: relative;
+  border-bottom: 1rpx solid var(--hairline);
+  z-index: 100;
+}
+
+.nav-right {
+  position: absolute;
+  right: 32rpx;
+  font-size: 36rpx;
+  color: var(--ink-soft);
+}
+
+.scroll-content {
+  width: 100%;
+  max-width: var(--screen-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24rpx 28rpx 220rpx;
+  padding-bottom: calc(220rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(220rpx + env(safe-area-inset-bottom));
+}
+
+/* —— 卡片 —— */
+.card {
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: var(--border-radius);
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow);
+  max-width: 100%;
+}
+
+.card.flat {
+  background: var(--paper-soft);
+  box-shadow: none;
+}
+
+/* —— Section title —— */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 28rpx 4rpx 16rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.5rpx;
+}
+
+.section-title small {
+  font-size: 22rpx;
+  color: var(--ink-mute);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* —— Quick actions —— */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18rpx;
+  padding: 32rpx;
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.action-icon {
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: var(--paper);
+  background: linear-gradient(140deg, var(--sage), var(--sage-deep));
+  box-shadow: 0 8rpx 22rpx rgba(63, 125, 110, 0.18);
+}
+
+.action-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* —— Health data grid —— */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.data-card {
+  position: relative;
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: var(--border-radius);
+  padding: 28rpx 28rpx 26rpx;
+  box-shadow: var(--shadow);
+}
+
+.data-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2rpx;
+  border-radius: 2rpx;
+  background: linear-gradient(90deg, var(--sage), transparent);
+}
+
+.data-header {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 12rpx;
+}
+
+.data-value {
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 56rpx;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -2rpx;
+  line-height: 1;
+}
+
+.data-unit {
+  font-family: "PingFang SC", sans-serif;
+  font-size: 22rpx;
+  color: var(--ink-mute);
+  margin-left: 6rpx;
+  letter-spacing: 0;
+}
+
+.data-status {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+
+.status-normal { background: var(--jade); }
+.status-warn   { background: var(--amber); }
+.status-danger,
+.status-high   { background: var(--coral); }
+.status-low    { background: var(--amber); }
+
+/* —— Doctor card —— */
+.doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--hairline-soft);
+  background: var(--paper);
+  max-width: 100%;
+}
+
+.doctor-card:last-child { border-bottom: none; }
+.doctor-card:active { background: var(--paper-soft); }
+
+.doctor-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--sage), var(--sage-deep));
+  flex-shrink: 0;
+}
+
+.doctor-info { flex: 1; min-width: 0; }
+
+.doctor-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8rpx;
+  letter-spacing: -0.5rpx;
+}
+
+.doctor-title {
+  display: inline-block;
+  margin-left: 12rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  background: var(--sage-soft);
+  color: var(--sage-deep);
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1rpx solid rgba(63, 125, 110, 0.2);
+}
+
+.doctor-desc {
+  font-size: 24rpx;
+  color: var(--ink-soft);
+  margin-top: 8rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  flex-shrink: 0;
+  min-width: 112rpx;
+}
+
+/* —— Buttons (mini) —— */
+.btn-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  line-height: 1.2;
+  border: 2rpx solid transparent;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.btn-mini::after { border: none; }
+
+.btn-mini.btn-primary {
+  background: var(--sage);
+  color: var(--paper);
+}
+
+.btn-mini.btn-outline {
+  background: var(--paper);
+  color: var(--sage-deep);
+  border-color: var(--sage);
+}
+
+.btn-mini.btn-success {
+  background: var(--jade);
+  color: var(--paper);
+}
+
+.btn-mini.btn-danger {
+  background: var(--paper);
+  color: var(--coral);
+  border-color: rgba(199, 93, 79, 0.35);
+}
+
+.btn-group {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.btn {
+  flex: 1;
+  padding: 22rpx;
+  border-radius: 999rpx;
+  border: none;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+  min-width: 0;
+}
+
+/* —— Tag —— */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1rpx solid transparent;
+}
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  max-width: 100%;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink-mute);
+  background: var(--paper-soft);
+  border: 1rpx solid var(--hairline);
+}
+
+.status-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.status-success {
+  color: var(--jade);
+  background: var(--jade-soft);
+  border-color: rgba(79, 140, 104, 0.28);
+}
+
+.status-info {
+  color: var(--ink-mute);
+  background: var(--paper-soft);
+  border-color: var(--hairline);
+}
+
+/* —— Feature item —— */
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid var(--hairline-soft);
+}
+
+.feature-item:last-child { border-bottom: none; }
+
+.feature-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sage-tint);
+  border: 1rpx solid var(--hairline);
+  color: var(--sage-deep);
+  font-size: 38rpx;
+  flex-shrink: 0;
+}
+
+.feature-content { flex: 1; min-width: 0; }
+
+.feature-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6rpx;
+  letter-spacing: -0.4rpx;
+}
+
+.feature-desc {
+  font-size: 24rpx;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* —— List —— */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--hairline-soft);
+}
+
+.list-item:last-child { border-bottom: none; }
+
+/* —— Reminder —— */
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 18rpx 0;
+}
+
+.reminder-item:last-child { padding-bottom: 0; }
+
+.reminder-icon {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: var(--ink-mute);
+  background: var(--paper-soft);
+  flex-shrink: 0;
+}
+
+.reminder-icon.done {
+  background: var(--jade-soft);
+  color: var(--jade);
+  border-color: rgba(79, 140, 104, 0.35);
+}
+
+.reminder-content { flex: 1; min-width: 0; }
+
+.reminder-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.reminder-time {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 22rpx;
+  color: var(--ink-mute);
+  margin-top: 4rpx;
+  letter-spacing: 0.04em;
+}
+
+/* —— Empty —— */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80rpx 60rpx;
+  color: var(--ink-mute);
+}
+
+.empty-icon {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 26rpx;
+}
+
+/* —— Tools —— */
+.text-primary { color: var(--sage-deep); }
+.text-success { color: var(--jade); }
+.text-warning { color: var(--amber); }
+.text-danger  { color: var(--coral); }
+.text-sub     { color: var(--ink-mute); }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mt-8  { margin-top: 16rpx; }
+.mt-16 { margin-top: 32rpx; }
+.mb-8  { margin-bottom: 16rpx; }
+.mb-16 { margin-bottom: 32rpx; }
+
+@media (max-width: 360px) {
+  .container {
+    padding-bottom: 200rpx;
+    padding-bottom: calc(200rpx + constant(safe-area-inset-bottom));
+    padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+  }
+
+  .nav-bar {
+    height: 88rpx;
+    font-size: 30rpx;
+  }
+
+  .scroll-content {
+    padding-left: 22rpx;
+    padding-right: 22rpx;
+    padding-bottom: 200rpx;
+    padding-bottom: calc(200rpx + constant(safe-area-inset-bottom));
+    padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+  }
+
+  .card {
+    padding: 26rpx;
+    border-radius: 22rpx;
+  }
+
+  .section-title {
+    font-size: 28rpx;
+    margin-top: 24rpx;
+  }
+
+  .section-title small,
+  .section-title .section-sub {
+    font-size: 22rpx;
+  }
+
+  .quick-actions {
+    gap: 12rpx;
+    padding: 24rpx 18rpx;
+  }
+
+  .action-icon {
+    width: 78rpx;
+    height: 78rpx;
+    border-radius: 22rpx;
+    font-size: 34rpx;
+  }
+
+  .action-text {
+    font-size: 22rpx;
+  }
+
+  .health-grid {
+    gap: 12rpx;
+  }
+
+  .data-card {
+    padding: 24rpx 22rpx 22rpx;
+  }
+
+  .data-header {
+    font-size: 20rpx;
+    letter-spacing: 0.1em;
+  }
+
+  .data-value {
+    font-size: 48rpx;
+    letter-spacing: -1rpx;
+  }
+
+  .data-unit {
+    display: block;
+    margin-left: 0;
+    margin-top: 8rpx;
+    font-size: 20rpx;
+  }
+
+  .doctor-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 18rpx;
+    padding: 26rpx;
+  }
+
+  .doctor-avatar {
+    width: 86rpx;
+    height: 86rpx;
+  }
+
+  .doctor-name {
+    font-size: 28rpx;
+  }
+
+  .doctor-title {
+    margin-left: 8rpx;
+    padding: 4rpx 12rpx;
+    font-size: 20rpx;
+  }
+
+  .doctor-desc {
+    white-space: normal;
+    line-height: 1.5;
+  }
+
+  .doctor-actions {
+    width: 100%;
+    min-width: 0;
+    flex-direction: row;
+  }
+
+  .doctor-actions .btn-mini {
+    flex: 1;
+  }
+
+  .btn-group {
+    gap: 12rpx;
+  }
+
+  .feature-item {
+    gap: 18rpx;
+  }
+
+  .feature-icon {
+    width: 76rpx;
+    height: 76rpx;
+    border-radius: 20rpx;
+    font-size: 32rpx;
+  }
+
+  .empty-state {
+    padding: 64rpx 36rpx;
+  }
+}

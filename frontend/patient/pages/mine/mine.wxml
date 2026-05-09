@@ -1,0 +1,103 @@
+<view class="mine-page">
+  <!-- 用户信息 -->
+  <view class="user-header">
+    <view class="user-header__crumbs">PROFILE · ME</view>
+    <view class="user-header__row">
+      <view class="avatar">
+        <view class="icon-avatar">我</view>
+      </view>
+      <view class="user-info">
+        <view class="user-name">健康用户</view>
+        <view class="user-sub">追踪每一次心跳与每一次起床</view>
+      </view>
+      <button class="edit-btn">编辑</button>
+    </view>
+  </view>
+
+  <!-- 数据胶囊 -->
+  <view class="stats-container">
+    <view class="stat-item">
+      <view class="stat-value">{{totalRecords}}</view>
+      <view class="stat-label">总记录</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-value">{{avgSystolic}}</view>
+      <view class="stat-label">平均收缩压</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-value">1</view>
+      <view class="stat-label">连续监测</view>
+    </view>
+  </view>
+
+  <!-- 健康管理 -->
+  <view class="menu-group">
+    <view class="group-title">健康管理</view>
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goToGuardian">
+        <view class="menu-icon">守</view>
+        <view class="menu-text">监护人绑定</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goToMedication">
+        <view class="menu-icon">药</view>
+        <view class="menu-text">用药管理</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设备 -->
+  <view class="menu-group">
+    <view class="group-title">设备管理</view>
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goToDevice">
+        <view class="menu-icon">环</view>
+        <view class="menu-text">智能手表</view>
+        <view class="device-status">蓝牙同步</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 系统 -->
+  <view class="menu-group">
+    <view class="group-title">系统设置</view>
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goToSetting">
+        <view class="menu-icon">设</view>
+        <view class="menu-text">通用设置</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goToSecurity">
+        <view class="menu-icon">锁</view>
+        <view class="menu-text">安全中心</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goToUpgrade">
+        <view class="menu-icon">升</view>
+        <view class="menu-text">系统升级</view>
+        <view class="version">v1.0.0</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="menu-group">
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goToAbout">
+        <view class="menu-icon">关</view>
+        <view class="menu-text">关于惠民携康</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goToService">
+        <view class="menu-icon">服</view>
+        <view class="menu-text">联系客服</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+</view>

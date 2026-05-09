@@ -1,0 +1,142 @@
+/* 引入全局样式 */
+@import "/styles/common.wxss";
+
+.records-page {
+  padding: 30rpx;
+  background-color: #f5f7fa;
+}
+
+.week-stat {
+  background: linear-gradient(to right, #6a7cfc, #6a48fc);
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  color: #fff;
+}
+
+.stat-title {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.stat-values {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.history-records {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.records-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.records-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.records-list {
+  margin-top: 20rpx;
+}
+
+.record-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.record-date {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.record-bp {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.systolic {
+  color: #ff6347;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.diastolic {
+  color: #4682b4;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.unit {
+  font-size: 24rpx;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.record-hr {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.record-status {
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  display: inline-block;
+}
+
+.record-status.high {
+  background-color: #ffeeee;
+  color: #e53935;
+}
+
+.record-status.elevated {
+  background-color: #fff6e5;
+  color: #f57c00;
+}
+
+.record-status.low {
+  background-color: #eef5ff;
+  color: #1e88e5;
+}
+
+.record-status.normal {
+  background-color: #efffef;
+  color: #81c784;
+}
+
+.record-status.hypertension {
+  background-color: #ffebee;
+  color: #e53935;
+}

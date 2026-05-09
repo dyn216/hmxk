@@ -1,0 +1,42 @@
+<view class="chat-page">
+  <!-- 聊天头部 -->
+  <view class="chat-header">
+    <text class="back-btn" bindtap="goBack">← </text>
+    <text class="chat-title">{{chatName}}</text>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view class="chat-body" scroll-y scroll-into-view="{{scrollToView}}">
+    <view class="time-divider"><text>{{timeLabel}}</text></view>
+    
+    <view class="message {{item.isMine ? 'self' : ''}}" wx:for="{{messages}}" wx:key="id" id="msg{{item.id}}">
+      <view class="msg-avatar icon-avatar">{{item.isMine ? '我' : '医'}}</view>
+      <view class="msg-wrap">
+        <view class="msg-content">
+          <image wx:if="{{item.image}}" class="msg-image" src="{{item.image}}" mode="aspectFill"></image>
+          <text wx:else class="msg-text">{{item.content}}</text>
+        </view>
+        <view class="msg-time">{{item.time}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入栏 -->
+  <view class="chat-input-area">
+    <text class="input-icon" bindtap="chooseImage">图</text>
+    <input class="input-box" value="{{inputText}}" bindinput="onInput" confirm-type="send" bindconfirm="sendMessage" placeholder="请输入消息..." />
+    <button class="send-btn" wx:if="{{inputText}}" bindtap="sendMessage">发送</button>
+    <text class="input-icon" wx:else bindtap="toggleMoreActions">＋</text>
+  </view>
+
+  <view class="action-panel" wx:if="{{showActions}}">
+    <view class="action-item" bindtap="chooseImage">
+      <view class="action-icon">图</view>
+      <text>图片</text>
+    </view>
+    <view class="action-item" bindtap="showMoreTip">
+      <view class="action-icon">数</view>
+      <text>健康数据</text>
+    </view>
+  </view>
+</view>

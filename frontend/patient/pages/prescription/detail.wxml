@@ -1,0 +1,88 @@
+<view class="container">
+  <!-- 处方状态 -->
+  <view class="status-section">
+    <view class="status-badge {{prescription.status}}">
+      {{statusText[prescription.status]}}
+    </view>
+  </view>
+
+  <!-- 医生信息 -->
+  <view class="section">
+    <view class="section-title">开具医生</view>
+    <view class="doctor-card">
+      <view class="avatar icon-avatar">我</view>
+      <view class="doctor-info">
+        <text class="name">{{prescription.doctor.name}}</text>
+        <text class="title">{{prescription.doctor.title}}</text>
+        <text class="department">{{prescription.doctor.department}}</text>
+      </view>
+      <button class="btn-chat" bindtap="chatWithDoctor">咨询</button>
+    </view>
+  </view>
+
+  <!-- 诊断信息 -->
+  <view class="section">
+    <view class="section-title">诊断信息</view>
+    <view class="diagnosis-card">
+      <text class="diagnosis-text">{{prescription.diagnosis}}</text>
+    </view>
+  </view>
+
+  <!-- 处方药品 -->
+  <view class="section">
+    <view class="section-title">处方药品（{{prescription.items.length}}种）</view>
+    <view class="medicine-list">
+      <view class="medicine-item" wx:for="{{prescription.items}}" wx:key="id">
+        <view class="medicine-image icon-product">药</view>
+        <view class="medicine-info">
+          <view class="medicine-name">{{item.product.name}}</view>
+          <view class="medicine-spec">{{item.product.specification}}</view>
+          <view class="medicine-usage">
+            <text>{{item.dosage}} / {{item.frequency}} / {{item.duration}}</text>
+          </view>
+          <view class="medicine-price">¥{{item.product.price}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 医嘱 -->
+  <view class="section" wx:if="{{prescription.notes}}">
+    <view class="section-title">医嘱</view>
+    <view class="notes-card">
+      <text>{{prescription.notes}}</text>
+    </view>
+  </view>
+
+  <!-- 处方信息 -->
+  <view class="section">
+    <view class="section-title">处方信息</view>
+    <view class="info-list">
+      <view class="info-row">
+        <text class="label">开具时间：</text>
+        <text class="value">{{prescription.created_at}}</text>
+      </view>
+      <view class="info-row" wx:if="{{prescription.valid_until}}">
+        <text class="label">有效期至：</text>
+        <text class="value">{{prescription.valid_until}}</text>
+      </view>
+      <view class="info-row" wx:if="{{prescription.audit_time}}">
+        <text class="label">审核时间：</text>
+        <text class="value">{{prescription.audit_time}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 审核意见 -->
+  <view class="section" wx:if="{{prescription.audit_notes && prescription.status === 'rejected'}}">
+    <view class="section-title">审核意见</view>
+    <view class="audit-card rejected">
+      <text>{{prescription.audit_notes}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="footer" wx:if="{{prescription.status === 'approved'}}">
+    <button class="btn-use" bindtap="usePrescription">使用处方购药</button>
+  </view>
+</view>

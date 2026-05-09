@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="header">
+    <view class="title">选择处方</view>
+    <text class="subtitle">购买处方药需要选择有效的处方</text>
+  </view>
+
+  <!-- 可用处方列表 -->
+  <view class="prescription-list">
+    <view 
+      class="prescription-item {{selectedId === item.id ? 'selected' : ''}}" 
+      wx:for="{{availablePrescriptions}}" 
+      wx:key="id"
+      bindtap="selectPrescription"
+      data-id="{{item.id}}"
+    >
+      <view class="select-icon">
+        <view class="select-dot {{selectedId === item.id ? 'checked' : ''}}"></view>
+      </view>
+
+      <view class="prescription-content">
+        <view class="prescription-header">
+          <text class="doctor-name">{{item.doctor.name}} 医生</text>
+          <text class="date">{{item.created_at}}</text>
+        </view>
+
+        <view class="diagnosis">
+          <text class="label">诊断：</text>
+          <text class="value">{{item.diagnosis}}</text>
+        </view>
+
+        <view class="medicines">
+          <text class="medicine-count">包含 {{item.items.length}} 种药品</text>
+          <view class="medicine-names">
+            <text wx:for="{{item.items}}" wx:key="id" wx:for-item="med">
+              {{med.product.name}}{{index < item.items.length - 1 ? '、' : ''}}
+            </text>
+          </view>
+        </view>
+
+        <view class="valid-until">
+          <text class="label">有效期至：</text>
+          <text class="value">{{item.valid_until}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{availablePrescriptions.length === 0}}">
+    <view class="empty-icon icon-empty">方</view>
+    <text>暂无可用处方</text>
+    <text class="hint">请先咨询医生开具处方</text>
+    <button class="btn-consult" bindtap="goToConsult">去问诊</button>
+  </view>
+
+  <!-- 底部确认按钮 -->
+  <view class="footer" wx:if="{{availablePrescriptions.length > 0}}">
+    <button 
+      class="btn-confirm" 
+      bindtap="confirmSelection"
+      disabled="{{!selectedId}}"
+    >确认选择</button>
+  </view>
+</view>

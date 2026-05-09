@@ -1,0 +1,123 @@
+.detail-page {
+  padding: 30rpx;
+  background-color: #f5f7fa;
+}
+
+.detail-header {
+  background: linear-gradient(to right, #6a7cfc, #6a48fc);
+  border-radius: 12rpx;
+  padding: 30rpx;
+  color: #fff;
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record-date {
+  font-size: 28rpx;
+}
+
+.record-status {
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.record-status.normal {
+  color: #2e7d32;
+}
+
+.record-status.elevated {
+  color: #f57c00;
+}
+
+.record-status.high {
+  color: #e53935;
+}
+
+.record-status.low {
+  color: #1e88e5;
+}
+
+.bp-detail {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.item-label {
+  font-size: 28rpx;
+  color: #8a9cfc;
+}
+
+.item-value {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.systolic {
+  color: #ff6347;
+}
+
+.diastolic {
+  color: #4682b4;
+}
+
+.hr {
+  color: #6a7cfc;
+}
+
+.health-tips {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.tips-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6a7cfc;
+  margin-bottom: 20rpx;
+}
+
+.tips-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.delete-btn {
+  width: 100%;
+  background-color: #fff;
+  color: #ff6b6b;
+  border: 1rpx solid #ff6b6b;
+  border-radius: 8rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
+
+.delete-btn::after {
+  border: none;
+}

@@ -1,0 +1,102 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/shop/list",
+    "pages/shop/detail",
+    "pages/shop/cart",
+    "pages/order/confirm",
+    "pages/order/list",
+    "pages/order/detail",
+    "pages/prescription/list",
+    "pages/prescription/select",
+    "pages/prescription/detail",
+    "pages/consultation/doctors",
+    "pages/consultation/chat",
+    "pages/profile/index",
+    "pages/profile/edit",
+    "pages/profile/address",
+    "pages/records/records",
+    "pages/detail/detail",
+    "pages/doctor/doctor",
+    "pages/chat/chat",
+    "pages/video-call/video-call",
+    "pages/medication/medication",
+    "pages/device/device",
+    "pages/guardian/guardian",
+    "pages/setting/setting",
+    "pages/security/security",
+    "pages/about/about",
+    "pages/service/service",
+    "pages/feedback/feedback",
+    "pages/privacy/privacy",
+    "pages/goods-detail/goods-detail",
+    "pages/mall/mall",
+    "pages/bracelet/bracelet",
+    "pages/consultation-detail/consultation-detail",
+    "pages/consultations/consultations",
+    "pages/logs/logs",
+    "pages/mine/mine",
+    "pages/prescription/prescription",
+    "pages/report/report"
+  ],
+  "tabBar": {
+    "custom": true,
+    "color": "#8E929A",
+    "selectedColor": "#2C5A52",
+    "backgroundColor": "#FFFEFA",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/shop/list",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/order/list",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/prescription/list",
+        "text": "处方"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2C5A52",
+    "navigationBarTitleText": "惠民携康",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FBF8F1",
+    "enablePullDownRefresh": false
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.camera": {
+      "desc": "视频问诊需要使用摄像头展示你的实时画面"
+    },
+    "scope.record": {
+      "desc": "视频问诊需要使用麦克风传输你的语音"
+    },
+    "scope.bluetooth": {
+      "desc": "连接智能手表并同步血压、心率等健康数据"
+    },
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于获取附近的医生和药店"
+    }
+  },
+  "requiredBackgroundModes": ["audio"],
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}

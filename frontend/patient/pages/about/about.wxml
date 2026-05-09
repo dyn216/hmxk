@@ -1,0 +1,88 @@
+<view class="about-page">
+  <!-- Logo和版本信息 -->
+  <view class="header-section">
+    <view class="about-brand">
+      <image class="app-logo" src="/images/1.jpg" mode="aspectFill"></image>
+      <text class="app-name">惠民携康</text>
+    </view>
+    <text class="app-version">版本 v1.0.0</text>
+    <text class="app-slogan">您的健康管理助手</text>
+  </view>
+
+  <!-- 功能介绍 -->
+  <view class="feature-section">
+    <view class="section-title">核心功能</view>
+    <view class="feature-list">
+      <view class="feature-item">
+        <view class="feature-icon monitor"></view>
+        <view class="feature-info">
+          <text class="feature-name">健康监测</text>
+          <text class="feature-desc">实时记录血压、血糖等健康数据</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon ai"></view>
+        <view class="feature-info">
+          <text class="feature-name">AI分析</text>
+          <text class="feature-desc">智能分析健康状况，提供专业建议</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon reminder"></view>
+        <view class="feature-info">
+          <text class="feature-name">用药提醒</text>
+          <text class="feature-desc">按时提醒服药，帮助您养成好习惯</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon doctor"></view>
+        <view class="feature-info">
+          <text class="feature-name">医生咨询</text>
+          <text class="feature-desc">在线联系专业医生，获取健康指导</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于我们 -->
+  <view class="info-section">
+    <view class="section-title">关于我们</view>
+    <view class="info-content">
+      <text class="info-text">
+        惠民携康是一款面向慢性病患者的智能健康管理应用。我们致力于通过科技的力量，帮助患者更好地管理健康，提高生活质量。
+      </text>
+      <text class="info-text">
+        本应用结合AI技术，为用户提供个性化的健康建议和专业的医疗服务，让慢性病管理变得更加简单、高效。
+      </text>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section">
+    <view class="section-title">联系我们</view>
+    <view class="contact-list">
+      <view class="contact-item" bindtap="copyEmail">
+        <text class="contact-label">邮箱：</text>
+        <text class="contact-value">support@health.com</text>
+      </view>
+      <view class="contact-item" bindtap="copyPhone">
+        <text class="contact-label">电话：</text>
+        <text class="contact-value">400-888-8888</text>
+      </view>
+      <view class="contact-item">
+        <text class="contact-label">地址：</text>
+        <text class="contact-value">广东省惠州市XX区XX路XX号</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 法律信息 -->
+  <view class="legal-section">
+    <view class="legal-links">
+      <text class="legal-link" bindtap="viewPrivacy">隐私政策</text>
+      <text class="legal-divider">|</text>
+      <text class="legal-link" bindtap="viewTerms">用户协议</text>
+    </view>
+    <text class="copyright">Copyright © 2024 惠民携康. All rights reserved.</text>
+  </view>
+</view>

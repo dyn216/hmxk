@@ -1,0 +1,81 @@
+.custom-tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 999;
+  display: flex;
+  align-items: stretch;
+  height: 112rpx;
+  height: calc(104rpx + constant(safe-area-inset-bottom));
+  height: calc(104rpx + env(safe-area-inset-bottom));
+  padding-bottom: 8rpx;
+  padding-bottom: calc(8rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(8rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  /* 用纯不透明色替代 backdrop-filter：低端 Android 上 backdrop-filter
+     会强制实时合成，导致页面切换 / 滚动持续掉帧。 */
+  background: #FFFEFA;
+  border-top: 1rpx solid #E8E1D4;
+  box-shadow: 0 -2rpx 0 rgba(14, 30, 38, 0.04);
+}
+
+/* 每个 tab 项自身负责 safe-area，且整块都是有效点击区
+   避免容器 padding 把 .tab-item 的内容区压扁，导致真机点不准。
+   顶部 padding 大于底部 padding，使文字相对靠下、贴近 home indicator 上沿 */
+.tab-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+  padding-top: 18rpx;
+  padding-bottom: 8rpx;
+  box-sizing: border-box;
+  color: #8E929A;
+  font-size: 24rpx;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 28rpx;
+  height: 3rpx;
+  border-radius: 2rpx;
+  background: #3F7D6E;
+}
+
+.tab-item.active {
+  color: #2C5A52;
+  font-weight: 700;
+}
+
+.tab-item.active::before {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.tab-item:active {
+  background: rgba(63, 125, 110, 0.06);
+}
+
+.tab-text {
+  line-height: 1;
+}
+
+@media (max-width: 360px) {
+  .tab-item {
+    font-size: 22rpx;
+    padding-top: 14rpx;
+  }
+}

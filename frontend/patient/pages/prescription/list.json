@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的处方",
+  "navigationBarBackgroundColor": "#2C5A52",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

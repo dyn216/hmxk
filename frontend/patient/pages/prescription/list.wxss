@@ -1,0 +1,52 @@
+/* 处方列表页样式 */
+.container { background: #f5f7fa; min-height: 100vh; }
+.header { background: #fff; padding: 30rpx; margin-bottom: 20rpx; }
+.title { font-size: 36rpx; font-weight: bold; color: #333; }
+.prescription-list { padding: 0 30rpx; }
+.prescription-item { background: #fff; border-radius: 12rpx; padding: 30rpx; margin-bottom: 20rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05); }
+.prescription-header { display: flex; justify-content: space-between; align-items: center; gap: 16rpx; margin-bottom: 20rpx; }
+.doctor-info { display: flex; align-items: center; min-width: 0; }
+.doctor-name { font-size: 28rpx; color: #333; font-weight: bold; margin-right: 16rpx; }
+.doctor-title { font-size: 24rpx; color: #999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.status { flex-shrink: 0; padding: 8rpx 20rpx; border-radius: 4rpx; font-size: 24rpx; }
+.status.pending { background: #fff7e6; color: #faad14; }
+.status.approved { background: #f6ffed; color: #52c41a; }
+.status.rejected { background: #fff1f0; color: #ff4d4f; }
+.prescription-content { margin-bottom: 20rpx; }
+.diagnosis { display: flex; margin-bottom: 16rpx; font-size: 28rpx; }
+.diagnosis .label { color: #999; margin-right: 12rpx; }
+.diagnosis .value { flex: 1; min-width: 0; color: #333; }
+.medicines { margin-bottom: 16rpx; }
+.section-title { font-size: 28rpx; font-weight: bold; color: #333; margin-bottom: 12rpx; }
+.medicine-item { padding: 16rpx; background: #f5f7fa; border-radius: 8rpx; margin-bottom: 12rpx; }
+.medicine-item:last-child { margin-bottom: 0; }
+.medicine-name { font-size: 28rpx; color: #333; margin-bottom: 8rpx; }
+.medicine-detail { font-size: 24rpx; color: #666; }
+.prescription-info { margin-bottom: 16rpx; }
+.info-row { display: flex; margin-bottom: 12rpx; font-size: 24rpx; }
+.info-row:last-child { margin-bottom: 0; }
+.info-row .label { color: #999; margin-right: 12rpx; }
+.info-row .value { flex: 1; min-width: 0; color: #666; word-break: break-all; }
+.prescription-notes { padding: 16rpx; background: #f5f7fa; border-radius: 8rpx; font-size: 24rpx; }
+.prescription-notes .label { color: #999; margin-right: 12rpx; }
+.prescription-notes .value { color: #666; }
+.prescription-footer { display: flex; gap: 16rpx; }
+.btn-detail { flex: 1; min-width: 0; padding: 20rpx; background: #fff; color: #6a7cfc; border: 2rpx solid #6a7cfc; border-radius: 8rpx; font-size: 28rpx; text-align: center; box-sizing: border-box; }
+.btn-use { flex: 1; min-width: 0; padding: 20rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 28rpx; text-align: center; border: none; box-sizing: border-box; }
+.empty { display: flex; flex-direction: column; align-items: center; padding: 120rpx 60rpx; }
+.empty image { width: 300rpx; height: 300rpx; margin-bottom: 30rpx; opacity: 0.5; }
+.empty text { font-size: 28rpx; color: #999; margin-bottom: 30rpx; }
+.btn-consult { padding: 20rpx 60rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 28rpx; border: none; }
+
+@media (max-width: 360px) {
+  .header { padding: 24rpx 22rpx; }
+  .title { font-size: 32rpx; }
+  .prescription-list { padding-left: 22rpx; padding-right: 22rpx; }
+  .prescription-item { padding: 24rpx 22rpx; }
+  .prescription-header { align-items: flex-start; }
+  .doctor-info { flex-direction: column; align-items: flex-start; }
+  .doctor-name { margin-right: 0; margin-bottom: 4rpx; }
+  .prescription-footer { gap: 12rpx; }
+  .btn-detail,
+  .btn-use { padding: 18rpx 10rpx; font-size: 26rpx; }
+}

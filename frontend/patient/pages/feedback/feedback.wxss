@@ -1,0 +1,52 @@
+.feedback-page {
+  padding: 30rpx;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.form-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.form-item {
+  margin-bottom: 40rpx;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.picker,
+.input {
+  padding: 24rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 300rpx;
+  padding: 24rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 12rpx;
+}
+
+.submit-btn {
+  margin-top: 60rpx;
+  background: #4a90e2;
+  color: #fff;
+  border-radius: 40rpx;
+}

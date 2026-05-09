@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="header">
+    <view class="title">我的处方</view>
+  </view>
+
+  <!-- 处方列表 -->
+  <view class="prescription-list">
+    <view class="prescription-item" wx:for="{{prescriptions}}" wx:key="id">
+      <view class="prescription-header">
+        <view class="doctor-info">
+          <text class="doctor-name">{{item.doctor.name}}</text>
+          <text class="doctor-title">{{item.doctor.title}}</text>
+        </view>
+        <view class="status {{item.status}}">{{statusText[item.status]}}</view>
+      </view>
+
+      <view class="prescription-content">
+        <view class="diagnosis">
+          <text class="label">诊断：</text>
+          <text class="value">{{item.diagnosis}}</text>
+        </view>
+
+        <view class="medicines">
+          <text class="section-title">处方药品</text>
+          <view class="medicine-item" wx:for="{{item.items}}" wx:key="id" wx:for-item="med">
+            <view class="medicine-name">{{med.product.name}}</view>
+            <view class="medicine-detail">
+              {{med.dosage}} / {{med.frequency}} / {{med.duration}}
+            </view>
+          </view>
+        </view>
+
+        <view class="prescription-info">
+          <view class="info-row">
+            <text class="label">开具时间：</text>
+            <text class="value">{{item.created_at}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.valid_until}}">
+            <text class="label">有效期至：</text>
+            <text class="value">{{item.valid_until}}</text>
+          </view>
+        </view>
+
+        <view class="prescription-notes" wx:if="{{item.notes}}">
+          <text class="label">医嘱：</text>
+          <text class="value">{{item.notes}}</text>
+        </view>
+      </view>
+
+      <view class="prescription-footer">
+        <button class="btn-detail" bindtap="viewDetail" data-id="{{item.id}}">查看详情</button>
+        <button 
+          class="btn-use" 
+          wx:if="{{item.status === 'approved'}}"
+          bindtap="usePrescription"
+          data-id="{{item.id}}"
+        >使用处方购药</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{prescriptions.length === 0}}">
+    <view class="empty-icon icon-empty">空</view>
+    <text>暂无处方记录</text>
+    <button class="btn-consult" bindtap="goToConsult">去问诊</button>
+  </view>
+</view>

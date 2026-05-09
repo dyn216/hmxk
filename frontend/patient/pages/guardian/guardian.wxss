@@ -1,0 +1,67 @@
+.guardian-page {
+  padding: 30rpx;
+  background-color: #f5f7fa;
+}
+.header-card {
+  background: linear-gradient(to right, #6a7cfc, #6a48fc);
+  border-radius: 12rpx;
+  padding: 30rpx;
+  color: #fff;
+  margin-bottom: 30rpx;
+}
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+.card-desc {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+.add-btn {
+  background: linear-gradient(to right, #6a7cfc, #6a48fc);
+  color: #fff;
+  border-radius: 8rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  margin-bottom: 40rpx;
+}
+.add-btn::after {
+  border: none;
+}
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+.empty-tip image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+}
+.tip-text {
+  font-size: 28rpx;
+  color: #999;
+}
+.guardian-list {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+.guardian-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+.item-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+.item-relation, .item-phone {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+}

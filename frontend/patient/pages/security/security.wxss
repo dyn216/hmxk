@@ -1,0 +1,114 @@
+.security-page {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 页面头部 */
+.page-header {
+  background: linear-gradient(135deg, #6a7cfc 0%, #8b9cff 100%);
+  padding: 60rpx 40rpx 40rpx;
+}
+
+.header-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* 菜单组 */
+.menu-group {
+  margin-top: 40rpx;
+}
+
+.group-title {
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+  color: #999;
+  font-weight: 500;
+}
+
+/* 菜单项 */
+.menu-item {
+  background: #fff;
+  padding: 32rpx 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:active {
+  background-color: #f8f8f8;
+}
+
+.menu-item.danger:active {
+  background-color: #fff5f5;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.item-icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 24rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.item-icon.password {
+  background-color: #e3f2fd;
+}
+
+.item-icon.phone {
+  background-color: #e8f5e9;
+}
+
+.item-icon.privacy {
+  background-color: #fff3e0;
+}
+
+.item-icon.location {
+  background-color: #fce4ec;
+}
+
+.item-icon.device {
+  background-color: #f3e5f5;
+}
+
+.item-icon.logout {
+  background-color: #e3f2fd;
+}
+
+.item-icon.delete {
+  background-color: #ffebee;
+}
+
+.item-text {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.danger-text {
+  color: #f56c6c;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.item-tip {
+  font-size: 28rpx;
+  color: #999;
+  margin-right: 8rpx;
+}

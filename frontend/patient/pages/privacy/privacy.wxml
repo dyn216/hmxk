@@ -1,0 +1,33 @@
+<view class="privacy-page">
+  <scroll-view scroll-y class="content">
+    <view class="section">
+      <text class="title">隐私政策</text>
+      <text class="update-time">更新时间：2024年1月</text>
+    </view>
+    
+    <view class="section">
+      <text class="section-title">1. 信息收集</text>
+      <text class="section-content">我们收集您主动提供的健康数据，包括但不限于血压、血糖、心率等监测数据。这些数据用于为您提供个性化的健康管理服务。</text>
+    </view>
+    
+    <view class="section">
+      <text class="section-title">2. 信息使用</text>
+      <text class="section-content">您的健康数据仅用于医疗咨询和健康管理目的，我们不会将您的个人信息出售给第三方。</text>
+    </view>
+    
+    <view class="section">
+      <text class="section-title">3. 信息保护</text>
+      <text class="section-content">我们采用行业标准的加密技术保护您的数据安全，定期进行安全审计。</text>
+    </view>
+    
+    <view class="section">
+      <text class="section-title">4. 数据共享</text>
+      <text class="section-content">仅在您授权的情况下，我们会与您指定的医生或监护人共享相关健康数据。</text>
+    </view>
+    
+    <view class="section">
+      <text class="section-title">5. 您的权利</text>
+      <text class="section-content">您有权随时查看、修改或删除您的个人信息。如需帮助，请联系我们的客服团队。</text>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,7 @@
+<view class="redirect-page">
+  <view class="redirect-card">
+    <view class="redirect-icon icon-avatar">医</view>
+    <view class="redirect-title">正在打开医生咨询</view>
+    <view class="redirect-desc">已统一到真实医生业务页</view>
+  </view>
+</view>

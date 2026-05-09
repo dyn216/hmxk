@@ -1,0 +1,61 @@
+<view class="consult-chat-page">
+  <!-- 聊天头部 -->
+  <view class="chat-header">
+    <view class="doctor-info">
+      <view class="avatar icon-avatar">医</view>
+      <view class="info">
+        <text class="name">{{doctor.name || '在线医生'}}</text>
+        <text class="title">{{doctor.title || '正在为您服务'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view 
+    class="message-list" 
+    scroll-y 
+    scroll-into-view="{{scrollToView}}"
+    scroll-with-animation
+  >
+    <view class="message-item {{item.isMine ? 'mine' : 'other'}}" 
+          wx:for="{{messages}}" 
+          wx:key="id"
+          id="msg-{{item.id}}"
+    >
+      <view class="avatar icon-avatar">{{item.isMine ? '我' : '医'}}</view>
+      <view class="message-content">
+        <view class="message-bubble {{item.message_type === 'image' ? 'image-bubble' : ''}}">
+          <image wx:if="{{item.localImage}}" class="message-image" src="{{item.localImage}}" mode="aspectFill"></image>
+          <text wx:else>{{item.content}}</text>
+        </view>
+        <view class="message-time">{{item.created_at}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入框 -->
+  <view class="input-bar">
+    <text class="input-icon" bindtap="chooseImage">图</text>
+    <input 
+      class="message-input" 
+      placeholder="输入消息..."
+      value="{{inputText}}"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="sendMessage"
+    />
+    <button class="btn-send" wx:if="{{inputText}}" bindtap="sendMessage" loading="{{sending}}">发送</button>
+    <text class="input-icon" wx:else bindtap="toggleMoreActions">＋</text>
+  </view>
+
+  <view class="action-panel" wx:if="{{showActions}}">
+    <view class="action-item" bindtap="chooseImage">
+      <view class="action-icon">图</view>
+      <text>图片</text>
+    </view>
+    <view class="action-item" bindtap="showMoreTip">
+      <view class="action-icon">数</view>
+      <text>健康数据</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="header">
+    <view class="title">药品商城</view>
+    <view class="cart-icon" bindtap="goToCart">
+      <text class="cart-text-icon">车</text>
+      <text class="badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
+    </view>
+  </view>
+
+  <view class="category-tabs">
+    <scroll-view scroll-x class="scroll-view">
+      <view class="tab {{activeCategory === '' ? 'active' : ''}}" bindtap="switchCategory" data-category="">全部</view>
+      <view class="tab {{activeCategory === 'hypertension' ? 'active' : ''}}" bindtap="switchCategory" data-category="hypertension">高血压</view>
+      <view class="tab {{activeCategory === 'diabetes' ? 'active' : ''}}" bindtap="switchCategory" data-category="diabetes">糖尿病</view>
+      <view class="tab {{activeCategory === 'cardiovascular' ? 'active' : ''}}" bindtap="switchCategory" data-category="cardiovascular">心血管</view>
+      <view class="tab {{activeCategory === 'common' ? 'active' : ''}}" bindtap="switchCategory" data-category="common">常用药</view>
+      <view class="tab {{activeCategory === 'health' ? 'active' : ''}}" bindtap="switchCategory" data-category="health">保健品</view>
+    </scroll-view>
+  </view>
+
+  <view class="product-grid">
+    <view class="product-card" wx:for="{{products}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="product-image icon-product">药</view>
+      <view class="product-info">
+        <view class="product-name">{{item.name}}</view>
+        <view class="product-spec">{{item.specification}}</view>
+        <view class="product-footer">
+          <view class="price-box">
+            <text class="price">¥{{item.price}}</text>
+            <text class="sales">已售{{item.sales_count}}</text>
+          </view>
+          <view class="add-cart" catchtap="addToCart" data-id="{{item.id}}" data-name="{{item.name}}" data-prescription="{{item.is_prescription}}">
+            <text class="cart-text-icon">+</text>
+          </view>
+        </view>
+        <view class="tag rx" wx:if="{{item.is_prescription}}">处方药</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{products.length === 0 && !pagination.loading}}">
+    <view class="empty-icon icon-empty">空</view>
+    <text>暂无商品</text>
+  </view>
+
+  <view class="loading-more" wx:if="{{pagination.loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{pagination.finished && products.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+</view>

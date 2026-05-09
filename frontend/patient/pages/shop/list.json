@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "药品商城",
+  "navigationBarBackgroundColor": "#2C5A52",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

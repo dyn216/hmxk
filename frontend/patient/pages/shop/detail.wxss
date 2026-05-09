@@ -1,0 +1,285 @@
+/* 药品详情页样式 */
+
+.container {
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+  padding-bottom: calc(140rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.custom-nav {
+  background: #2C5A52;
+  color: #fff;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.nav-back,
+.nav-spacer {
+  width: 88rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-back {
+  justify-content: flex-start;
+  font-size: 60rpx;
+  line-height: 1;
+}
+
+.nav-spacer {
+  flex-shrink: 0;
+}
+
+.nav-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.nav-logo {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 12rpx;
+  border-radius: 10rpx;
+  background: #fff;
+}
+
+/* 商品图片 */
+.product-image {
+  width: 100%;
+  height: 600rpx;
+  background: #fff;
+}
+
+.product-image image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 基本信息 */
+.product-info {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.product-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+}
+
+.product-spec {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.prescription-tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  background: #fff7e6;
+  color: #faad14;
+  font-size: 24rpx;
+  border-radius: 4rpx;
+  margin-bottom: 20rpx;
+}
+
+.product-price {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+
+.price {
+  font-size: 48rpx;
+  color: #ff4d4f;
+  font-weight: bold;
+  margin-right: 16rpx;
+}
+
+.price::before {
+  content: '¥';
+  font-size: 32rpx;
+}
+
+.original-price {
+  font-size: 28rpx;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.product-stock {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 详情区块 */
+.detail-section {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* 底部操作栏 */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  box-shadow: 0 -2rpx 8rpx rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.btn-cart {
+  flex: 1;
+  min-width: 0;
+  margin-right: 20rpx;
+  padding: 24rpx;
+  background: #fff;
+  color: #6a7cfc;
+  border: 2rpx solid #6a7cfc;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.btn-buy {
+  flex: 1;
+  min-width: 0;
+  padding: 24rpx;
+  background: #6a7cfc;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  text-align: center;
+  border: none;
+}
+
+.product-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 600rpx;
+  background: #fff;
+}
+
+.product-image-wrapper .product-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.prescription-badge {
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  padding: 8rpx 18rpx;
+  background: #fff7e6;
+  color: #faad14;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price-row .price::before {
+  content: '';
+}
+
+.stock {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 18rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  color: #999;
+  flex-shrink: 0;
+}
+
+.value {
+  flex: 1;
+  color: #333;
+}
+
+.description {
+  color: #666;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+
+.description.warning {
+  color: #ff4d4f;
+}
+
+.btn-group {
+  display: flex;
+  width: 100%;
+  gap: 20rpx;
+}
+
+.btn-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cart image {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
+}

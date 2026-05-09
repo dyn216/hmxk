@@ -1,0 +1,57 @@
+/* 收货地址管理页样式 */
+.container { background: #f5f7fa; min-height: 100vh; }
+.header { background: #fff; padding: 30rpx; margin-bottom: 20rpx; display: flex; justify-content: space-between; align-items: center; gap: 16rpx; }
+.title { font-size: 36rpx; font-weight: bold; color: #333; }
+.btn-add { flex-shrink: 0; display: flex; align-items: center; padding: 12rpx 24rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 24rpx; border: none; box-sizing: border-box; }
+.btn-add image { width: 32rpx; height: 32rpx; margin-right: 8rpx; }
+.btn-add .add-icon { margin-right: 8rpx; font-size: 32rpx; line-height: 1; }
+.address-list { padding: 0 30rpx; }
+.address-item { background: #fff; border-radius: 12rpx; padding: 30rpx; margin-bottom: 20rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05); }
+.address-content { margin-bottom: 20rpx; }
+.address-header { display: flex; align-items: center; flex-wrap: wrap; gap: 8rpx 16rpx; margin-bottom: 12rpx; }
+.receiver { font-size: 32rpx; font-weight: bold; color: #333; margin-right: 20rpx; }
+.phone { font-size: 28rpx; color: #666; margin-right: 16rpx; }
+.default-badge { padding: 4rpx 12rpx; background: #ff4d4f; color: #fff; font-size: 20rpx; border-radius: 4rpx; }
+.address-detail { font-size: 28rpx; color: #666; line-height: 1.6; }
+.address-actions { display: flex; gap: 16rpx; }
+.btn-default { flex: 1; min-width: 0; padding: 16rpx; background: #fff; color: #6a7cfc; border: 2rpx solid #6a7cfc; border-radius: 8rpx; font-size: 24rpx; text-align: center; box-sizing: border-box; }
+.btn-edit { flex: 1; min-width: 0; padding: 16rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 24rpx; text-align: center; border: none; box-sizing: border-box; }
+.btn-delete { flex: 1; min-width: 0; padding: 16rpx; background: #fff; color: #ff4d4f; border: 2rpx solid #ff4d4f; border-radius: 8rpx; font-size: 24rpx; text-align: center; box-sizing: border-box; }
+.empty { display: flex; flex-direction: column; align-items: center; padding: 120rpx 60rpx; }
+.empty image { width: 300rpx; height: 300rpx; margin-bottom: 30rpx; opacity: 0.5; }
+.empty text { font-size: 28rpx; color: #999; margin-bottom: 30rpx; }
+.btn-add-empty { padding: 20rpx 60rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 28rpx; border: none; }
+.modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { width: 86%; max-width: 680rpx; max-height: 80%; background: #fff; border-radius: 12rpx; overflow: hidden; box-sizing: border-box; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 30rpx; border-bottom: 2rpx solid #f0f0f0; }
+.modal-title { font-size: 32rpx; font-weight: bold; color: #333; }
+.close-icon { width: 40rpx; height: 40rpx; color: #999; font-size: 40rpx; line-height: 40rpx; text-align: center; }
+.modal-body { padding: 30rpx; max-height: 600rpx; overflow-y: auto; }
+.form-item { margin-bottom: 30rpx; }
+.form-item .label { display: block; font-size: 28rpx; color: #333; margin-bottom: 16rpx; }
+.form-item .input { width: 100%; height: 88rpx; line-height: 88rpx; padding: 0 24rpx; box-sizing: border-box; border: 2rpx solid #e8e8e8; border-radius: 8rpx; font-size: 28rpx; }
+.form-item .textarea { width: 100%; min-height: 160rpx; line-height: 1.5; padding: 24rpx; box-sizing: border-box; border: 2rpx solid #e8e8e8; border-radius: 8rpx; font-size: 28rpx; }
+.checkbox-item { display: flex; align-items: center; }
+.checkbox-label { margin-left: 12rpx; font-size: 28rpx; color: #333; }
+.modal-footer { display: flex; gap: 20rpx; padding: 30rpx; border-top: 2rpx solid #f0f0f0; }
+.btn-cancel { flex: 1; min-width: 0; padding: 24rpx; background: #fff; color: #666; border: 2rpx solid #e8e8e8; border-radius: 8rpx; font-size: 32rpx; box-sizing: border-box; }
+.btn-confirm { flex: 1; min-width: 0; padding: 24rpx; background: #6a7cfc; color: #fff; border-radius: 8rpx; font-size: 32rpx; border: none; box-sizing: border-box; }
+
+@media (max-width: 360px) {
+  .header { padding: 24rpx 22rpx; }
+  .title { font-size: 32rpx; }
+  .address-list { padding-left: 22rpx; padding-right: 22rpx; }
+  .address-item { padding: 24rpx 22rpx; }
+  .receiver { margin-right: 0; font-size: 30rpx; }
+  .phone { margin-right: 0; font-size: 26rpx; }
+  .address-actions { gap: 12rpx; }
+  .btn-default,
+  .btn-edit,
+  .btn-delete { padding: 14rpx 8rpx; font-size: 22rpx; }
+  .modal-content { width: 92%; }
+  .modal-header,
+  .modal-body,
+  .modal-footer { padding: 24rpx 22rpx; }
+  .btn-cancel,
+  .btn-confirm { padding: 22rpx 10rpx; font-size: 28rpx; }
+}

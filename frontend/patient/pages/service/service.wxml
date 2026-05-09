@@ -1,0 +1,55 @@
+<view class="service-page">
+  <!-- 客服信息 -->
+  <view class="service-header">
+    <view class="service-avatar icon-avatar">客</view>
+    <text class="service-name">在线客服</text>
+    <text class="service-status online">在线</text>
+  </view>
+
+  <!-- 快捷服务 -->
+  <view class="quick-service">
+    <view class="quick-item" bindtap="callService">
+      <view class="quick-icon phone"></view>
+      <text class="quick-text">电话咨询</text>
+    </view>
+    <view class="quick-item" bindtap="onlineChat">
+      <view class="quick-icon chat"></view>
+      <text class="quick-text">在线客服</text>
+    </view>
+    <view class="quick-item" bindtap="viewFAQ">
+      <view class="quick-icon faq"></view>
+      <text class="quick-text">常见问题</text>
+    </view>
+    <view class="quick-item" bindtap="feedback">
+      <view class="quick-icon feedback"></view>
+      <text class="quick-text">意见反馈</text>
+    </view>
+  </view>
+
+  <!-- 常见问题 -->
+  <view class="faq-section">
+    <view class="section-title">常见问题</view>
+    <view class="faq-list">
+      <view class="faq-item" wx:for="{{faqList}}" wx:key="id" bindtap="viewFaqDetail" data-item="{{item}}">
+        <text class="faq-question">{{item.question}}</text>
+        <icon type="arrowright" size="20" color="#999" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-info">
+    <view class="contact-item">
+      <text class="contact-label">客服热线</text>
+      <text class="contact-value" bindtap="callService">400-888-8888</text>
+    </view>
+    <view class="contact-item">
+      <text class="contact-label">工作时间</text>
+      <text class="contact-value">周一至周日 9:00-18:00</text>
+    </view>
+    <view class="contact-item">
+      <text class="contact-label">客服邮箱</text>
+      <text class="contact-value" bindtap="sendEmail">support@health.com</text>
+    </view>
+  </view>
+</view>

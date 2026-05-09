@@ -1,0 +1,235 @@
+@import "/styles/common.wxss";
+
+.mine-page {
+  width: 100%;
+  max-width: var(--screen-max);
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 240rpx;
+  padding-bottom: calc(240rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(240rpx + env(safe-area-inset-bottom));
+  background-color: var(--paper-soft);
+}
+
+/* —— Hero header —— */
+.user-header {
+  position: relative;
+  margin: 0 24rpx;
+  padding: 56rpx 36rpx 48rpx;
+  border-radius: 36rpx;
+  background:
+    linear-gradient(160deg, var(--sage-deep) 0%, var(--sage) 60%, #5C9686 100%);
+  color: var(--paper);
+  overflow: hidden;
+  margin-top: 24rpx;
+  box-shadow: 0 26rpx 48rpx rgba(44, 90, 82, 0.18);
+}
+
+.user-header::before {
+  content: "";
+  position: absolute;
+  top: -120rpx;
+  right: -100rpx;
+  width: 360rpx;
+  height: 360rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 254, 250, 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+.user-header__crumbs {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 22rpx;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 254, 250, 0.7);
+  margin-bottom: 32rpx;
+}
+
+.user-header__row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 24rpx;
+  border-radius: 50%;
+  background: rgba(255, 254, 250, 0.16);
+  border: 2rpx solid rgba(255, 254, 250, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar .icon-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  background: var(--paper);
+  color: var(--sage-deep);
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 44rpx;
+}
+
+.user-info { flex: 1; min-width: 0; }
+
+.user-name {
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 44rpx;
+  font-weight: 500;
+  letter-spacing: -1rpx;
+  margin-bottom: 8rpx;
+}
+
+.user-sub {
+  font-size: 24rpx;
+  color: rgba(255, 254, 250, 0.78);
+  letter-spacing: 0.04em;
+}
+
+.edit-btn {
+  height: 60rpx;
+  padding: 0 28rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 254, 250, 0.16);
+  color: var(--paper);
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  border: 1rpx solid rgba(255, 254, 250, 0.32);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.edit-btn::after { border: none; }
+
+/* —— Stat row —— */
+.stats-container {
+  display: flex;
+  align-items: stretch;
+  margin: -32rpx 36rpx 24rpx;
+  padding: 28rpx 0;
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: 28rpx;
+  box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-divider {
+  width: 1rpx;
+  background: var(--hairline);
+  margin: 8rpx 0;
+}
+
+.stat-value {
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 44rpx;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -1rpx;
+  margin-bottom: 6rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* —— Menu group —— */
+.menu-group {
+  margin: 28rpx 28rpx 0;
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14rpx;
+  padding-left: 6rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.menu-card {
+  background: var(--paper);
+  border: 1rpx solid var(--hairline);
+  border-radius: 28rpx;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 30rpx;
+  border-bottom: 1rpx solid var(--hairline-soft);
+}
+
+.menu-item:last-child { border-bottom: none; }
+.menu-item:active { background: var(--sage-tint); }
+
+.menu-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin-right: 22rpx;
+  border-radius: 18rpx;
+  background: var(--sage-tint);
+  border: 1rpx solid var(--hairline);
+  color: var(--sage-deep);
+  font-family: "Source Han Serif SC", "Songti SC", Georgia, serif;
+  font-size: 28rpx;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--ink);
+  letter-spacing: -0.4rpx;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: var(--ink-faint);
+  margin-left: 12rpx;
+}
+
+.device-status {
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--jade);
+  background: var(--jade-soft);
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  margin-right: 16rpx;
+}
+
+.version {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 22rpx;
+  color: var(--ink-mute);
+  margin-right: 16rpx;
+  letter-spacing: 0.04em;
+}

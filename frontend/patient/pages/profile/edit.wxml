@@ -1,0 +1,111 @@
+<view class="container">
+  <view class="header">
+    <view class="title">编辑个人信息</view>
+  </view>
+
+  <view class="form">
+    <!-- 头像 -->
+    <view class="form-item avatar-item">
+      <text class="label">头像</text>
+      <view class="avatar-upload" bindtap="uploadAvatar">
+        <view class="avatar icon-avatar">我</view>
+        <view class="upload-tip">点击更换</view>
+      </view>
+    </view>
+
+    <!-- 姓名 -->
+    <view class="form-item">
+      <text class="label">姓名 *</text>
+      <input 
+        class="input" 
+        placeholder="请输入姓名"
+        value="{{formData.name}}"
+        bindinput="onInputChange"
+        data-field="name"
+      />
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-item">
+      <text class="label">性别 *</text>
+      <picker 
+        mode="selector" 
+        range="{{genders}}"
+        value="{{genderIndex}}"
+        bindchange="onGenderChange"
+      >
+        <view class="picker">
+          {{genders[genderIndex] || '请选择性别'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- 年龄 -->
+    <view class="form-item">
+      <text class="label">年龄 *</text>
+      <input 
+        class="input" 
+        type="number"
+        placeholder="请输入年龄"
+        value="{{formData.age}}"
+        bindinput="onInputChange"
+        data-field="age"
+      />
+    </view>
+
+    <!-- 手机号 -->
+    <view class="form-item">
+      <text class="label">手机号</text>
+      <input 
+        class="input" 
+        type="number"
+        placeholder="手机号"
+        value="{{formData.phone}}"
+        disabled
+      />
+    </view>
+
+    <!-- 慢性病 -->
+    <view class="form-item">
+      <text class="label">慢性病</text>
+      <input 
+        class="input" 
+        placeholder="如：高血压、糖尿病"
+        value="{{formData.chronic_diseases}}"
+        bindinput="onInputChange"
+        data-field="chronic_diseases"
+      />
+    </view>
+
+    <!-- 过敏史 -->
+    <view class="form-item">
+      <text class="label">过敏史</text>
+      <input 
+        class="input" 
+        placeholder="如：青霉素过敏"
+        value="{{formData.allergies}}"
+        bindinput="onInputChange"
+        data-field="allergies"
+      />
+    </view>
+
+    <!-- 收货地址 -->
+    <view class="form-item">
+      <text class="label">收货地址</text>
+      <textarea 
+        class="textarea" 
+        placeholder="请输入详细地址"
+        value="{{formData.address}}"
+        bindinput="onInputChange"
+        data-field="address"
+        maxlength="200"
+      />
+    </view>
+
+    <!-- 保存按钮 -->
+    <view class="form-actions">
+      <button class="btn-cancel" bindtap="cancel">取消</button>
+      <button class="btn-submit" bindtap="submit">保存</button>
+    </view>
+  </view>
+</view>

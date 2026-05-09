@@ -1,0 +1,23 @@
+<view class="feedback-page">
+  <view class="form-section">
+    <view class="form-item">
+      <text class="label">反馈类型</text>
+      <picker mode="selector" range="{{types}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker">{{types[typeIndex]}}</view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">问题描述</text>
+      <textarea class="textarea" placeholder="请详细描述您的问题或建议..." value="{{content}}" bindinput="onContentInput" maxlength="500"></textarea>
+      <text class="char-count">{{content.length}}/500</text>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">联系方式（选填）</text>
+      <input class="input" placeholder="手机号或邮箱" value="{{contact}}" bindinput="onContactInput" />
+    </view>
+  </view>
+  
+  <button class="submit-btn" bindtap="submit">提交反馈</button>
+</view>

@@ -1,0 +1,73 @@
+<view class="container">
+  <view class="custom-nav" style="padding-top: {{navTop}}px;">
+    <view class="nav-bar" style="height: {{navHeight}}px;">
+      <view class="nav-back" bindtap="goBack">‹</view>
+      <view class="nav-title">
+        <image class="nav-logo" src="/images/1.jpg" mode="aspectFill"></image>
+        <text>惠民携康</text>
+      </view>
+      <view class="nav-spacer"></view>
+    </view>
+  </view>
+  <!-- 药品图片 -->
+  <view class="product-image-wrapper">
+    <view class="product-image icon-product">药</view>
+    <view class="prescription-badge" wx:if="{{product.is_prescription}}">处方药</view>
+  </view>
+
+  <!-- 药品基本信息 -->
+  <view class="product-info">
+    <view class="product-name">{{product.name}}</view>
+    <view class="product-spec">{{product.specification}}</view>
+    <view class="price-row">
+      <view class="price">¥{{product.price}}</view>
+      <view class="stock">库存：{{product.stock}}{{product.unit || '盒'}}</view>
+    </view>
+  </view>
+
+  <!-- 药品详细信息 -->
+  <view class="detail-section">
+    <view class="section-title">药品信息</view>
+    <view class="info-row">
+      <text class="label">生产厂家：</text>
+      <text class="value">{{product.manufacturer || '未知'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">批准文号：</text>
+      <text class="value">{{product.approval_number || '未知'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">分类：</text>
+      <text class="value">{{categoryName}}</text>
+    </view>
+  </view>
+
+  <!-- 药品说明 -->
+  <view class="detail-section">
+    <view class="section-title">药品说明</view>
+    <view class="description">{{product.description || '暂无说明'}}</view>
+  </view>
+
+  <!-- 用法用量 -->
+  <view class="detail-section" wx:if="{{product.usage}}">
+    <view class="section-title">用法用量</view>
+    <view class="description">{{product.usage}}</view>
+  </view>
+
+  <!-- 注意事项 -->
+  <view class="detail-section" wx:if="{{product.precautions}}">
+    <view class="section-title">注意事项</view>
+    <view class="description warning">{{product.precautions}}</view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer">
+    <view class="btn-group">
+      <button class="btn-cart" bindtap="addToCart">
+        <text class="cart-text-icon">车</text>
+        <text>加入购物车</text>
+      </button>
+      <button class="btn-buy" bindtap="buyNow">立即购买</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,230 @@
+.medication-page {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30rpx;
+  background-color: #f5f7fa;
+  box-sizing: border-box;
+}
+.add-btn {
+  background: linear-gradient(135deg, #2C5A52, #3f7d6e);
+  color: #fff;
+  border-radius: 999rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+  box-shadow: 0 16rpx 34rpx rgba(44, 90, 82, 0.2);
+}
+.add-btn::after {
+  border: none;
+}
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+}
+.empty-tip image {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+.tip-text {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+.tip-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+.medication-list {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 30rpx;
+}
+.medication-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 26rpx 24rpx;
+  margin-bottom: 18rpx;
+  background: #fff;
+  border: 1rpx solid #e8eee9;
+  border-radius: 24rpx;
+  box-shadow: 0 12rpx 28rpx rgba(20, 35, 42, 0.06);
+}
+.item-main {
+  flex: 1;
+  min-width: 0;
+}
+.item-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+.item-meta {
+  font-size: 25rpx;
+  color: #666;
+  line-height: 1.6;
+}
+.item-remark {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #8a9390;
+  line-height: 1.6;
+}
+.delete-action {
+  flex-shrink: 0;
+  padding: 12rpx 4rpx 12rpx 18rpx;
+  color: #d93025;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+.medication-tips {
+  background-color: #fff8e1;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+.tips-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #f57c00;
+  margin-bottom: 10rpx;
+}
+.tips-content {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 弹窗样式 */
+.dialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.dialog {
+  width: 86%;
+  max-width: 680rpx;
+  background-color: #fff;
+  border-radius: 28rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.dialog-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+.dialog-close {
+  font-size: 40rpx;
+  color: #999;
+}
+.dialog-content {
+  padding: 30rpx;
+}
+.form-item {
+  margin-bottom: 30rpx;
+}
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 14rpx;
+}
+.form-input, .form-textarea {
+  width: 100%;
+  border: 1rpx solid #eee;
+  border-radius: 18rpx;
+  padding: 0 22rpx;
+  min-height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  background: #fafbfa;
+}
+.form-textarea {
+  min-height: 140rpx;
+  line-height: 1.6;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+.picker-value {
+  display: flex;
+  align-items: center;
+}
+.placeholder {
+  color: #999;
+}
+.dialog-footer {
+  display: flex;
+  border-top: 1rpx solid #eee;
+}
+.cancel-btn, .save-btn {
+  flex: 1;
+  min-width: 0;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  box-sizing: border-box;
+}
+.cancel-btn {
+  color: #999;
+  border-right: 1rpx solid #eee;
+}
+.cancel-btn::after, .save-btn::after {
+  border: none;
+}
+.save-btn {
+  background: linear-gradient(135deg, #2C5A52, #3f7d6e);
+  color: #fff;
+}
+
+@media (max-width: 360px) {
+  .medication-page {
+    padding: 22rpx;
+  }
+
+  .add-btn {
+    height: 72rpx;
+    line-height: 72rpx;
+    font-size: 28rpx;
+  }
+
+  .dialog {
+    width: 92%;
+  }
+
+  .dialog-header,
+  .dialog-content {
+    padding: 24rpx 22rpx;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    height: 72rpx;
+    line-height: 72rpx;
+    font-size: 28rpx;
+  }
+}

@@ -1,0 +1,39 @@
+<view class="records-page">
+  <view class="week-stat">
+    <view class="stat-title">本周统计</view>
+    <view class="stat-values">
+      <view class="stat-item">
+        <view class="stat-value">{{weeklyTotalRecords}}</view>
+        <view class="stat-label">记录次数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{weeklyAvgSystolic}}</view>
+        <view class="stat-label">平均收缩压</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{weeklyAvgDiastolic}}</view>
+        <view class="stat-label">平均舒张压</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="history-records">
+    <view class="records-header">
+      <view class="records-title">历史记录</view>
+      <view class="records-count">共{{totalRecords}}条</view>
+    </view>
+    <view class="records-list">
+      <view class="record-item" wx:for="{{records}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+        <view class="record-date">{{item.date}} {{item.time}}</view>
+        <view class="record-bp">
+          <view class="systolic">{{item.systolic}} <text class="unit">mmHg</text></view>
+          <view class="diastolic">{{item.diastolic}} <text class="unit">mmHg</text></view>
+        </view>
+        <view class="record-hr">
+          <icon type="heart" size="14" color="#ff6347" /> {{item.heartRate}} 次/分
+        </view>
+        <view class="record-status {{item.status}}">{{item.statusText}}</view>
+      </view>
+    </view>
+  </view>
+</view>

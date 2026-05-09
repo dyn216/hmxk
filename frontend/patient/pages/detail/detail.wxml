@@ -1,0 +1,30 @@
+<view class="detail-page">
+  <view class="detail-header">
+    <view class="record-date">{{record.date}} {{record.time}}</view>
+    <view class="record-status {{record.status}}">{{record.statusText}}</view>
+  </view>
+
+  <view class="bp-detail">
+    <view class="detail-item">
+      <view class="item-label">收缩压</view>
+      <view class="item-value systolic">{{record.systolic}} mmHg</view>
+    </view>
+    <view class="detail-item">
+      <view class="item-label">舒张压</view>
+      <view class="item-value diastolic">{{record.diastolic}} mmHg</view>
+    </view>
+    <view class="detail-item">
+      <view class="item-label">心率</view>
+      <view class="item-value hr">{{record.heartRate}} 次/分</view>
+    </view>
+  </view>
+
+  <view class="health-tips">
+    <view class="tips-title">健康建议</view>
+    <view class="tips-content">{{tipsContent}}</view>
+  </view>
+
+  <view class="action-buttons">
+    <button class="delete-btn" bindtap="deleteRecord">删除记录</button>
+  </view>
+</view>

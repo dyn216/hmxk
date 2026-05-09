@@ -1,0 +1,67 @@
+<view class="medication-page">
+  <button class="add-btn" bindtap="showAddDialog">+ 添加用药提醒</button>
+  <view class="empty-tip" wx:if="{{!medications.length}}">
+    <view class="empty-icon icon-empty">药</view>
+    <view class="tip-text">暂无用药提醒</view>
+    <view class="tip-desc">点击上方按钮添加用药计划</view>
+  </view>
+  <view class="medication-list" wx:else>
+    <view class="medication-item" wx:for="{{medications}}" wx:key="id">
+      <view class="item-main">
+        <view class="item-name">{{item.name}}</view>
+        <view class="item-meta">{{item.time}} | {{item.frequency}} | {{item.dose}}</view>
+        <view class="item-remark" wx:if="{{item.remark}}">{{item.remark}}</view>
+      </view>
+      <view class="delete-action" bindtap="deleteMedication" data-id="{{item.id}}">删除</view>
+    </view>
+  </view>
+  <view class="medication-tips">
+    <view class="tips-title">用药提示</view>
+    <view class="tips-content">
+      <view>• 按时服药，不要随意增减剂量</view>
+      <view>• 服药期间定期监测血压</view>
+      <view>• 如有不适及时咨询医生</view>
+      <view>• 保持药物在有效期内</view>
+    </view>
+  </view>
+
+  <!-- 添加用药弹窗 -->
+  <view class="dialog-mask" wx:if="{{showDialog}}">
+    <view class="dialog">
+      <view class="dialog-header">
+        <view class="dialog-title">添加用药</view>
+        <view class="dialog-close" bindtap="closeDialog">×</view>
+      </view>
+      <view class="dialog-content">
+        <view class="form-item">
+          <view class="form-label">药品名称</view>
+          <input class="form-input" placeholder="请输入药品名称" value="{{form.name}}" bindinput="handleNameInput" />
+        </view>
+        <view class="form-item">
+          <view class="form-label">用药时间</view>
+          <picker mode="time" value="{{form.time}}" bindchange="handleTimeChange">
+            <view class="form-input picker-value {{form.time ? '' : 'placeholder'}}">{{form.time || '如：08:00'}}</view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <view class="form-label">用药剂量</view>
+          <input class="form-input" placeholder="如：1片、10mg" value="{{form.dose}}" bindinput="handleDoseInput" />
+        </view>
+        <view class="form-item">
+          <view class="form-label">服用频率</view>
+          <picker value="{{frequencyIndex}}" range="{{frequencyOptions}}" bindchange="handleFrequencyChange">
+            <view class="form-input picker-value">{{form.frequency || '请选择服用频率'}}</view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <view class="form-label">备注（选填）</view>
+          <textarea class="form-textarea" placeholder="如：饭后服用" value="{{form.remark}}" bindinput="handleRemarkInput" />
+        </view>
+      </view>
+      <view class="dialog-footer">
+        <button class="cancel-btn" bindtap="closeDialog">取消</button>
+        <button class="save-btn" bindtap="saveMedication">保存</button>
+      </view>
+    </view>
+  </view>
+</view>

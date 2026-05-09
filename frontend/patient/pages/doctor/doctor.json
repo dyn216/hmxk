@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "医生实时指导",
+  "navigationBarBackgroundColor": "#2C5A52",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}
