@@ -7,6 +7,7 @@
 - [BLE 协议定义](./ble-smartwatch-protocol.md)
 - [固件对接说明](./ble-smartwatch-firmware-guide.md)
 - [小程序联调与排障](./ble-smartwatch-miniprogram-test.md)
+- [ESP32 可烧录固件示例](./esp32-smartwatch-firmware/README.md)
 
 ## 当前实现范围
 
@@ -16,6 +17,7 @@
 - 已实现手表 JSON 数据解析和 BLE 分包拼接。
 - 已复用现有 `patientApi.createMeasurement` 上传血压和心率。
 - 已修正首页分别读取最新血压和最新心率，避免心率记录被误当成血压。
+- 已提供 ESP32 BLE 固件示例工程，可用于先烧录验证小程序连接链路。
 
 ## 相关代码
 
