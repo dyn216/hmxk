@@ -72,13 +72,13 @@ TZB-WATCH-002
 ### 示例
 
 ```json
-{"type":"vital","seq":1,"sys":120,"dia":80,"hr":72,"spo2":98,"battery":86,"ts":1710000000000}
+{"type":"vital","seq":1,"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null,"ts":1710000000000}
 ```
 
 实际发送内容末尾需要包含换行符：
 
 ```text
-{"type":"vital","seq":1,"sys":120,"dia":80,"hr":72,"spo2":98,"battery":86,"ts":1710000000000}\n
+{"type":"vital","seq":1,"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null,"ts":1710000000000}\n
 ```
 
 ## 字段定义
@@ -87,12 +87,12 @@ TZB-WATCH-002
 | --- | --- | --- | --- |
 | `type` | string | 否 | 建议固定为 `vital` |
 | `seq` | number/string | 否 | 数据序号，用于排查重复数据 |
-| `sys` | number | 血压数据必填 | 收缩压，单位 mmHg |
-| `dia` | number | 血压数据必填 | 舒张压，单位 mmHg |
-| `hr` | number | 心率数据必填 | 心率，单位 bpm |
-| `spo2` | number | 否 | 血氧，单位 `%` |
+| `sys` | number/null | 血压数据有真实来源时填写 | 收缩压，单位 mmHg |
+| `dia` | number/null | 血压数据有真实来源时填写 | 舒张压，单位 mmHg |
+| `hr` | number/null | 心率数据有真实来源时填写 | 心率，单位 bpm |
+| `spo2` | number/null | 否 | 血氧，单位 `%` |
 | `temperature` | number | 否 | 体温，单位摄氏度 |
-| `battery` | number | 否 | 电量百分比，0-100 |
+| `battery` | number/null | 否 | 电量百分比，0-100 |
 | `ts` | number | 否 | 测量时间戳，支持秒或毫秒 |
 
 ## 兼容字段
@@ -119,11 +119,36 @@ TZB-WATCH-002
 {"cmd":"measure","ts":1710000000000}\n
 ```
 
+点击 `连续监测` 时，小程序会发送：
+
+```json
+{"cmd":"monitor_start","interval_ms":15000,"ts":1710000000000}
+```
+
+实际发送内容末尾包含换行符：
+
+```text
+{"cmd":"monitor_start","interval_ms":15000,"ts":1710000000000}\n
+```
+
+点击 `停止监测` 时，小程序会发送：
+
+```json
+{"cmd":"monitor_stop","ts":1710000000000}
+```
+
+实际发送内容末尾包含换行符：
+
+```text
+{"cmd":"monitor_stop","ts":1710000000000}\n
+```
+
 ### 指令字段
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `cmd` | string | 指令名，当前为 `measure` |
+| `cmd` | string | 指令名，支持 `measure`、`monitor_start`、`monitor_stop` |
+| `interval_ms` | number | 连续监测建议间隔，单位毫秒；固件可按自身能力固定或限制 |
 | `ts` | number | 小程序发送指令时的本机毫秒时间戳 |
 
 ## 上传到后端的数据映射
@@ -178,7 +203,7 @@ TZB-WATCH-002
 后续可以扩展状态包，例如：
 
 ```json
-{"type":"status","battery":86,"charging":false,"ts":1710000000000}
+{"type":"status","battery":null,"charging":false,"ts":1710000000000}
 ```
 
 或错误包：

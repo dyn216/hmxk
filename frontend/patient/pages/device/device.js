@@ -12,8 +12,13 @@ function normalizeUuid(value) {
 }
 
 function numberOrNull(value) {
+  if (value === null || value === undefined || value === '') return null;
   var num = Number(value);
   return isNaN(num) ? null : num;
+}
+
+function formatNullableValue(value) {
+  return value === null || value === undefined ? '----' : String(value);
 }
 
 function formatTime(date) {
@@ -44,6 +49,8 @@ Page({
     lastPacket: null,
     recentRecords: [],
     uploading: false,
+    monitoring: false,
+    commandSending: false,
     receiveBuffer: '',
     serviceId: '',
     notifyCharacteristicId: '',
@@ -353,6 +360,7 @@ Page({
     var systolic = numberOrNull(packet.systolic !== undefined ? packet.systolic : packet.sys);
     var diastolic = numberOrNull(packet.diastolic !== undefined ? packet.diastolic : packet.dia);
     var heartRate = numberOrNull(packet.heart_rate !== undefined ? packet.heart_rate : packet.hr);
+    var spo2 = numberOrNull(packet.spo2);
     var battery = numberOrNull(packet.battery);
     var measuredAt = this.resolveMeasuredAt(packet.ts);
     var normalized = {
@@ -360,9 +368,13 @@ Page({
       systolic: systolic,
       diastolic: diastolic,
       heartRate: heartRate,
-      spo2: numberOrNull(packet.spo2),
+      spo2: spo2,
       temperature: numberOrNull(packet.temperature),
       battery: battery,
+      systolicText: formatNullableValue(systolic),
+      diastolicText: formatNullableValue(diastolic),
+      heartRateText: formatNullableValue(heartRate),
+      spo2Text: formatNullableValue(spo2),
       measuredAt: measuredAt.toISOString(),
       receivedAtText: formatTime(new Date())
     };
@@ -371,9 +383,9 @@ Page({
     this.setData({
       lastSignature: signature,
       lastPacket: normalized,
-      battery: battery === null ? this.data.battery : battery,
-      lastSyncText: '收到数据 ' + normalized.receivedAtText,
-      statusText: '已收到手表数据'
+      battery: battery === null ? '--' : battery,
+      lastSyncText: (this.data.monitoring ? '连续监测 ' : '收到数据 ') + normalized.receivedAtText,
+      statusText: this.data.monitoring ? '已收到连续监测数据' : '已收到手表数据'
     });
     this.uploadWatchMeasurements(normalized);
   },
@@ -389,6 +401,8 @@ Page({
   uploadWatchMeasurements: function(data) {
     var tasks = [];
     var deviceId = this.data.deviceName || this.data.deviceId || WATCH_PROTOCOL.namePrefix;
+    var notePrefix = this.data.monitoring ? '智能手表连续监测' : '智能手表自动同步';
+    var wasMonitoring = this.data.monitoring;
     if (data.systolic && data.diastolic) {
       tasks.push(patientApi.createMeasurement({
         type: 'bp',
@@ -396,7 +410,7 @@ Page({
         value2: data.diastolic,
         measured_at: data.measuredAt,
         device_id: deviceId,
-        notes: '智能手表自动同步' + (data.heartRate ? '，心率 ' + data.heartRate + ' bpm' : '')
+        notes: notePrefix + (data.heartRate ? '，心率 ' + data.heartRate + ' bpm' : '')
       }));
     }
     if (data.heartRate) {
@@ -405,12 +419,12 @@ Page({
         value1: data.heartRate,
         measured_at: data.measuredAt,
         device_id: deviceId,
-        notes: '智能手表自动同步'
+        notes: notePrefix
       }));
     }
     if (tasks.length === 0) {
       this.setData({
-        statusText: '收到设备状态数据'
+        statusText: '未检测到有效数据'
       });
       return;
     }
@@ -426,12 +440,14 @@ Page({
         uploading: false,
         recentRecords: records.slice(0, 5),
         lastSyncText: '已上传 ' + data.receivedAtText,
-        statusText: '健康数据已上传'
+        statusText: wasMonitoring ? '连续监测数据已上传' : '健康数据已上传'
       });
-      wx.showToast({
-        title: '同步成功',
-        icon: 'success'
-      });
+      if (!wasMonitoring) {
+        wx.showToast({
+          title: '同步成功',
+          icon: 'success'
+        });
+      }
     }).catch(function(err) {
       self.setData({
         uploading: false,
@@ -444,7 +460,7 @@ Page({
     });
   },
 
-  sendMeasureCommand: function() {
+  sendWatchCommand: function(command, successTitle, successData) {
     if (!this.data.connected || !this.data.writeCharacteristicId) {
       wx.showToast({
         title: '手表未连接或不支持指令',
@@ -452,22 +468,24 @@ Page({
       });
       return;
     }
-    var command = {
-      cmd: 'measure',
-      ts: Date.now()
-    };
+    var self = this;
+    this.setData({ commandSending: true });
     wx.writeBLECharacteristicValue({
       deviceId: this.data.deviceId,
       serviceId: this.data.serviceId,
       characteristicId: this.data.writeCharacteristicId,
       value: this.stringToArrayBuffer(JSON.stringify(command) + '\n'),
       success: function() {
+        var nextData = successData || {};
+        nextData.commandSending = false;
+        self.setData(nextData);
         wx.showToast({
-          title: '已发送测量指令',
+          title: successTitle,
           icon: 'none'
         });
       },
       fail: function() {
+        self.setData({ commandSending: false });
         wx.showToast({
           title: '指令发送失败',
           icon: 'none'
@@ -476,19 +494,36 @@ Page({
     });
   },
 
-  simulatePacket: function() {
-    var systolic = 116 + Math.floor(Math.random() * 18);
-    var diastolic = 72 + Math.floor(Math.random() * 12);
-    var heartRate = 68 + Math.floor(Math.random() * 18);
-    this.handleWatchPacket({
-      type: 'vital',
-      seq: Date.now(),
-      sys: systolic,
-      dia: diastolic,
-      hr: heartRate,
-      spo2: 96 + Math.floor(Math.random() * 3),
-      battery: this.data.battery === '--' ? 86 : this.data.battery,
+  sendMeasureCommand: function() {
+    this.sendWatchCommand({
+      cmd: 'measure',
       ts: Date.now()
+    }, '已发送测量指令', {
+      statusText: '已发送测量指令'
+    });
+  },
+
+  toggleMonitor: function() {
+    if (this.data.monitoring) {
+      this.sendWatchCommand({
+        cmd: 'monitor_stop',
+        ts: Date.now()
+      }, '已停止连续监测', {
+        monitoring: false,
+        statusText: '连续监测已停止',
+        lastSyncText: '已停止连续监测'
+      });
+      return;
+    }
+
+    this.sendWatchCommand({
+      cmd: 'monitor_start',
+      interval_ms: 15000,
+      ts: Date.now()
+    }, '已开启连续监测', {
+      monitoring: true,
+      statusText: '连续监测已开启',
+      lastSyncText: '等待手表连续上报'
     });
   },
 
@@ -508,6 +543,8 @@ Page({
       notifyCharacteristicId: '',
       writeCharacteristicId: '',
       receiveBuffer: '',
+      monitoring: false,
+      commandSending: false,
       statusText: '已断开连接'
     });
   },

@@ -68,27 +68,27 @@ Permission: writable
 ### 推荐数据包
 
 ```text
-{"type":"vital","seq":1,"sys":120,"dia":80,"hr":72,"spo2":98,"battery":86,"ts":1710000000000}\n
+{"type":"vital","seq":1,"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null,"ts":1710000000000}\n
 ```
 
 ### 最小可用数据包
 
-如果暂时只有血压和心率：
+如果暂时只有心率和血氧：
 
 ```text
-{"sys":120,"dia":80,"hr":72,"ts":1710000000000}\n
+{"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null,"ts":1710000000000}\n
 ```
 
 ### 只上报心率
 
 ```text
-{"hr":72,"battery":86,"ts":1710000000000}\n
+{"hr":72,"battery":null,"ts":1710000000000}\n
 ```
 
-### 只上报血压
+### 未接入真实血压时
 
 ```text
-{"sys":120,"dia":80,"battery":86,"ts":1710000000000}\n
+{"sys":null,"dia":null,"battery":null,"ts":1710000000000}\n
 ```
 
 ## 分包建议
@@ -112,14 +112,14 @@ BLE 单次通知长度受 MTU 限制，常见默认有效载荷约 20 字节。�
 示例完整包：
 
 ```text
-{"sys":120,"dia":80,"hr":72}\n
+{"sys":null,"dia":null,"hr":72}\n
 ```
 
 可以分成：
 
 ```text
-{"sys":120,
-"dia":80,
+{"sys":null,
+"dia":null,
 "hr":72}\n
 ```
 
@@ -140,6 +140,22 @@ BLE 单次通知长度受 MTU 限制，常见默认有效载荷约 20 字节。�
 3. 启动一次测量流程。
 4. 测量完成后通过 Notify Characteristic 上报 `vital` 数据包。
 
+小程序点击 `连续监测` 后，会写入：
+
+```text
+{"cmd":"monitor_start","interval_ms":15000,"ts":1710000000000}\n
+```
+
+固件收到后建议进入连续监测状态，按固定间隔或 `interval_ms` 建议间隔自动测量并上报。
+
+小程序点击 `停止监测` 后，会写入：
+
+```text
+{"cmd":"monitor_stop","ts":1710000000000}\n
+```
+
+固件收到后应退出连续监测状态，并停止自动测量。
+
 ## 建议状态机
 
 ```text
@@ -147,7 +163,11 @@ idle
   -> connected
   -> measuring
   -> report_result
-  -> idle
+  -> connected
+  -> monitoring
+  -> measuring
+  -> report_result
+  -> monitoring
 ```
 
 ### idle
@@ -158,7 +178,7 @@ idle
 ### connected
 
 - 已连接小程序。
-- 等待手表本地测量或小程序 `measure` 指令。
+- 等待手表本地测量、小程序 `measure` 指令，或 `monitor_start` 指令。
 
 ### measuring
 
@@ -171,6 +191,11 @@ idle
 - 封装 JSON。
 - 通过 Notify Characteristic 发送。
 - 发送完成后回到 `connected` 或 `idle`。
+
+### monitoring
+
+- 按固定间隔自动进入 `measuring`。
+- 收到 `monitor_stop` 后回到 `connected`。
 
 ## 时间戳建议
 

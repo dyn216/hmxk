@@ -26,15 +26,19 @@
     </view>
   </view>
 
-  <view class="button-row">
-    <button class="primary-btn" loading="{{discovering}}" bindtap="startScan" wx:if="{{!connected}}">{{discovering ? '搜索中' : '搜索手表'}}</button>
+  <view class="button-row" wx:if="{{!connected}}">
+    <button class="primary-btn" loading="{{discovering}}" bindtap="startScan">{{discovering ? '搜索中' : '搜索手表'}}</button>
     <button class="ghost-btn" bindtap="stopScan" wx:if="{{discovering}}">停止搜索</button>
-    <button class="primary-btn" bindtap="sendMeasureCommand" wx:if="{{connected}}">触发测量</button>
-    <button class="ghost-btn danger" bindtap="closeConnection" wx:if="{{connected}}">断开连接</button>
   </view>
 
-  <view class="button-row">
-    <button class="ghost-btn full" loading="{{uploading}}" bindtap="simulatePacket">模拟一条手表数据</button>
+  <view class="button-row" wx:if="{{connected}}">
+    <button class="primary-btn" loading="{{commandSending}}" disabled="{{commandSending}}" bindtap="sendMeasureCommand">触发测量</button>
+    <button class="ghost-btn" loading="{{commandSending}}" disabled="{{commandSending}}" bindtap="toggleMonitor" wx:if="{{!monitoring}}">连续监测</button>
+    <button class="ghost-btn danger" loading="{{commandSending}}" disabled="{{commandSending}}" bindtap="toggleMonitor" wx:else>停止监测</button>
+  </view>
+
+  <view class="button-row" wx:if="{{connected}}">
+    <button class="ghost-btn danger full" bindtap="closeConnection">断开连接</button>
   </view>
 
   <view class="section-card" wx:if="{{devices.length && !connected}}">
@@ -72,17 +76,17 @@
     <view class="vital-grid" wx:if="{{lastPacket}}">
       <view class="vital-card">
         <view class="vital-label">血压</view>
-        <view class="vital-value">{{lastPacket.systolic}}/{{lastPacket.diastolic}}</view>
+        <view class="vital-value">{{lastPacket.systolicText}}/{{lastPacket.diastolicText}}</view>
         <view class="vital-unit">mmHg</view>
       </view>
       <view class="vital-card">
         <view class="vital-label">心率</view>
-        <view class="vital-value">{{lastPacket.heartRate}}</view>
+        <view class="vital-value">{{lastPacket.heartRateText}}</view>
         <view class="vital-unit">bpm</view>
       </view>
       <view class="vital-card">
         <view class="vital-label">血氧</view>
-        <view class="vital-value">{{lastPacket.spo2}}</view>
+        <view class="vital-value">{{lastPacket.spo2Text}}</view>
         <view class="vital-unit">%</view>
       </view>
       <view class="vital-card">
@@ -101,7 +105,7 @@
     <view class="section-title">本次同步记录</view>
     <view class="record-row" wx:for="{{recentRecords}}" wx:key="seq">
       <view class="record-time">{{item.receivedAtText}}</view>
-      <view class="record-main">血压 {{item.systolic}}/{{item.diastolic}} · 心率 {{item.heartRate}}</view>
+      <view class="record-main">血压 {{item.systolicText}}/{{item.diastolicText}} · 心率 {{item.heartRateText}}</view>
     </view>
   </view>
 
@@ -111,6 +115,6 @@
     <view class="protocol-line">Service：{{protocol.serviceId}}</view>
     <view class="protocol-line">Notify：{{protocol.notifyCharacteristicId}}</view>
     <view class="protocol-line">Write：{{protocol.writeCharacteristicId}}</view>
-    <view class="packet-sample">{"type":"vital","seq":1,"sys":120,"dia":80,"hr":72,"spo2":98,"battery":86,"ts":1710000000000}</view>
+    <view class="packet-sample">{"type":"vital","seq":1,"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null}</view>
   </view>
 </view>
