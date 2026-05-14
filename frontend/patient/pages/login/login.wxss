@@ -79,6 +79,48 @@
   box-shadow: 0 24rpx 48rpx rgba(14, 30, 38, 0.08);
 }
 
+.privacy-card {
+  margin-bottom: 36rpx;
+  padding: 28rpx;
+  background: rgba(44, 90, 82, 0.06);
+  border: 1rpx solid rgba(44, 90, 82, 0.14);
+  border-radius: 24rpx;
+}
+
+.privacy-title {
+  display: block;
+  margin-bottom: 12rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.privacy-desc {
+  display: block;
+  margin-bottom: 22rpx;
+  font-size: 24rpx;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.agreement-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.8;
+}
+
+.agreement-text {
+  color: var(--ink-soft);
+}
+
+.agreement-link {
+  color: var(--sage-deep);
+  font-weight: 700;
+}
+
 .login-form .form-item {
   position: relative;
   margin-bottom: 36rpx;
@@ -139,6 +181,11 @@
 
 .login-btn:active { background: var(--sage-deep); }
 .login-btn::after { border: none; }
+
+.login-btn.is-disabled {
+  background: #bcc8c4;
+  color: rgba(255, 255, 255, 0.9);
+}
 
 .tips {
   margin-top: 36rpx;

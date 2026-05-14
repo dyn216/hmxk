@@ -81,7 +81,7 @@
     <view class="legal-links">
       <text class="legal-link" bindtap="viewPrivacy">隐私政策</text>
       <text class="legal-divider">|</text>
-      <text class="legal-link" bindtap="viewTerms">用户协议</text>
+      <text class="legal-link" bindtap="viewTerms">用户服务协议</text>
     </view>
     <text class="copyright">Copyright © 2024 惠民携康. All rights reserved.</text>
   </view>

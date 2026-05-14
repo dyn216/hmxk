@@ -4,6 +4,25 @@ page {
   background-color: var(--paper-soft);
 }
 
+/* 首页快捷入口扩展为 5 列 */
+.quick-actions {
+  grid-template-columns: repeat(5, 1fr);
+  padding: 28rpx 18rpx;
+  gap: 12rpx;
+}
+.quick-actions .action-icon {
+  width: 84rpx;
+  height: 84rpx;
+  font-size: 36rpx;
+}
+.quick-actions .action-icon.ai {
+  background: linear-gradient(140deg, #5b8df0, #2c5a52);
+  color: #fff;
+}
+.quick-actions .action-text {
+  font-size: 22rpx;
+}
+
 /* —— 页眉 —— */
 .page-head {
   padding: 36rpx 32rpx 12rpx;

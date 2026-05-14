@@ -8,7 +8,7 @@
     "postcss": true,
     "minified": true,
     "newFeature": true,
-    "urlCheck": false,
+    "urlCheck": true,
     "coverView": true,
     "lazyloadPlaceholderEnable": false,
     "skylineRenderEnable": false,

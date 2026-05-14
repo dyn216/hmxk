@@ -2,10 +2,17 @@ const auth = require('../../utils/auth.js');
 
 Page({
   data: {
-    phone: '13900000001',
-    password: 'patient123',
+    phone: '',
+    password: '',
     showPassword: false,
-    loading: false
+    loading: false,
+    agreedPrivacy: false
+  },
+
+  onLoad: function() {
+    this.setData({
+      agreedPrivacy: wx.getStorageSync('patient_privacy_agreed') === true
+    });
   },
 
   onPhoneInput: function(e) {
@@ -26,12 +33,40 @@ Page({
     });
   },
 
+  onAgreementChange: function(e) {
+    this.setData({
+      agreedPrivacy: e.detail.value.indexOf('agreed') !== -1
+    });
+  },
+
+  openAgreement: function() {
+    wx.navigateTo({
+      url: '/pages/agreement/agreement'
+    });
+  },
+
+  openPrivacy: function() {
+    wx.navigateTo({
+      url: '/pages/privacy/privacy'
+    });
+  },
+
   handleLogin: function() {
     const phone = this.data.phone;
     const password = this.data.password;
     const self = this;
 
-    if (!phone || phone.length !== 11) {
+    if (!this.data.agreedPrivacy) {
+      wx.showModal({
+        title: '请先阅读并同意',
+        content: '登录前请阅读并同意《用户服务协议》和《隐私政策》。我们会按照协议说明收集和使用您的手机号、账号信息及健康服务相关数据。',
+        confirmText: '我知道了',
+        showCancel: false
+      });
+      return;
+    }
+
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
       wx.showToast({
         title: '请输入正确的手机号',
         icon: 'none'
@@ -51,6 +86,7 @@ Page({
 
     auth.login(phone, password)
       .then(function() {
+        wx.setStorageSync('patient_privacy_agreed', true);
         wx.showToast({
           title: '登录成功',
           icon: 'success'

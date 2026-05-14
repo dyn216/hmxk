@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Header
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func, desc, or_
+from sqlalchemy import func, desc, or_, case
 from typing import List, Optional
 from datetime import datetime, timedelta
 
@@ -114,6 +114,226 @@ def get_stats(db: Session = Depends(get_db)):
     return get_dashboard_stats(db)
 
 
+def measurement_type_label(measurement_type) -> str:
+    value = getattr(measurement_type, "name", str(measurement_type))
+    labels = {
+        "BLOOD_PRESSURE": "血压",
+        "BLOOD_SUGAR": "血糖",
+        "HEART_RATE": "心率",
+        "WEIGHT": "体重",
+        "TEMPERATURE": "体温",
+        "bp": "血压",
+        "bg": "血糖",
+        "hr": "心率",
+        "weight": "体重",
+        "temp": "体温"
+    }
+    return labels.get(value, value)
+
+
+def risk_label(risk_level: Optional[str]) -> str:
+    return {
+        "normal": "正常",
+        "warning": "预警",
+        "danger": "高危"
+    }.get(risk_level or "unknown", "未分级")
+
+
+def format_measurement_value(item: Measurement) -> str:
+    label = measurement_type_label(item.type)
+    if item.type == MeasurementType.BLOOD_PRESSURE:
+        return f"{int(item.value1)}/{int(item.value2 or 0)} mmHg"
+    if item.type == MeasurementType.HEART_RATE:
+        return f"{int(item.value1)} bpm"
+    if item.type == MeasurementType.BLOOD_SUGAR:
+        return f"{round(item.value1, 1)} mmol/L"
+    if item.type == MeasurementType.TEMPERATURE:
+        return f"{round(item.value1, 1)} ℃"
+    if item.type == MeasurementType.WEIGHT:
+        return f"{round(item.value1, 1)} kg"
+    return f"{label} {round(item.value1, 1)}"
+
+
+def format_average_value(measurement_type, avg_value1, avg_value2) -> str:
+    if measurement_type == MeasurementType.BLOOD_PRESSURE:
+        return f"{round(avg_value1 or 0, 1)}/{round(avg_value2 or 0, 1)} mmHg"
+    if measurement_type == MeasurementType.HEART_RATE:
+        return f"{round(avg_value1 or 0, 1)} bpm"
+    if measurement_type == MeasurementType.BLOOD_SUGAR:
+        return f"{round(avg_value1 or 0, 1)} mmol/L"
+    if measurement_type == MeasurementType.TEMPERATURE:
+        return f"{round(avg_value1 or 0, 1)} ℃"
+    if measurement_type == MeasurementType.WEIGHT:
+        return f"{round(avg_value1 or 0, 1)} kg"
+    return str(round(avg_value1 or 0, 1))
+
+
+@router.get("/situation-awareness")
+def get_situation_awareness(
+    days: int = Query(30, ge=1, le=365, description="统计最近N天数据"),
+    recent_limit: int = Query(12, ge=1, le=50, description="最近异常和最新数据返回条数"),
+    db: Session = Depends(get_db)
+):
+    """管理端态势感知数据"""
+    now = datetime.now()
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    start_time = now - timedelta(days=days - 1)
+    start_day = start_time.replace(hour=0, minute=0, second=0, microsecond=0)
+    abnormal_levels = ["warning", "danger"]
+
+    total_measurements = db.query(Measurement).count()
+    window_query = db.query(Measurement).filter(Measurement.measured_at >= start_day)
+    window_measurements = window_query.count()
+    today_measurements = db.query(Measurement).filter(Measurement.measured_at >= today_start).count()
+    abnormal_measurements = window_query.filter(Measurement.risk_level.in_(abnormal_levels)).count()
+    danger_measurements = window_query.filter(Measurement.risk_level == "danger").count()
+    total_patients = db.query(PatientProfile).count()
+    active_patients = db.query(Measurement.patient_id).filter(
+        Measurement.measured_at >= start_day
+    ).distinct().count()
+    online_devices = db.query(Device).filter(Device.status == "online").count()
+    total_devices = db.query(Device).count()
+    latest_measurement_at = db.query(func.max(Measurement.measured_at)).scalar()
+
+    risk_rows = window_query.with_entities(
+        Measurement.risk_level,
+        func.count(Measurement.id)
+    ).group_by(Measurement.risk_level).all()
+    risk_distribution = [
+        {
+            "risk_level": row[0] or "unknown",
+            "label": risk_label(row[0]),
+            "count": row[1]
+        }
+        for row in risk_rows
+    ]
+
+    type_rows = window_query.with_entities(
+        Measurement.type,
+        func.count(Measurement.id),
+        func.avg(Measurement.value1),
+        func.avg(Measurement.value2),
+        func.sum(case((Measurement.risk_level.in_(abnormal_levels), 1), else_=0))
+    ).group_by(Measurement.type).all()
+    type_distribution = [
+        {
+            "type": getattr(row[0], "name", str(row[0])),
+            "label": measurement_type_label(row[0]),
+            "count": row[1],
+            "avg_value": round(row[2] or 0, 2),
+            "avg_value2": round(row[3], 2) if row[3] is not None else None,
+            "avg_label": format_average_value(row[0], row[2], row[3]),
+            "abnormal_count": int(row[4] or 0)
+        }
+        for row in type_rows
+    ]
+
+    trend_rows = db.query(
+        func.date(Measurement.measured_at),
+        func.count(Measurement.id),
+        func.sum(case((Measurement.risk_level.in_(abnormal_levels), 1), else_=0))
+    ).filter(
+        Measurement.measured_at >= start_day
+    ).group_by(
+        func.date(Measurement.measured_at)
+    ).all()
+    trend_map = {row[0]: {"total": row[1], "abnormal": int(row[2] or 0)} for row in trend_rows}
+    trend = []
+    for index in range(days):
+        current_day = start_day + timedelta(days=index)
+        key = current_day.date().isoformat()
+        values = trend_map.get(key, {"total": 0, "abnormal": 0})
+        trend.append({"date": key, **values})
+
+    patient_rows = db.query(
+        PatientProfile.id,
+        User.name,
+        User.phone,
+        func.count(Measurement.id).label("measurement_count"),
+        func.sum(case((Measurement.risk_level.in_(abnormal_levels), 1), else_=0)).label("abnormal_count"),
+        func.max(Measurement.measured_at).label("latest_measurement")
+    ).join(
+        User, User.id == PatientProfile.user_id
+    ).join(
+        Measurement, Measurement.patient_id == PatientProfile.id
+    ).filter(
+        Measurement.measured_at >= start_day
+    ).group_by(
+        PatientProfile.id,
+        User.name,
+        User.phone
+    ).order_by(
+        desc(func.count(Measurement.id))
+    ).limit(8).all()
+    patient_ranking = [
+        {
+            "patient_id": row[0],
+            "name": row[1],
+            "phone": row[2],
+            "measurement_count": row[3],
+            "abnormal_count": int(row[4] or 0),
+            "latest_measurement": row[5].isoformat() if row[5] else None
+        }
+        for row in patient_rows
+    ]
+
+    latest_abnormal_items = db.query(Measurement).options(
+        joinedload(Measurement.patient).joinedload(PatientProfile.user)
+    ).filter(
+        Measurement.risk_level.in_(abnormal_levels)
+    ).order_by(
+        desc(Measurement.measured_at)
+    ).limit(recent_limit).all()
+
+    latest_items = db.query(Measurement).options(
+        joinedload(Measurement.patient).joinedload(PatientProfile.user)
+    ).order_by(
+        desc(Measurement.measured_at)
+    ).limit(recent_limit).all()
+
+    def serialize_measurement(item: Measurement):
+        patient = item.patient
+        user = patient.user if patient else None
+        return {
+            "id": item.id,
+            "patient_id": item.patient_id,
+            "patient_name": user.name if user else "未知患者",
+            "phone": user.phone if user else "",
+            "type": getattr(item.type, "name", str(item.type)),
+            "type_label": measurement_type_label(item.type),
+            "value": format_measurement_value(item),
+            "risk_level": item.risk_level or "unknown",
+            "risk_label": risk_label(item.risk_level),
+            "ai_suggestion": item.ai_suggestion,
+            "measured_at": item.measured_at.isoformat() if item.measured_at else None,
+            "device_id": item.device_id
+        }
+
+    return {
+        "generated_at": now.isoformat(),
+        "window_days": days,
+        "overview": {
+            "total_measurements": total_measurements,
+            "window_measurements": window_measurements,
+            "today_measurements": today_measurements,
+            "abnormal_measurements": abnormal_measurements,
+            "danger_measurements": danger_measurements,
+            "total_patients": total_patients,
+            "active_patients": active_patients,
+            "compliance_rate": round((active_patients / total_patients * 100) if total_patients else 0, 1),
+            "online_devices": online_devices,
+            "total_devices": total_devices,
+            "latest_measurement_at": latest_measurement_at.isoformat() if latest_measurement_at else None
+        },
+        "trend": trend,
+        "risk_distribution": risk_distribution,
+        "type_distribution": type_distribution,
+        "patient_ranking": patient_ranking,
+        "latest_abnormal": [serialize_measurement(item) for item in latest_abnormal_items],
+        "latest_measurements": [serialize_measurement(item) for item in latest_items]
+    }
+
+
 @router.get("/institutions/{institution_id}/kpi", response_model=KPIStats)
 def get_institution_kpi(institution_id: int, db: Session = Depends(get_db)):
     """获取机构考核指标"""
@@ -199,6 +419,39 @@ def list_users(
     
     users = query.order_by(desc(User.created_at)).offset(offset).limit(limit).all()
     return users
+
+
+@router.get("/users-page")
+def list_users_page(
+    role: Optional[UserRole] = None,
+    search: Optional[str] = None,
+    status: Optional[bool] = None,
+    limit: int = Query(20, ge=1, le=100, description="每页数据条数"),
+    offset: int = Query(0, ge=0, description="偏移量"),
+    db: Session = Depends(get_db)
+):
+    query = db.query(User)
+    if role:
+        query = query.filter(User.role == role)
+    if status is not None:
+        query = query.filter(User.status == status)
+    if search:
+        query = query.filter(
+            or_(
+                User.name.like(f"%{search}%"),
+                User.phone.like(f"%{search}%")
+            )
+        )
+    total = query.count()
+    users = query.order_by(desc(User.created_at)).offset(offset).limit(limit).all()
+    return {
+        "items": [UserOut.model_validate(user) for user in users],
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "page": offset // limit + 1,
+        "total_pages": max(1, (total + limit - 1) // limit)
+    }
 
 
 @router.get("/users/{user_id}", response_model=UserOut)

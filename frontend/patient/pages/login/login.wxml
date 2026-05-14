@@ -8,15 +8,30 @@
   </view>
 
   <view class="login-form">
+    <view class="privacy-card">
+      <text class="privacy-title">个人信息保护提示</text>
+      <text class="privacy-desc">为完成患者身份识别、账号登录、健康档案管理、监测数据同步、问诊处方、订单配送和账号安全服务，我们需要在您同意后收集和使用手机号、账号登录信息、健康数据及您主动填写的联系信息。</text>
+      <checkbox-group bindchange="onAgreementChange">
+        <label class="agreement-row">
+          <checkbox value="agreed" checked="{{agreedPrivacy}}" color="#2C5A52" />
+          <text class="agreement-text">我已阅读并同意</text>
+          <text class="agreement-link" catchtap="openAgreement">《用户服务协议》</text>
+          <text class="agreement-text">和</text>
+          <text class="agreement-link" catchtap="openPrivacy">《隐私政策》</text>
+        </label>
+      </checkbox-group>
+    </view>
+
     <view class="form-item">
       <view class="label">手机号</view>
       <input
         class="input"
         type="number"
-        placeholder="请输入手机号"
+        placeholder="{{agreedPrivacy ? '请输入手机号' : '请先勾选同意协议'}}"
         maxlength="11"
         value="{{phone}}"
         bindinput="onPhoneInput"
+        disabled="{{!agreedPrivacy}}"
       />
     </view>
 
@@ -26,21 +41,21 @@
         class="input"
         type="text"
         password="{{!showPassword}}"
-        placeholder="请输入密码"
+        placeholder="{{agreedPrivacy ? '请输入密码' : '请先勾选同意协议'}}"
         value="{{password}}"
         bindinput="onPasswordInput"
+        disabled="{{!agreedPrivacy}}"
       />
       <text class="toggle-password" bindtap="togglePassword">
         {{showPassword ? '隐藏' : '显示'}}
       </text>
     </view>
 
-    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">登 录</button>
+    <button class="login-btn {{!agreedPrivacy ? 'is-disabled' : ''}}" bindtap="handleLogin" loading="{{loading}}" disabled="{{!agreedPrivacy || loading}}">登 录</button>
 
     <view class="tips">
-      <text class="tip-text">测试账号 · DEMO</text>
-      <text class="tip-text">phone   13900000001</text>
-      <text class="tip-text">passwd  patient123</text>
+      <text class="tip-text">请使用已开通的患者账号登录。</text>
+      <text class="tip-text">登录即表示您在勾选同意范围内使用本小程序服务。</text>
     </view>
   </view>
 </view>

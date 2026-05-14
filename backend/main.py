@@ -9,6 +9,14 @@ from contextlib import asynccontextmanager
 from routers import patient_api, doctor_api, admin_api, upload_api
 from config import settings
 from logging_config import init_logging, log_request, log_system_event, get_logger
+from database import engine, Base
+import models  # noqa: F401  确保所有模型被注册到 Base.metadata
+
+# 启动时按需创建新表（已存在的表不会被覆盖）
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as _e:  # 仅记录，不阻断启动
+    logging.getLogger(__name__).warning("create_all skipped: %s", _e)
 
 # 初始化日志系统
 logger = init_logging()

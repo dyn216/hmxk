@@ -9,9 +9,10 @@ from database import get_db
 from models import (
     User, PatientProfile, DoctorProfile, Measurement, Medication, Guardian, Device,
     Message, Consultation, PatientAddress, ShopProduct, ShopCartItem, ShopOrder,
-    ShopOrderItem, Prescription,
+    ShopOrderItem, Prescription, AiChatMessage,
     UserRole, MeasurementType
 )
+import ai_service
 from schemas import (
     LoginRequest, LoginResponse, MessageModel,
     MeasurementCreate, MeasurementOut, MeasurementStats,
@@ -1302,6 +1303,69 @@ def upload_device_measurement(
     db.commit()
     db.refresh(measurement)
     return measurement
+
+
+# ============= AI 健康助手 =============
+
+def _serialize_ai_message(msg: AiChatMessage):
+    return {
+        "id": msg.id,
+        "role": msg.role,
+        "content": msg.content,
+        "created_at": msg.created_at.isoformat() if msg.created_at else None,
+    }
+
+
+@router.get("/ai/chat/history")
+def ai_chat_history(authorization: str = Header(None), db: Session = Depends(get_db)):
+    """获取当前患者与 AI 健康助手的全部对话历史"""
+    _, profile = get_current_patient_profile(authorization, db)
+    rows = ai_service.load_chat_history(db, profile.id)
+    return {"messages": [_serialize_ai_message(m) for m in rows]}
+
+
+@router.post("/ai/chat")
+def ai_chat_send(
+    body: dict,
+    authorization: str = Header(None),
+    db: Session = Depends(get_db),
+):
+    """向 AI 健康助手发送一条消息，返回回复并落库"""
+    _, profile = get_current_patient_profile(authorization, db)
+    content = (body or {}).get("content")
+    try:
+        reply, user_msg, assistant_msg = ai_service.chat_with_ai_doctor(db, profile, content)
+    except ai_service.AiServiceError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
+    return {
+        "reply": reply,
+        "user_message": _serialize_ai_message(user_msg),
+        "assistant_message": _serialize_ai_message(assistant_msg),
+    }
+
+
+@router.delete("/ai/chat")
+def ai_chat_clear(authorization: str = Header(None), db: Session = Depends(get_db)):
+    """清空对话历史"""
+    _, profile = get_current_patient_profile(authorization, db)
+    deleted = ai_service.clear_chat_history(db, profile.id)
+    return {"deleted": deleted}
+
+
+@router.post("/ai/measurement-advice")
+def ai_measurement_advice(
+    body: dict,
+    authorization: str = Header(None),
+    db: Session = Depends(get_db),
+):
+    """根据本次测量+最近一周历史生成 AI 建议（不落聊天记录）"""
+    _, profile = get_current_patient_profile(authorization, db)
+    payload = body or {}
+    try:
+        result = ai_service.measurement_advice(db, profile, payload)
+    except ai_service.AiServiceError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
+    return result
 
 
 # ============= 客服消息 =============

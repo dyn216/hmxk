@@ -177,6 +177,37 @@ function getHealthReport(params) {
   return request.get('/health-report', params);
 }
 
+/**
+ * AI 健康助手：获取对话历史
+ */
+function getAiChatHistory(options) {
+  options = options || {};
+  return request.get('/ai/chat/history', {}, options);
+}
+
+/**
+ * AI 健康助手：发送一条消息
+ */
+function sendAiChat(content, options) {
+  options = Object.assign({ timeout: 60000 }, options || {});
+  return request.post('/ai/chat', { content: content }, options);
+}
+
+/**
+ * AI 健康助手：清空对话
+ */
+function clearAiChat() {
+  return request.delete('/ai/chat');
+}
+
+/**
+ * AI 测量建议
+ */
+function getAiMeasurementAdvice(payload, options) {
+  options = Object.assign({ timeout: 60000 }, options || {});
+  return request.post('/ai/measurement-advice', payload || {}, options);
+}
+
 module.exports = {
   login,
   getProfile,
@@ -197,5 +228,9 @@ module.exports = {
   createConsultation,
   getMessages,
   sendMessage,
-  getHealthReport
+  getHealthReport,
+  getAiChatHistory,
+  sendAiChat,
+  clearAiChat,
+  getAiMeasurementAdvice
 };

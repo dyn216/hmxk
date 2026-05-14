@@ -1,0 +1,49 @@
+<view class="agreement-page">
+  <scroll-view scroll-y class="content">
+    <view class="section">
+      <text class="title">惠民携康用户服务协议</text>
+      <text class="update-time">更新时间：2026年5月12日</text>
+      <text class="section-content">欢迎使用惠民携康小程序。您在注册、登录或使用本小程序前，请认真阅读并充分理解本协议和《隐私政策》。当您勾选同意或继续使用本小程序服务，即表示您已同意本协议。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">1. 服务内容</text>
+      <text class="section-content">本小程序为患者提供慢病健康档案、健康指标记录、智能设备同步、用药管理、在线问诊、处方查看、健康商品订单、医生随访和消息提醒等服务。具体服务以页面实际展示为准。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">2. 账号使用</text>
+      <text class="section-content">您需要使用手机号和密码登录患者账号。请确保您填写的信息真实、准确、完整，并妥善保管账号和密码。平台不会要求您输入微信账号、微信密码或降低手机系统安全性后使用服务。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">3. 用户信息和授权</text>
+      <text class="section-content">为提供账号登录、身份识别、健康管理、在线问诊、处方订单和配送服务，我们会按照《隐私政策》说明收集和使用您的手机号、健康数据、设备数据、问诊处方和订单信息。我们将在您明确同意或授权后处理相关信息。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">4. 用户行为规范</text>
+      <text class="section-content">您不得利用本小程序发布违法违规、虚假误导、侵犯他人权益或危害平台安全的信息；不得冒用他人身份使用服务；不得攻击、干扰、破坏小程序或服务器正常运行。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">5. 医疗健康提示</text>
+      <text class="section-content">本小程序提供的健康数据展示、趋势提醒和健康建议仅用于健康管理参考，不能替代专业医生面诊、诊断或治疗。如您出现明显不适或紧急症状，请及时前往医疗机构就诊。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">6. 数据安全和共享</text>
+      <text class="section-content">我们将采取合理安全措施保护您的个人信息和健康数据。未经您授权，我们不会出售、出租、转让或非法披露您的个人信息。您可在账号设置中退出登录、清除缓存或申请注销账号。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">7. 服务变更和终止</text>
+      <text class="section-content">因系统维护、功能升级、法律法规要求或不可抗力因素，我们可能对服务进行调整、中断或终止。我们会尽量通过页面提示、公告或其他合理方式告知您。</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">8. 联系方式</text>
+      <text class="section-content">如您对本协议有疑问、意见或投诉，可通过“我的-设置-联系客服”与平台联系。</text>
+    </view>
+  </scroll-view>
+</view>

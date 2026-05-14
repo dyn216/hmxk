@@ -49,21 +49,15 @@ Page({
 
   // 查看隐私政策
   viewPrivacy: function() {
-    wx.showModal({
-      title: '隐私政策',
-      content: '我们重视您的隐私保护。您的个人信息和健康数据将被严格加密存储，不会在未经您同意的情况下分享给第三方。我们仅在提供服务所必需的范围内收集和使用您的信息。',
-      confirmText: '我知道了',
-      showCancel: false
+    wx.navigateTo({
+      url: '/pages/privacy/privacy'
     });
   },
 
   // 查看用户协议
   viewTerms: function() {
-    wx.showModal({
-      title: '用户协议',
-      content: '使用本应用即表示您同意遵守我们的用户协议。本应用提供的健康建议仅供参考，不能替代专业医疗诊断和治疗。如有任何健康问题，请及时就医。',
-      confirmText: '我知道了',
-      showCancel: false
+    wx.navigateTo({
+      url: '/pages/agreement/agreement'
     });
   }
 });

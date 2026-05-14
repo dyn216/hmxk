@@ -409,6 +409,12 @@ Page({
     });
   },
 
+  goToAiDoctor: function() {
+    wx.navigateTo({
+      url: '/pages/ai-doctor/ai-doctor'
+    });
+  },
+
   goToMedication: function() {
     wx.navigateTo({
       url: '/pages/medication/medication'

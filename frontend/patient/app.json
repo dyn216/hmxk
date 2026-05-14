@@ -29,7 +29,9 @@
     "pages/about/about",
     "pages/service/service",
     "pages/feedback/feedback",
+    "pages/agreement/agreement",
     "pages/privacy/privacy",
+    "pages/ai-doctor/ai-doctor",
     "pages/goods-detail/goods-detail",
     "pages/mall/mall",
     "pages/bracelet/bracelet",
@@ -89,9 +91,6 @@
     },
     "scope.bluetooth": {
       "desc": "连接智能手表并同步血压、心率等健康数据"
-    },
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于获取附近的医生和药店"
     }
   },
   "requiredBackgroundModes": ["audio"],

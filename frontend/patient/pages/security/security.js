@@ -2,7 +2,6 @@ Page({
   data: {
     phoneNumber: '138****0001',
     dataSharing: true,
-    locationEnabled: true,
     deviceCount: 1
   },
 
@@ -94,20 +93,6 @@ Page({
     // TODO: 保存设置到后端
     wx.showToast({
       title: e.detail.value ? '已开启数据共享' : '已关闭数据共享',
-      icon: 'success',
-      duration: 1500
-    });
-  },
-
-  // 位置信息开关
-  onLocationChange: function(e) {
-    this.setData({
-      locationEnabled: e.detail.value
-    });
-    
-    // TODO: 保存设置到后端
-    wx.showToast({
-      title: e.detail.value ? '已开启位置服务' : '已关闭位置服务',
       icon: 'success',
       duration: 1500
     });

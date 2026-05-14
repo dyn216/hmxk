@@ -9,6 +9,10 @@
 
   <!-- 快捷入口 -->
   <view class="quick-actions reveal">
+    <view class="action-item" bindtap="goToAiDoctor">
+      <view class="action-icon ai">🤖</view>
+      <text class="action-text">AI 助手</text>
+    </view>
     <view class="action-item" bindtap="goToRecords">
       <view class="action-icon">︎📊</view>
       <text class="action-text">健康监测</text>

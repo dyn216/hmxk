@@ -48,5 +48,10 @@ Page({
     wx.navigateTo({
       url: '/pages/privacy/privacy'
     });
+  },
+  agreement: function() {
+    wx.navigateTo({
+      url: '/pages/agreement/agreement'
+    });
   }
 });

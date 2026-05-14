@@ -48,10 +48,10 @@
     <view class="menu-item">
       <view class="item-left">
         <view class="item-icon location">位</view>
-        <text class="item-text">位置信息</text>
+        <text class="item-text">定位权限</text>
       </view>
       <view class="item-right">
-        <switch checked="{{locationEnabled}}" bindchange="onLocationChange" color="#6a7cfc" />
+        <text class="item-tip">当前版本未使用</text>
       </view>
     </view>
   </view>

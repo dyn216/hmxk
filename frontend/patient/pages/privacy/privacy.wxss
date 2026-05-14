@@ -1,22 +1,27 @@
 .privacy-page {
   height: 100vh;
-  background: #fff;
+  background: #FBF8F1;
 }
 
 .content {
   height: 100%;
-  padding: 40rpx;
+  box-sizing: border-box;
+  padding: 44rpx;
 }
 
 .section {
-  margin-bottom: 40rpx;
+  margin-bottom: 34rpx;
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 12rpx 28rpx rgba(14, 30, 38, 0.06);
 }
 
 .title {
   display: block;
-  font-size: 40rpx;
+  font-size: 42rpx;
   font-weight: bold;
-  color: #333;
+  color: #1F2A2E;
   margin-bottom: 16rpx;
 }
 
@@ -29,15 +34,15 @@
 
 .section-title {
   display: block;
-  font-size: 32rpx;
-  font-weight: 500;
-  color: #333;
+  font-size: 31rpx;
+  font-weight: 700;
+  color: #2C5A52;
   margin-bottom: 20rpx;
 }
 
 .section-content {
   display: block;
-  font-size: 28rpx;
-  color: #666;
+  font-size: 27rpx;
+  color: #596469;
   line-height: 1.8;
 }

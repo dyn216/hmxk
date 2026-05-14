@@ -41,6 +41,8 @@
           </section>
         </template>
 
+        <SituationAwareness v-else-if="page === 'situation'" :data="data || {}" />
+
         <template v-else>
           <Toolbar
             :can-search="canSearch"
@@ -51,7 +53,7 @@
             :create-label="createLabel"
             @update:search="filters.search = $event"
             @update:status="filters.status = $event"
-            @query="loadPage"
+            @query="queryCurrentPage"
             @create="createRecord"
           />
           <DataTable
@@ -60,6 +62,24 @@
             :show-operations="showOperations"
             :row-actions="rowActions"
           />
+          <section v-if="showUserPagination" class="card pagination-card reveal" data-delay="4">
+            <div>
+              <strong>用户分页</strong>
+              <span>第 {{ paginationStart }}-{{ paginationEnd }} 条 / 共 {{ userPagination.total }} 条</span>
+            </div>
+            <div class="pagination-actions">
+              <select v-model.number="userPagination.pageSize" @change="changeUserPage(1)">
+                <option :value="10">10 条/页</option>
+                <option :value="20">20 条/页</option>
+                <option :value="50">50 条/页</option>
+              </select>
+              <button class="secondary-btn compact" :disabled="userPagination.page <= 1" @click="changeUserPage(1)">首页</button>
+              <button class="secondary-btn compact" :disabled="userPagination.page <= 1" @click="changeUserPage(userPagination.page - 1)">上一页</button>
+              <em>{{ userPagination.page }} / {{ userPagination.totalPages }}</em>
+              <button class="secondary-btn compact" :disabled="userPagination.page >= userPagination.totalPages" @click="changeUserPage(userPagination.page + 1)">下一页</button>
+              <button class="secondary-btn compact" :disabled="userPagination.page >= userPagination.totalPages" @click="changeUserPage(userPagination.totalPages)">末页</button>
+            </div>
+          </section>
         </template>
       </template>
     </main>
@@ -93,6 +113,7 @@ import LoginScreen from './components/LoginScreen.vue';
 import AppSidebar from './components/AppSidebar.vue';
 import AppTopBar from './components/AppTopBar.vue';
 import StatGrid from './components/StatGrid.vue';
+import SituationAwareness from './components/SituationAwareness.vue';
 import Toolbar from './components/Toolbar.vue';
 import DataTable from './components/DataTable.vue';
 import FormModal from './components/FormModal.vue';
@@ -106,6 +127,7 @@ const loading = ref(false);
 const error = ref('');
 const data = ref(null);
 const filters = reactive({ search: '', status: '' });
+const userPagination = reactive({ page: 1, pageSize: 20, total: 0, totalPages: 1 });
 const authVersion = ref(0);
 const modal = reactive({
   visible: false,
@@ -135,7 +157,13 @@ const pageTitle = computed(
 
 const crumbs = computed(() => [current.value.title, pageTitle.value]);
 
-const rows = computed(() => (Array.isArray(data.value) ? data.value : []));
+const rows = computed(() => {
+  if (Array.isArray(data.value)) return data.value;
+  return Array.isArray(data.value?.items) ? data.value.items : [];
+});
+const showUserPagination = computed(() => page.value === 'users' && userPagination.total > userPagination.pageSize);
+const paginationStart = computed(() => (userPagination.total ? (userPagination.page - 1) * userPagination.pageSize + 1 : 0));
+const paginationEnd = computed(() => Math.min(userPagination.page * userPagination.pageSize, userPagination.total));
 
 const canSearch = computed(() => ['patients', 'users', 'products', 'doctors'].includes(page.value));
 const canFilterStatus = computed(() => ['consultations', 'prescriptions', 'orders'].includes(page.value));
@@ -216,6 +244,7 @@ function setPage(target) {
   page.value = target;
   data.value = null;
   error.value = '';
+  resetUserPagination();
   history.pushState(null, '', `/${moduleName.value}/${target}`);
   loadPage();
 }
@@ -223,12 +252,13 @@ function setPage(target) {
 function endpointForPage() {
   return {
     dashboard: '/stats',
-    users: `/users${buildQuery({ search: filters.search, limit: 50 })}`,
+    situation: '/situation-awareness',
+    users: `/users-page${buildQuery({ search: filters.search, limit: userPagination.pageSize, offset: (userPagination.page - 1) * userPagination.pageSize })}`,
     products: `/products${buildQuery({ search: filters.search, limit: 50 })}`,
     orders: `/orders${buildQuery({ status: filters.status, limit: 50 })}`,
     prescriptions: `/prescriptions${buildQuery({ status: filters.status, limit: 50 })}`,
     doctors: `/doctors${buildQuery({ search: filters.search, limit: 50 })}`,
-    patients: `/patients${buildQuery({ search: filters.search, limit: 50 })}`
+    patients: `/patients${buildQuery({ search: filters.search, limit: 600 })}`
   }[page.value];
 }
 
@@ -239,12 +269,32 @@ async function loadPage() {
   loading.value = true;
   error.value = '';
   try {
-    data.value = await request(endpoint);
+    const result = await request(endpoint);
+    data.value = result;
+    if (page.value === 'users') {
+      userPagination.total = Number(result?.total || 0);
+      userPagination.totalPages = Number(result?.total_pages || 1);
+      userPagination.page = Number(result?.page || userPagination.page);
+    }
   } catch (err) {
     error.value = err.message;
   } finally {
     loading.value = false;
   }
+}
+
+function resetUserPagination() {
+  userPagination.page = 1;
+}
+
+function queryCurrentPage() {
+  if (page.value === 'users') resetUserPagination();
+  loadPage();
+}
+
+function changeUserPage(target) {
+  userPagination.page = Math.max(1, Math.min(target, userPagination.totalPages || 1));
+  loadPage();
 }
 
 /* ============== Modal helpers ============== */

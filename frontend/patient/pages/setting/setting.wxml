@@ -35,5 +35,9 @@
       <view class="item-label">隐私政策</view>
       <icon type="arrowright" size="24" color="#999" />
     </view>
+    <view class="setting-item" bindtap="agreement">
+      <view class="item-label">用户服务协议</view>
+      <icon type="arrowright" size="24" color="#999" />
+    </view>
   </view>
 </view>

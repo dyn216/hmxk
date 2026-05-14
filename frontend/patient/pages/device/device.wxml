@@ -109,12 +109,43 @@
     </view>
   </view>
 
-  <view class="protocol-card">
-    <view class="section-title">固件协议</view>
-    <view class="protocol-line">设备名：{{protocol.namePrefix}}-XXXX</view>
-    <view class="protocol-line">Service：{{protocol.serviceId}}</view>
-    <view class="protocol-line">Notify：{{protocol.notifyCharacteristicId}}</view>
-    <view class="protocol-line">Write：{{protocol.writeCharacteristicId}}</view>
-    <view class="packet-sample">{"type":"vital","seq":1,"sys":null,"dia":null,"hr":72,"spo2":98,"battery":null}</view>
+  <view class="ai-advice-card {{aiAdvice.risk_level || 'idle'}}">
+    <view class="ai-advice-head">
+      <view class="ai-advice-title">
+        <text class="ai-icon">🤖</text>
+        <text>AI 健康建议</text>
+      </view>
+      <view class="ai-advice-tag" wx:if="{{aiAdvice.tagText}}">{{aiAdvice.tagText}}</view>
+    </view>
+
+    <view class="ai-loading" wx:if="{{aiAdviceLoading}}">
+      <view class="ai-loading-dot"></view>
+      <text>MiMo 正在结合最近一周的健康数据为你生成建议…</text>
+    </view>
+
+    <block wx:elif="{{aiAdvice && aiAdvice.hasContent}}">
+      <view class="ai-alert" wx:if="{{aiAdvice.need_doctor}}">
+        ⚠️ 检测到异常体征，建议尽快联系签约医生或前往医院就诊。
+      </view>
+      <view class="ai-summary" wx:if="{{aiAdvice.summary}}">{{aiAdvice.summary}}</view>
+      <view class="ai-list" wx:if="{{aiAdvice.advice_list.length}}">
+        <view class="ai-list-item" wx:for="{{aiAdvice.advice_list}}" wx:key="*this">· {{item}}</view>
+      </view>
+      <view class="ai-text" wx:elif="{{aiAdvice.advice_text}}">{{aiAdvice.advice_text}}</view>
+      <view class="ai-actions">
+        <button class="ai-btn primary" bindtap="goAiDoctor">咨询 AI 助手</button>
+        <button class="ai-btn ghost" bindtap="refreshAiAdvice" disabled="{{aiAdviceLoading}}">重新生成</button>
+      </view>
+      <view class="ai-meta">本建议由小米 MiMo 大模型生成，仅供日常健康参考，不能替代医生面诊。</view>
+    </block>
+
+    <view class="ai-error" wx:elif="{{aiAdviceError}}">
+      <text>{{aiAdviceError}}</text>
+      <button class="ai-btn ghost small" bindtap="refreshAiAdvice">重试</button>
+    </view>
+
+    <view class="ai-empty" wx:else>
+      连接手表并完成一次测量后，这里会显示结合您最近一周健康数据的 AI 个性化建议。
+    </view>
   </view>
 </view>

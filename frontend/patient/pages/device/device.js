@@ -55,7 +55,11 @@ Page({
     serviceId: '',
     notifyCharacteristicId: '',
     writeCharacteristicId: '',
-    lastSignature: ''
+    lastSignature: '',
+    aiAdvice: null,
+    aiAdviceLoading: false,
+    aiAdviceError: '',
+    lastAdvicePayload: null
   },
 
   onLoad: function() {
@@ -357,6 +361,12 @@ Page({
   },
 
   handleWatchPacket: function(packet) {
+    if (packet.type && packet.type !== 'vital') {
+      this.setData({
+        statusText: this.data.monitoring ? '连续监测中' : '手表已连接'
+      });
+      return;
+    }
     var systolic = numberOrNull(packet.systolic !== undefined ? packet.systolic : packet.sys);
     var diastolic = numberOrNull(packet.diastolic !== undefined ? packet.diastolic : packet.dia);
     var heartRate = numberOrNull(packet.heart_rate !== undefined ? packet.heart_rate : packet.hr);
@@ -448,6 +458,7 @@ Page({
           icon: 'success'
         });
       }
+      self.requestAiAdvice(data);
     }).catch(function(err) {
       self.setData({
         uploading: false,
@@ -499,6 +510,9 @@ Page({
       cmd: 'measure',
       ts: Date.now()
     }, '已发送测量指令', {
+      lastPacket: null,
+      lastSignature: '',
+      lastSyncText: '等待本次测量结果',
       statusText: '已发送测量指令'
     });
   },
@@ -522,6 +536,9 @@ Page({
       ts: Date.now()
     }, '已开启连续监测', {
       monitoring: true,
+      lastPacket: null,
+      lastSignature: '',
+      recentRecords: [],
       statusText: '连续监测已开启',
       lastSyncText: '等待手表连续上报'
     });
@@ -547,6 +564,104 @@ Page({
       commandSending: false,
       statusText: '已断开连接'
     });
+  },
+
+  buildAdvicePayload: function(data) {
+    var items = [];
+    if (data.systolic !== null && data.diastolic !== null) {
+      items.push({ type: 'bp', systolic: data.systolic, diastolic: data.diastolic });
+    }
+    if (data.heartRate !== null) {
+      items.push({ type: 'hr', heart_rate: data.heartRate });
+    }
+    if (data.spo2 !== null) {
+      items.push({ type: 'spo2', spo2: data.spo2 });
+    }
+    if (data.temperature !== null && data.temperature !== undefined) {
+      items.push({ type: 'temp', temperature: data.temperature });
+    }
+    return {
+      source: this.data.monitoring ? 'smart_watch_monitor' : 'smart_watch',
+      measured_at: data.measuredAt,
+      device_name: this.data.deviceName,
+      battery: data.battery,
+      items: items
+    };
+  },
+
+  decorateAdvice: function(result) {
+    if (!result) return null;
+    var risk = (result.risk_level || 'normal').toLowerCase();
+    var tagMap = {
+      normal: '一切正常',
+      warning: '需要关注',
+      danger: '建议就医'
+    };
+    var hasContent = !!(result.summary || result.advice_text || (result.advice_list && result.advice_list.length));
+    return Object.assign({}, result, {
+      risk_level: risk,
+      tagText: tagMap[risk] || '',
+      hasContent: hasContent,
+      advice_list: result.advice_list || []
+    });
+  },
+
+  requestAiAdvice: function(data) {
+    var payload = this.buildAdvicePayload(data);
+    if (!payload.items.length) return;
+    var self = this;
+    self.setData({
+      aiAdviceLoading: true,
+      aiAdviceError: '',
+      lastAdvicePayload: payload
+    });
+    patientApi.getAiMeasurementAdvice(payload, { silent: true }).then(function(res) {
+      var decorated = self.decorateAdvice(res);
+      self.setData({
+        aiAdviceLoading: false,
+        aiAdvice: decorated,
+        aiAdviceError: ''
+      });
+      if (decorated && decorated.need_doctor) {
+        wx.showModal({
+          title: '请注意',
+          content: decorated.summary || '本次测量出现异常体征，建议尽快就医。',
+          confirmText: '咨询 AI',
+          cancelText: '知道了',
+          success: function(r) {
+            if (r.confirm) {
+              wx.navigateTo({ url: '/pages/ai-doctor/ai-doctor' });
+            }
+          }
+        });
+      }
+    }).catch(function(err) {
+      self.setData({
+        aiAdviceLoading: false,
+        aiAdviceError: (err && err.message) ? err.message : 'AI 服务暂不可用，请稍后再试。'
+      });
+    });
+  },
+
+  refreshAiAdvice: function() {
+    if (!this.data.lastAdvicePayload) {
+      wx.showToast({ title: '请先完成一次测量', icon: 'none' });
+      return;
+    }
+    var self = this;
+    self.setData({ aiAdviceLoading: true, aiAdviceError: '' });
+    patientApi.getAiMeasurementAdvice(this.data.lastAdvicePayload, { silent: true }).then(function(res) {
+      self.setData({ aiAdviceLoading: false, aiAdvice: self.decorateAdvice(res) });
+    }).catch(function(err) {
+      self.setData({
+        aiAdviceLoading: false,
+        aiAdviceError: (err && err.message) ? err.message : 'AI 服务暂不可用，请稍后再试。'
+      });
+    });
+  },
+
+  goAiDoctor: function() {
+    wx.navigateTo({ url: '/pages/ai-doctor/ai-doctor' });
   },
 
   arrayBufferToString: function(buffer) {

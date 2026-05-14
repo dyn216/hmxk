@@ -1,8 +1,16 @@
 #include <Arduino.h>
+#include <SPI.h>
 #include <Wire.h>
 #include <MAX30105.h>
 #include <spo2_algorithm.h>
-#include <U8g2lib.h>
+#include <Adafruit_GFX.h>
+#define WATCH_TFT_DRIVER_ST7789 0
+#if WATCH_TFT_DRIVER_ST7789
+#include <Adafruit_ST7789.h>
+#else
+#include <Adafruit_ST7735.h>
+#endif
+#include <U8g2_for_Adafruit_GFX.h>
 #include <BLE2902.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
@@ -13,16 +21,114 @@ static const char *SERVICE_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
 static const char *WRITE_CHARACTERISTIC_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
 static const char *NOTIFY_CHARACTERISTIC_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
 
-static const int OLED_SDA_PIN = 8;
-static const int OLED_SCL_PIN = 9;
-static const int OLED_RESET_PIN = -1;
-static const uint8_t OLED_ADDRESS = 0x3C;
+static const int I2C_SDA_PIN = 8;
+static const int I2C_SCL_PIN = 9;
+static const int TFT_RS_PIN = 10;
+static const int TFT_CS_PIN = 11;
+static const int TFT_SCL_PIN = 12;
+static const int TFT_SDA_PIN = 13;
+static const int TFT_RST_PIN = 14;
+static const int TFT_BL_PIN = -1;
+static const bool TFT_BACKLIGHT_ACTIVE_HIGH = true;
+static const uint8_t TFT_ROTATION = 1;
+#if WATCH_TFT_DRIVER_ST7789
+static const int TFT_ST7789_WIDTH = 240;
+static const int TFT_ST7789_HEIGHT = 135;
+#else
+static const uint8_t TFT_ST7735_INIT = INITR_MINI160x80;
+#endif
+static const uint16_t TFT_BACKGROUND = ST77XX_BLACK;
+static const uint16_t TFT_TEXT = ST77XX_WHITE;
+static const uint16_t TFT_ACCENT = ST77XX_CYAN;
+static const uint16_t TFT_BORDER = ST77XX_BLUE;
 static const int MAX30102_SAMPLE_COUNT = 100;
 static const int INVALID_VITAL_VALUE = -1;
 static const uint32_t MAX30102_FINGER_THRESHOLD = 70000;
 static const uint32_t MAX30102_MIN_SIGNAL_SPAN = 1000;
 static const int MEASURE_COUNTDOWN_SECONDS = 3;
 static const unsigned long MONITOR_INTERVAL_MS = 15000;
+static const unsigned long DISPLAY_ANIMATION_INTERVAL_MS = 360;
+static const uint8_t STARTUP_LOGO_WIDTH = 48;
+static const uint8_t STARTUP_LOGO_HEIGHT = 48;
+static const unsigned char STARTUP_LOGO_BITS[] PROGMEM = {
+  0x00, 0x00, 0x80, 0x03, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x03, 0x00, 0x00,
+  0x00, 0x80, 0xFF, 0xDF, 0x01, 0x00, 0x00, 0x80, 0xF3, 0xC3, 0x03, 0x00,
+  0x00, 0xE0, 0xFD, 0xC1, 0x07, 0x00, 0x80, 0x1F, 0x8F, 0x07, 0x1B, 0x00,
+  0x80, 0xAF, 0x07, 0x7C, 0xF6, 0x01, 0xC0, 0xCF, 0x01, 0xF0, 0x37, 0x03,
+  0x80, 0x6F, 0x00, 0xC0, 0x2F, 0x03, 0x80, 0x3F, 0x00, 0x00, 0xEF, 0x01,
+  0xC0, 0x17, 0xF0, 0x0F, 0x9C, 0x02, 0xC0, 0x03, 0xF8, 0x1F, 0x30, 0x07,
+  0xF0, 0x03, 0xF8, 0x1F, 0xE0, 0x0C, 0xF8, 0x02, 0xF8, 0x1F, 0xE0, 0x1F,
+  0xF8, 0x03, 0xF8, 0x1F, 0xC0, 0x1D, 0x70, 0x01, 0xF8, 0x1F, 0x80, 0x0B,
+  0x30, 0xE1, 0xFF, 0xFF, 0x07, 0x15, 0xB8, 0xE1, 0xFF, 0xFF, 0x07, 0x1F,
+  0x88, 0xE0, 0xFF, 0xFF, 0x07, 0x1F, 0x88, 0xE0, 0xFF, 0xFF, 0x07, 0x3E,
+  0x9C, 0xE0, 0xFF, 0xFF, 0x07, 0x7E, 0x36, 0xE0, 0xFF, 0xFF, 0x07, 0x7E,
+  0x32, 0xE0, 0xFF, 0xFF, 0x07, 0x7C, 0x32, 0xE0, 0xFF, 0xFF, 0x07, 0x3C,
+  0x7C, 0xE0, 0xFF, 0xFF, 0x07, 0x1C, 0x78, 0x00, 0xF8, 0x1F, 0x00, 0x1E,
+  0xD8, 0x00, 0xF8, 0x1F, 0x00, 0x1C, 0xD8, 0x00, 0xFF, 0xFF, 0x00, 0x1D,
+  0xB0, 0xC1, 0xFF, 0xFF, 0x03, 0x3C, 0xB0, 0xC1, 0xFB, 0xDF, 0x83, 0x26,
+  0xF8, 0xC3, 0xFB, 0xDF, 0x03, 0x24, 0xF8, 0xC3, 0xFF, 0xF7, 0x03, 0x1F,
+  0x70, 0xE7, 0x3F, 0xFC, 0x87, 0x05, 0x40, 0xEF, 0xFF, 0xFF, 0xC7, 0x02,
+  0xC0, 0x1F, 0xFF, 0xFF, 0xE0, 0x03, 0xC0, 0x1F, 0xFE, 0x7F, 0xF8, 0x01,
+  0xC0, 0x3F, 0xF8, 0x1F, 0xFE, 0x03, 0xC0, 0x7F, 0x30, 0x84, 0xF9, 0x03,
+  0x80, 0xFF, 0x07, 0xE0, 0xFF, 0x01, 0x00, 0xF8, 0xFF, 0xBF, 0x1F, 0x00,
+  0x00, 0xF0, 0xFD, 0xFF, 0x0F, 0x00, 0x00, 0x60, 0xE3, 0xA3, 0x07, 0x00,
+  0x00, 0x60, 0xCF, 0xF7, 0x00, 0x00, 0x00, 0xC0, 0x79, 0x1E, 0x00, 0x00,
+  0x00, 0x00, 0x60, 0x06, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x03, 0x00, 0x00,
+  0x00, 0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+class WatchDisplay {
+public:
+#if WATCH_TFT_DRIVER_ST7789
+  Adafruit_ST7789 tft;
+#else
+  Adafruit_ST7735 tft;
+#endif
+  U8G2_FOR_ADAFRUIT_GFX fonts;
+
+  WatchDisplay() : tft(&SPI, TFT_CS_PIN, TFT_RS_PIN, TFT_RST_PIN) {}
+
+  void begin() {
+    if (TFT_BL_PIN >= 0) {
+      pinMode(TFT_BL_PIN, OUTPUT);
+      digitalWrite(TFT_BL_PIN, TFT_BACKLIGHT_ACTIVE_HIGH ? HIGH : LOW);
+    }
+    SPI.begin(TFT_SCL_PIN, -1, TFT_SDA_PIN, TFT_CS_PIN);
+#if WATCH_TFT_DRIVER_ST7789
+    tft.init(TFT_ST7789_WIDTH, TFT_ST7789_HEIGHT);
+#else
+    tft.initR(TFT_ST7735_INIT);
+#endif
+    tft.setRotation(TFT_ROTATION);
+    tft.fillScreen(TFT_BACKGROUND);
+    fonts.begin(tft);
+    fonts.setFont(u8g2_font_wqy12_t_gb2312);
+    fonts.setForegroundColor(TFT_TEXT);
+    fonts.setBackgroundColor(TFT_BACKGROUND);
+  }
+
+  void enableUTF8Print() {}
+  void setBitmapMode(uint8_t mode) {}
+  void clearBuffer() { tft.fillScreen(TFT_BACKGROUND); }
+  void sendBuffer() {}
+  void setFont(const uint8_t *font) { fonts.setFont(font); }
+  int width() { return tft.width(); }
+  int height() { return tft.height(); }
+  void drawUTF8(int x, int y, const char *text) {
+    fonts.setForegroundColor(TFT_TEXT);
+    fonts.setBackgroundColor(TFT_BACKGROUND);
+    fonts.drawUTF8(x, y, text);
+  }
+  void drawXBMP(int x, int y, int w, int h, const unsigned char *bits) { tft.drawXBitmap(x, y, bits, w, h, TFT_ACCENT); }
+  void drawDisc(int x, int y, int r) { tft.fillCircle(x, y, r, TFT_ACCENT); }
+  void drawCircle(int x, int y, int r) { tft.drawCircle(x, y, r, TFT_ACCENT); }
+  void drawBox(int x, int y, int w, int h) { tft.fillRect(x, y, w, h, TFT_ACCENT); }
+  void drawRFrame(int x, int y, int w, int h, int r) { tft.drawRoundRect(x, y, w, h, r, TFT_BORDER); }
+  void drawLine(int x0, int y0, int x1, int y1) { tft.drawLine(x0, y0, x1, y1, TFT_ACCENT); }
+  void drawVLine(int x, int y, int h) { tft.drawFastVLine(x, y, h, TFT_ACCENT); }
+  void drawHLine(int x, int y, int w) { tft.drawFastHLine(x, y, w, TFT_ACCENT); }
+  void drawPixel(int x, int y) { tft.drawPixel(x, y, TFT_ACCENT); }
+};
 
 struct VitalSigns {
   int systolic;
@@ -35,7 +141,7 @@ struct VitalSigns {
 BLEServer *bleServer = nullptr;
 BLECharacteristic *notifyCharacteristic = nullptr;
 BLECharacteristic *writeCharacteristic = nullptr;
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C display(U8G2_R0, OLED_RESET_PIN, OLED_SCL_PIN, OLED_SDA_PIN);
+WatchDisplay display;
 MAX30105 max30102;
 uint32_t irBuffer[MAX30102_SAMPLE_COUNT];
 uint32_t redBuffer[MAX30102_SAMPLE_COUNT];
@@ -52,6 +158,8 @@ bool hasLastVitalSigns = false;
 uint32_t sequenceNo = 1;
 unsigned long lastStatusMillis = 0;
 unsigned long lastMonitorMeasureMillis = 0;
+unsigned long lastDisplayAnimationMillis = 0;
+uint8_t displayFrame = 0;
 String displayStatus = "正在启动";
 VitalSigns lastVitalSigns = {
   INVALID_VITAL_VALUE,
@@ -89,49 +197,213 @@ void appendNullableInt(String &payload, const char *field, int value) {
   payload += value >= 0 ? String(value) : "null";
 }
 
+bool hasAnyVitalSigns(const VitalSigns &data) {
+  return data.systolic >= 0 || data.diastolic >= 0 || data.heartRate >= 0 || data.spo2 >= 0 || data.battery >= 0;
+}
+
+bool shouldAnimateDisplay() {
+  return measuringNow || monitorActive || !deviceConnected || (deviceConnected && !hasLastVitalSigns);
+}
+
+void drawStartupLogo(int x, int y) {
+  display.drawXBMP(x, y, STARTUP_LOGO_WIDTH, STARTUP_LOGO_HEIGHT, STARTUP_LOGO_BITS);
+}
+
+void drawHeartIcon(int x, int y, bool filled) {
+  if (filled) {
+    display.drawDisc(x + 4, y + 4, 4);
+    display.drawDisc(x + 11, y + 4, 4);
+    display.drawBox(x + 2, y + 5, 12, 5);
+  } else {
+    display.drawCircle(x + 4, y + 4, 4);
+    display.drawCircle(x + 11, y + 4, 4);
+    display.drawLine(x + 1, y + 6, x + 8, y + 14);
+    display.drawLine(x + 15, y + 6, x + 8, y + 14);
+  }
+  display.drawLine(x + 1, y + 8, x + 8, y + 15);
+  display.drawLine(x + 15, y + 8, x + 8, y + 15);
+}
+
+void drawBleIcon(int x, int y) {
+  display.drawVLine(x + 5, y, 13);
+  display.drawLine(x + 5, y, x + 10, y + 4);
+  display.drawLine(x + 10, y + 4, x + 5, y + 8);
+  display.drawLine(x + 5, y + 8, x + 10, y + 12);
+  display.drawLine(x + 10, y + 12, x + 5, y + 13);
+  display.drawLine(x + 1, y + 3, x + 9, y + 10);
+  display.drawLine(x + 9, y + 3, x + 1, y + 10);
+}
+
+void drawSensorIcon(int x, int y) {
+  display.drawRFrame(x, y, 23, 18, 4);
+  display.drawCircle(x + 11, y + 9, 4);
+  display.drawPixel(x + 11, y + 9);
+  display.drawLine(x + 4, y + 3, x + 2, y + 1);
+  display.drawLine(x + 19, y + 3, x + 21, y + 1);
+  display.drawHLine(x + 5, y + 21, 13);
+}
+
+void drawPhoneIcon(int x, int y) {
+  display.drawRFrame(x, y, 20, 30, 3);
+  display.drawHLine(x + 5, y + 4, 10);
+  display.drawCircle(x + 10, y + 25, 1);
+}
+
+void drawWave(int x, int y, int width, uint8_t frame) {
+  int lastX = x;
+  int lastY = y;
+  for (int i = 0; i <= width; i += 4) {
+    int phase = (i / 4 + frame) % 6;
+    int yy = y;
+    if (phase == 1 || phase == 5) yy = y - 3;
+    if (phase == 2 || phase == 4) yy = y + 3;
+    display.drawLine(lastX, lastY, x + i, yy);
+    lastX = x + i;
+    lastY = yy;
+  }
+}
+
+void drawProgressDots(int x, int y, uint8_t frame) {
+  for (int i = 0; i < 4; i++) {
+    int radius = ((frame + i) % 4 == 0) ? 3 : 2;
+    if ((frame + i) % 4 == 0) {
+      display.drawDisc(x + i * 10, y, radius);
+    } else {
+      display.drawCircle(x + i * 10, y, radius);
+    }
+  }
+}
+
+void drawTopBar() {
+  display.drawRFrame(0, 0, display.width(), 16, 4);
+  drawBleIcon(4, 1);
+  display.setFont(u8g2_font_wqy12_t_gb2312);
+  display.drawUTF8(18, 12, deviceConnected ? "蓝牙已连接" : "等待连接");
+  drawHeartIcon(display.width() - 20, 1, (displayFrame % 2) == 0);
+}
+
+void drawVitalScene() {
+  drawHeartIcon(4, 18, true);
+  String bloodPressureLine = formatVitalValue(lastVitalSigns.systolic) + "/" + formatVitalValue(lastVitalSigns.diastolic) + " mmHg";
+  display.drawUTF8(24, 29, bloodPressureLine.c_str());
+  drawWave(3, 39, display.width() - 8, displayFrame);
+  drawSensorIcon(4, 43);
+  String heartRateLine = "心率 " + formatVitalValue(lastVitalSigns.heartRate) + "  血氧 " + formatPercentValue(lastVitalSigns.spo2);
+  display.drawUTF8(32, 57, heartRateLine.c_str());
+  String batteryLine = "电量 " + formatPercentValue(lastVitalSigns.battery);
+  display.drawUTF8(32, 72, batteryLine.c_str());
+}
+
+void drawNoDataScene() {
+  drawSensorIcon(8, 21);
+  display.drawCircle(68, 31, 10 + (displayFrame % 3) * 3);
+  display.drawCircle(68, 31, 4);
+  display.drawUTF8(82, 30, "未检测到");
+  display.drawUTF8(82, 43, "有效数据");
+  drawProgressDots(46, 58, displayFrame);
+}
+
+void drawMeasuringScene() {
+  drawSensorIcon(8, 22);
+  display.drawCircle(54, 31, 8 + (displayFrame % 3) * 3);
+  display.drawCircle(54, 31, 3);
+  display.drawUTF8(72, 28, displayStatus.c_str());
+  display.drawUTF8(72, 42, "请保持不动");
+  drawProgressDots(45, 58, displayFrame);
+}
+
+void drawMonitorScene() {
+  drawHeartIcon(8, 20, (displayFrame % 2) == 0);
+  drawWave(30, 29, 88, displayFrame);
+  drawSensorIcon(8, 42);
+  display.drawUTF8(36, 53, "连续监测中");
+  drawProgressDots(78, 60, displayFrame);
+}
+
+void drawReadyScene() {
+  drawBleIcon(10, 23);
+  drawSensorIcon(42, 21);
+  drawWave(74, 31, 45, displayFrame);
+  display.drawUTF8(9, 55, max30102Ready ? "放好手指 点击测量" : "请检查传感器");
+}
+
+void drawWaitingScene() {
+  drawPhoneIcon(9, 21);
+  drawStartupLogo(74, 17);
+  display.drawCircle(48, 35, 8 + (displayFrame % 3) * 3);
+  display.drawUTF8(33, 58, "小程序搜索手表");
+}
+
+void playStartupAnimation() {
+  for (int frame = 0; frame < 8; frame++) {
+    display.clearBuffer();
+    display.setFont(u8g2_font_wqy12_t_gb2312);
+    int logoY = 8 - (7 - frame);
+    if (logoY < 0) logoY = 0;
+    drawStartupLogo(4, logoY);
+    display.drawUTF8(58, 20, "惠民携康");
+    display.drawUTF8(58, 36, "健康守护");
+    display.drawRFrame(58, 47, 64, 7, 3);
+    display.drawBox(61, 50, frame * 8, 2);
+    display.sendBuffer();
+    delay(100);
+  }
+  for (int frame = 0; frame < 4; frame++) {
+    display.clearBuffer();
+    drawStartupLogo(4, 4);
+    display.drawCircle(28, 28, 24 + frame);
+    display.setFont(u8g2_font_wqy12_t_gb2312);
+    display.drawUTF8(58, 26, "智能手表");
+    display.drawUTF8(58, 43, "启动完成");
+    display.sendBuffer();
+    delay(120);
+  }
+}
+
 void refreshDisplay() {
-  if (!displayReady || !displayNeedsRefresh) {
+  if (!displayReady) {
     return;
+  }
+
+  unsigned long now = millis();
+  bool animated = shouldAnimateDisplay();
+  if (!displayNeedsRefresh && (!animated || now - lastDisplayAnimationMillis < DISPLAY_ANIMATION_INTERVAL_MS)) {
+    return;
+  }
+
+  if (animated && now - lastDisplayAnimationMillis >= DISPLAY_ANIMATION_INTERVAL_MS) {
+    displayFrame++;
+    lastDisplayAnimationMillis = now;
   }
 
   displayNeedsRefresh = false;
   display.clearBuffer();
   display.setFont(u8g2_font_wqy12_t_gb2312);
+  drawTopBar();
 
-  display.drawUTF8(0, 10, "智能手表");
-  display.drawUTF8(0, 21, deviceConnected ? "蓝牙：已连接" : "蓝牙：等待连接");
-  display.drawUTF8(0, 32, displayStatus.c_str());
-
-  if (hasLastVitalSigns) {
-    String bloodPressureLine = "血压：" + formatVitalValue(lastVitalSigns.systolic) + "/" + formatVitalValue(lastVitalSigns.diastolic);
-    String heartRateLine = "心率：" + formatVitalValue(lastVitalSigns.heartRate) + " 血氧：" + formatPercentValue(lastVitalSigns.spo2);
-    String batteryLine = "电量：" + formatPercentValue(lastVitalSigns.battery);
-    display.drawUTF8(0, 43, bloodPressureLine.c_str());
-    display.drawUTF8(0, 54, heartRateLine.c_str());
-    display.drawUTF8(0, 64, batteryLine.c_str());
+  if (hasLastVitalSigns && hasAnyVitalSigns(lastVitalSigns)) {
+    drawVitalScene();
+  } else if (hasLastVitalSigns) {
+    drawNoDataScene();
   } else if (measuringNow) {
-    display.drawUTF8(0, 44, "手指盖住传感器");
-    display.drawUTF8(0, 56, "请保持不动");
+    drawMeasuringScene();
   } else if (monitorActive) {
-    display.drawUTF8(0, 44, "连续监测中");
-    display.drawUTF8(0, 56, "自动定时采集");
+    drawMonitorScene();
   } else if (deviceConnected) {
-    display.drawUTF8(0, 44, max30102Ready ? "请放好手指" : "检查传感器");
-    display.drawUTF8(0, 56, "点击开始测量");
+    drawReadyScene();
   } else {
-    display.drawUTF8(0, 44, "打开患者小程序");
-    display.drawUTF8(0, 56, "搜索智能手表");
+    drawWaitingScene();
   }
 
   display.sendBuffer();
 }
 
 void setupDisplay() {
-  Wire.begin(OLED_SDA_PIN, OLED_SCL_PIN);
-  display.setI2CAddress(OLED_ADDRESS << 1);
   display.begin();
   display.enableUTF8Print();
+  display.setBitmapMode(1);
   displayReady = true;
+  playStartupAnimation();
   requestDisplayRefresh("屏幕就绪");
   refreshDisplay();
 }
@@ -423,6 +695,7 @@ void setupBle() {
 void setup() {
   Serial.begin(115200);
   delay(500);
+  Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
   setupDisplay();
   setupBle();
   setupMax30102();

@@ -1,0 +1,57 @@
+<view class="ai-page">
+  <!-- 首次使用授权弹层 -->
+  <view class="consent-mask" wx:if="{{showConsent}}">
+    <view class="consent-card">
+      <view class="consent-title">使用 AI 健康助手须知</view>
+      <view class="consent-text">
+        为提供个性化建议，AI 助手需要读取您的健康档案、用药记录和最近一周的测量数据，并将其匿名化后发送至 AI 服务提供方（小米 MiMo）进行处理。AI 给出的内容仅供日常健康参考，不能替代医生面诊或诊断。
+      </view>
+      <view class="consent-text">
+        点击「同意并开始」即表示您已阅读并同意上述说明及
+        <text class="consent-link" bindtap="openPrivacy">《隐私政策》</text>。
+      </view>
+      <view class="consent-actions">
+        <button class="consent-btn ghost" bindtap="declineConsent">不同意</button>
+        <button class="consent-btn primary" bindtap="acceptConsent">同意并开始</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="ai-header" wx:if="{{!showConsent}}">
+    <view class="ai-avatar">AI</view>
+    <view class="ai-meta">
+      <view class="ai-name">MiMo · 健康助手</view>
+      <view class="ai-sub">已读取最近一周健康数据 · 仅用于本次咨询</view>
+    </view>
+    <view class="ai-action" bindtap="clearChat">清空</view>
+  </view>
+
+  <scroll-view class="ai-body" scroll-y scroll-into-view="{{scrollIntoView}}" scroll-with-animation wx:if="{{!showConsent}}">
+    <view class="loading" wx:if="{{loading}}">加载中…</view>
+
+    <block wx:for="{{messages}}" wx:key="id">
+      <view id="msg-{{item.id}}" class="bubble-row {{item.isMine ? 'self' : 'other'}}">
+        <view class="bubble-avatar" wx:if="{{!item.isMine}}">AI</view>
+        <view class="bubble {{item.isMine ? 'self' : 'other'}} {{item.pending ? 'pending' : ''}} {{item.error ? 'error' : ''}}">
+          <view class="bubble-text">{{item.content}}</view>
+          <view class="bubble-time" wx:if="{{item.timeText}}">{{item.timeText}}</view>
+        </view>
+        <view class="bubble-avatar self" wx:if="{{item.isMine}}">我</view>
+      </view>
+    </block>
+
+    <view class="quick-row" wx:if="{{!loading && messages.length <= 1}}">
+      <view class="quick-tip">试试这样问：</view>
+      <view class="quick-list">
+        <view class="quick-item" wx:for="{{quickQuestions}}" wx:for-item="q" wx:key="*this" bindtap="pickQuickQuestion" data-text="{{q}}">{{q}}</view>
+      </view>
+    </view>
+
+    <view class="disclaimer">{{disclaimer}}</view>
+  </scroll-view>
+
+  <view class="ai-input" wx:if="{{!showConsent}}">
+    <input class="input-box" placeholder="向 AI 健康助手提问…" value="{{inputText}}" bindinput="onInput" confirm-type="send" bindconfirm="send" disabled="{{sending}}" />
+    <button class="send-btn" bindtap="send" loading="{{sending}}" disabled="{{sending}}">发送</button>
+  </view>
+</view>

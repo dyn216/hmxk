@@ -49,6 +49,16 @@ class Settings(BaseSettings):
     video_rtmp_push_base_url: str = ""
     video_rtmp_play_base_url: str = ""
     
+    # AI 健康助手配置（小米 MiMo，OpenAI 兼容协议）
+    mimo_api_key: str = ""
+    mimo_base_url: str = "https://api.xiaomimimo.com/v1"
+    mimo_model: str = "mimo-v2.5-pro"
+    mimo_timeout: int = 60
+    mimo_max_completion_tokens: int = 1024
+    mimo_temperature: float = 0.6
+    mimo_history_window: int = 12  # 多轮对话上下文中保留的最大消息数
+    mimo_measurement_days: int = 7  # 测量建议默认拉取最近 N 天历史
+
     # 数据库备份配置
     backup_dir: str = "backups"
     backup_retention_days: int = 30

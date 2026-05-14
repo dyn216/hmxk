@@ -1,0 +1,7 @@
+2026-05-11 13:33:41 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/doctor/rtc/play - 502 - 0.283s
+2026-05-14 13:00:11 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.024s
+2026-05-14 13:00:13 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.017s
+2026-05-14 13:01:36 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.827s
+2026-05-14 13:01:37 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.184s
+2026-05-14 13:05:06 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.185s
+2026-05-14 13:05:07 - api.request - ERROR - logging_config.py:129 - log_request - POST /api/patient/ai/chat - 503 - 0.179s

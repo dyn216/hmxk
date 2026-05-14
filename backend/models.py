@@ -419,6 +419,17 @@ class News(Base):
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
 
+class AiChatMessage(Base):
+    """AI 健康助手对话消息"""
+    __tablename__ = "ai_chat_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    patient_id = Column(Integer, ForeignKey("patient_profiles.id"), nullable=False, index=True)
+    role = Column(String(20), nullable=False)  # user / assistant / system
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.now, index=True)
+
+
 class SystemLog(Base):
     """系统日志表"""
     __tablename__ = "system_logs"
